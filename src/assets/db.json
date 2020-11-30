@@ -1,10 +1,10 @@
 {
   "games": [
-    { "id": 1, "title": "Pokémon Adventure - Red Chapter"},
-    { "id": 2, "title": "Pokémon Adventure - Blue Chapter"},
-    { "id": 3, "title": "Pokémon Adventure - Gold Chapter"},
-    { "id": 4, "title": "Pokémon Adventure - Green Chapter"},
-    { "id": 5, "title": "Pokémon Delta Emerald"},
-    { "id": 6, "title": "Pokémon Supernova Sun & Penumbra Moon"}
+    { "id": 1, "title": "Pokémon Adventure - Red Chapter", "base":  "FR", "rating": 5},
+    { "id": 2, "title": "Pokémon Adventure - Blue Chapter", "base":  "FR", "rating": 3.4},
+    { "id": 3, "title": "Pokémon Adventure - Gold Chapter", "base":  "FR", "rating": 5},
+    { "id": 4, "title": "Pokémon Adventure - Green Chapter", "base":  "FR", "rating": 5},
+    { "id": 5, "title": "Pokémon Delta Emerald", "base":  "FR", "rating": 4},
+    { "id": 6, "title": "Pokémon Supernova Sun & Penumbra Moon", "base":  "USUM", "rating": 5}
   ]
 }
