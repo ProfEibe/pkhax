@@ -17,4 +17,8 @@ export class GameService {
   getGame(id: number): Observable<any> {
     return this.http.get('http://localhost:3000/games/' + id);
   }
+
+  saveGame(game: any): Observable<any> {
+    return this.http.put('http://localhost:3000/games/' + game.id, game);
+  }
 }

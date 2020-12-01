@@ -9,12 +9,18 @@ import {HttpClientModule} from '@angular/common/http';
 import {RatingModule} from 'primeng/rating';
 import {FormsModule} from '@angular/forms';
 import { DetailComponent } from './detail/detail.component';
+import { EditorComponent } from './editor/editor.component';
+import {InputTextModule} from 'primeng/inputtext';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {EditorModule} from 'primeng/editor';
+import {ButtonModule} from 'primeng/button';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListComponent,
-    DetailComponent
+    DetailComponent,
+    EditorComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +28,10 @@ import { DetailComponent } from './detail/detail.component';
     HttpClientModule,
     FormsModule,
     TableModule,
-    RatingModule
+    RatingModule,
+    InputTextModule,
+    EditorModule,
+    ButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

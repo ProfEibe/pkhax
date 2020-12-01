@@ -1,0 +1,12 @@
+<div class="p-field p-grid">
+  <label class="p-col-fixed" style="width: 100px">Title</label>
+  <div class="p-col"><input pInputText [(ngModel)]="game.title"></div>
+</div>
+<div class="p-field p-grid">
+  <label class="p-col-fixed" style="width: 100px">Creator</label>
+  <div class="p-col"><input pInputText [(ngModel)]="game.creator"></div>
+</div>
+<div class="p-field p-grid">
+  <p-editor [(ngModel)]="game.description" [style]="{'height':'320px'}"></p-editor>
+</div>
+<p-button (onClick)="saveGame()" label="Save" icon="pi pi-save"></p-button>

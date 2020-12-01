@@ -1,10 +1,57 @@
 {
   "games": [
-    { "id": 1, "title": "Pokémon Adventure - Red Chapter", "base":  ["FR"], "rating": 5},
-    { "id": 2, "title": "Pokémon Adventure - Blue Chapter", "base":  ["FR"], "rating": 3.4},
-    { "id": 3, "title": "Pokémon Adventure - Gold Chapter", "base":  ["FR"], "rating": 5},
-    { "id": 4, "title": "Pokémon Adventure - Green Chapter", "base":  ["FR"], "rating": 5},
-    { "id": 5, "title": "Pokémon Delta Emerald", "base":  ["FR"], "rating": 4},
-    { "id": 6, "title": "Pokémon Supernova Sun & Penumbra Moon", "base":  ["US", "UM"], "rating": 5}
+    {
+      "id": 1,
+      "title": "Pokémon Emerald Enhanced",
+      "base": [
+        "E"
+      ],
+      "link": "https://www.pokecommunity.com/showthread.php?t=416925",
+      "creator": "Ryuhouji",
+      "rating": 5,
+      "status": "beta",
+      "description": "<p>Test hier geb ich mal was ein</p><p>Und hier sind die Features:</p><p><br></p><p><br></p><p><br></p><ul><li>Ur tolles Spiel</li><li>Ich weiß gar ned was es alles kann</li><li>Ur viel auf jeden Fall!</li></ul><p>Und alles toll!</p><p><br></p><p>asdfasdf</p>"
+    },
+    {
+      "id": 2,
+      "title": "Pokémon Adventure - Blue Chapter",
+      "base": [
+        "FR"
+      ],
+      "rating": 3.4
+    },
+    {
+      "id": 3,
+      "title": "Pokémon Adventure - Gold Chapter",
+      "base": [
+        "FR"
+      ],
+      "rating": 5
+    },
+    {
+      "id": 4,
+      "title": "Pokémon Adventure - Green Chapter",
+      "base": [
+        "FR"
+      ],
+      "rating": 5
+    },
+    {
+      "id": 5,
+      "title": "Pokémon Delta Emerald",
+      "base": [
+        "FR"
+      ],
+      "rating": 4
+    },
+    {
+      "id": 6,
+      "title": "Pokémon Supernova Sun & Penumbra Moon",
+      "base": [
+        "US",
+        "UM"
+      ],
+      "rating": 5
+    }
   ]
 }
