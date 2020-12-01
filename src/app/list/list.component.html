@@ -1,4 +1,5 @@
-<p-table [value]="games" [scrollable]="true" scrollHeight="80vh">
+<p-table [value]="games" [scrollable]="true" scrollHeight="80vh"
+         selectionMode="single" [(selection)]="selectedGame" (onRowSelect)="onRowSelect($event)" dataKey="id">
   <ng-template pTemplate="header">
     <tr>
       <th>Id</th>
@@ -8,7 +9,7 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-game>
-    <tr>
+    <tr [pSelectableRow]="game">
       <td>{{game.id}}</td>
       <td>{{game.title}}</td>
       <td>{{game.base}}</td>

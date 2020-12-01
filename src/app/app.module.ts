@@ -8,11 +8,13 @@ import {TableModule} from 'primeng/table';
 import {HttpClientModule} from '@angular/common/http';
 import {RatingModule} from 'primeng/rating';
 import {FormsModule} from '@angular/forms';
+import { DetailComponent } from './detail/detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListComponent
+    ListComponent,
+    DetailComponent
   ],
   imports: [
     BrowserModule,

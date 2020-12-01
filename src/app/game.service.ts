@@ -13,4 +13,8 @@ export class GameService {
   getGames(): Observable<any> {
     return this.http.get('http://localhost:3000/games');
   }
+
+  getGame(id: number): Observable<any> {
+    return this.http.get('http://localhost:3000/games/' + id);
+  }
 }
