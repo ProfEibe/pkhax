@@ -1,6 +1,7 @@
-<ng-template [ngIf]="game">
-  <h2>{{game.title}}</h2>
-  Baserom: {{game.base}}<br />
-  Rating: {{game.rating}}
-  <div [innerHTML]="game.description"></div>
-</ng-template>
+<div class="p-grid">
+  <p-card [header]="game.title" *ngIf="game" class="p-col-12 p-md-6 p-md-offset-3">
+    Baserom: {{game.base}}<br />
+    Rating: {{game.rating}}
+    <div [innerHTML]="game.description"></div>
+  </p-card>
+</div>

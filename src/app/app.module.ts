@@ -11,9 +11,9 @@ import {FormsModule} from '@angular/forms';
 import { DetailComponent } from './detail/detail.component';
 import { EditorComponent } from './editor/editor.component';
 import {InputTextModule} from 'primeng/inputtext';
-import {InputTextareaModule} from 'primeng/inputtextarea';
 import {EditorModule} from 'primeng/editor';
 import {ButtonModule} from 'primeng/button';
+import {CardModule} from 'primeng/card';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,8 @@ import {ButtonModule} from 'primeng/button';
     RatingModule,
     InputTextModule,
     EditorModule,
-    ButtonModule
+    ButtonModule,
+    CardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
