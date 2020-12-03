@@ -6,16 +6,21 @@ import {EditorComponent} from './editor/editor.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: ListComponent
+    path: 'editor',
+    redirectTo: 'editor/',
+    pathMatch: 'full'
+  },
+  {
+    path: 'editor/:id',
+    component: EditorComponent
   },
   {
     path: ':id',
     component: DetailComponent
   },
   {
-    path: 'editor/:id',
-    component: EditorComponent
+    path: '',
+    component: ListComponent
   }
 ];
 

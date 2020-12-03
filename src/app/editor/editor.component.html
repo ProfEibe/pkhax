@@ -1,12 +1,18 @@
-<div class="p-field p-grid">
-  <label class="p-col-fixed" style="width: 100px">Title</label>
-  <div class="p-col"><input pInputText [(ngModel)]="game.title"></div>
+<div class="p-grid">
+  <p-card [header]="game.id ? game.title : 'New Entry'" *ngIf="game" class="p-col-12 p-md-6 p-md-offset-3">
+    <div class="p-field p-grid">
+      <label class="p-col-fixed" style="width: 100px">Title</label>
+      <div class="p-col"><input pInputText [(ngModel)]="game.title"></div>
+    </div>
+    <div class="p-field p-grid">
+      <label class="p-col-fixed" style="width: 100px">Creator</label>
+      <div class="p-col"><input pInputText [(ngModel)]="game.creator"></div>
+    </div>
+    <p-multiSelect [options]="baseroms" [(ngModel)]="game.base" optionLabel="name"></p-multiSelect>
+    <div class="p-field p-grid">
+      <p-editor [(ngModel)]="game.description" [style]="{'height':'320px'}"></p-editor>
+    </div>
+    <p-button *ngIf="game.id" (onClick)="updateGame()" label="Save" icon="pi pi-save"></p-button>
+    <p-button *ngIf="!game.id" (onClick)="createGame()" label="Create" icon="pi pi-save"></p-button>
+  </p-card>
 </div>
-<div class="p-field p-grid">
-  <label class="p-col-fixed" style="width: 100px">Creator</label>
-  <div class="p-col"><input pInputText [(ngModel)]="game.creator"></div>
-</div>
-<div class="p-field p-grid">
-  <p-editor [(ngModel)]="game.description" [style]="{'height':'320px'}"></p-editor>
-</div>
-<p-button (onClick)="saveGame()" label="Save" icon="pi pi-save"></p-button>

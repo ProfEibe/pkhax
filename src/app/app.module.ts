@@ -14,6 +14,8 @@ import {InputTextModule} from 'primeng/inputtext';
 import {EditorModule} from 'primeng/editor';
 import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import {CardModule} from 'primeng/card';
     InputTextModule,
     EditorModule,
     ButtonModule,
-    CardModule
+    CardModule,
+    MultiSelectModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

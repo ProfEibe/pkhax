@@ -11,14 +11,22 @@ export class GameService {
   }
 
   getGames(): Observable<any> {
-    return this.http.get('http://localhost:3000/games');
+    return this.http.get('http://localhost:996/api/games');
   }
 
   getGame(id: number): Observable<any> {
-    return this.http.get('http://localhost:3000/games/' + id);
+    return this.http.get('http://localhost:996/api/games/' + id);
   }
 
-  saveGame(game: any): Observable<any> {
-    return this.http.put('http://localhost:3000/games/' + game.id, game);
+  createGame(game: any): Observable<any> {
+    return this.http.post('http://localhost:996/api/games/', game);
+  }
+
+  updateGame(game: any): Observable<any> {
+    return this.http.put('http://localhost:996/api/games/' + game.id, game);
+  }
+
+  deleteGame(id: number): Observable<any> {
+    return this.http.delete('http://localhost:996/api/games/' + id);
   }
 }
