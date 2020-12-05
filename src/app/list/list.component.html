@@ -12,7 +12,9 @@
     <tr [pSelectableRow]="game">
       <td>{{game.id}}</td>
       <td>{{game.title}}</td>
-      <td>{{game.base}}</td>
+      <td class="baserom-cell">
+        <span *ngFor="let base of game.base" [style.background-color]="base.color" class="baserom">{{base.short_name}}</span>
+      </td>
       <td>
         <p-rating [(ngModel)]="game.rating" [readonly]="true" [cancel]="false"></p-rating>
       </td>
