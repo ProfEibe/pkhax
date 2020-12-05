@@ -9,7 +9,7 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./editor.component.css']
 })
 export class EditorComponent implements OnInit {
-  game = {};
+  game: any = {};
   baseroms: any[] = [];
 
   constructor(private route: ActivatedRoute, private gameService: GameService, private router: Router, private http:HttpClient) { }
@@ -19,6 +19,7 @@ export class EditorComponent implements OnInit {
 
     this.route.paramMap.subscribe(params => {
       console.log(params);
+      // @ts-ignore
       if (params.has('id') && params.get('id')?.length > 0) {
         // @ts-ignore
         this.gameService.getGame(+params.get('id')).subscribe(game => {

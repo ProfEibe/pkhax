@@ -16,6 +16,9 @@ import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {DropdownModule} from 'primeng/dropdown';
+import {CheckboxModule} from 'primeng/checkbox';
+import {InputNumberModule} from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     ButtonModule,
     CardModule,
     MultiSelectModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DropdownModule,
+    CheckboxModule,
+    InputNumberModule
   ],
   providers: [],
   bootstrap: [AppComponent]
