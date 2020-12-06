@@ -1,0 +1,14 @@
+.layout-topbar {
+  background-color: var(--surface-a);
+  height: 70px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 997;
+  box-shadow: 0 0 4px rgba(0,0,0,.25);
+  border-bottom: 1px solid var(--surface-d);
+  display: flex;
+  align-items: center;
+  padding: 0 35px;
+}

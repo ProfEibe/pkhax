@@ -24,6 +24,7 @@ export class EditorComponent implements OnInit {
         // @ts-ignore
         this.gameService.getGame(+params.get('id')).subscribe(game => {
           this.game = game;
+          console.log(this.game);
         }, error => {
           // stop Loading, show Error
         });
@@ -32,6 +33,7 @@ export class EditorComponent implements OnInit {
   }
 
   updateGame(): void {
+    console.log(this.game);
     this.gameService.updateGame(this.game).subscribe(game => {
       this.game = game;
     }, error => {

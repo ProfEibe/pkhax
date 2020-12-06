@@ -1,8 +1,12 @@
 <div class="p-grid">
   <p-card [header]="game.title" *ngIf="game" class="p-col-12 p-md-6 p-md-offset-3">
-    <p-button label="Editor" [routerLink]="'/editor/' + game.id"></p-button>
-    Baserom: {{game.base}}<br />
+    Baserom:
+    <span class="baserom-cell">
+      <span *ngFor="let base of game.base" [style.background-color]="base.color" class="baserom">{{base.name}}</span>
+    </span><br />
     Rating: {{game.rating}}
     <div [innerHTML]="game.description"></div>
+
+    <p-button label="Editor" [routerLink]="'/editor/' + game.id"></p-button>
   </p-card>
 </div>
