@@ -1,4 +1,4 @@
-<p-table [columns]="selectedColumns" #dt [value]="games" [scrollable]="true" scrollHeight="calc(100vh - 70px)"
+<p-table [columns]="selectedColumns" #dt [value]="games" [scrollable]="true" scrollHeight="calc(100vh - 70px)" styleClass="p-datatable-sm"
          selectionMode="single" [(selection)]="selectedGame" (onRowSelect)="onRowSelect($event)" dataKey="id">
   <ng-template pTemplate="caption">
     <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
@@ -9,6 +9,8 @@
     <tr>
       <th *ngFor="let col of columns">
         {{col.header}}
+        <p-triStateCheckbox *ngIf="['fakemon', 'newStory', 'newGraphics'].includes(col.field)"
+                            (onChange)="dt.filter($event.value, col.field, 'equals')"></p-triStateCheckbox>
       </th>
     </tr>
     <tr>
