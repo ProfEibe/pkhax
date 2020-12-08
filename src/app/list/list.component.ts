@@ -2,6 +2,7 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {GameService} from '../game.service';
 import {Router} from '@angular/router';
 import {Table} from 'primeng/table';
+import {GlobalFilterService} from '../global-filter.service';
 
 @Component({
   selector: 'app-list',
@@ -18,11 +19,16 @@ export class ListComponent implements OnInit {
   games = [];
   selectedGame: any;
 
-  constructor(private gameService: GameService, private router: Router) {
+  constructor(private gameService: GameService, private router: Router, private filterService: GlobalFilterService) {
   }
 
   ngOnInit(): void {
     this.gameService.getGames().subscribe(games => this.games = games);
+    this.filterService.filter$.subscribe(filter => {
+      if (this.dt) {
+        this.dt.filterGlobal(filter, 'contains');
+      }
+    });
 
     this.cols = [
       {field: 'title', header: 'Name'},
@@ -57,6 +63,8 @@ export class ListComponent implements OnInit {
   }
 
   inputFilter($event: Event, field: string, matchMode: string): void {
-    (this.dt as Table).filter(($event.target as HTMLInputElement).value, field, matchMode);
+    if (this.dt) {
+      this.dt.filter(($event.target as HTMLInputElement).value, field, matchMode);
+    }
   }
 }
