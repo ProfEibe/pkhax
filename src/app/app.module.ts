@@ -20,6 +20,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import {CheckboxModule} from 'primeng/checkbox';
 import {InputNumberModule} from 'primeng/inputnumber';
 import { TopbarComponent } from './topbar/topbar.component';
+import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { TopbarComponent } from './topbar/topbar.component';
     BrowserAnimationsModule,
     DropdownModule,
     CheckboxModule,
-    InputNumberModule
+    InputNumberModule,
+    TriStateCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
