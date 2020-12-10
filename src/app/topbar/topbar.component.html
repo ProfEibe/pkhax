@@ -1,9 +1,9 @@
-<div class="layout-topbar">
+<div class="layout-topbar p-d-flex p-ai-center p-jc-between">
   <a class="title" [routerLink]="['/']">
     Pokémon Hacks
   </a>
 
-  <input pInputText (input)="callFilter($event)">
+  <input pInputText (input)="callFilter($event)" placeholder="Search..." style="width: 40vw;">
 
   <p-button label="New Entry" [routerLink]="'/editor/'"></p-button>
 </div>

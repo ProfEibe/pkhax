@@ -1,62 +1,36 @@
-<p-table [columns]="selectedColumns" #dt [value]="games" [scrollable]="true" scrollHeight="calc(100vh - 70px)" styleClass="p-datatable-sm"
+<p-table [columns]="selectedColumns" #dt [value]="games" [scrollable]="true" scrollHeight="calc(100vh - 70px)" styleClass="p-datatable-sm p-datatable-gridlines"
          selectionMode="single" [(selection)]="selectedGame" (onRowSelect)="onRowSelect($event)" dataKey="id">
-  <ng-template pTemplate="caption">
-    <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
-                   selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
-                   placeholder="Choose Columns"></p-multiSelect>
-  </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let col of columns">
         {{col.header}}
-        <p-triStateCheckbox *ngIf="['fakemon', 'newStory', 'newGraphics'].includes(col.field)"
+        <p-triStateCheckbox *ngIf="['fakemon', 'original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
                             (onChange)="dt.filter($event.value, col.field, 'equals')"></p-triStateCheckbox>
       </th>
     </tr>
-    <tr>
-      <th *ngFor="let col of columns">
-        <input *ngIf="['title', 'creator'].includes(col.field)"
-               class="p-column-filter" pInputText type="text"
-               (input)="inputFilter($event, col.field, 'contains')">
-        <p-triStateCheckbox *ngIf="['fakemon', 'newStory', 'newGraphics'].includes(col.field)"
-                            (onChange)="dt.filter($event.value, col.field, 'equals')"></p-triStateCheckbox>
-      </th>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr [pSelectableRow]="rowData">
       <td *ngFor="let col of columns">
-        <span *ngIf="['title', 'creator'].includes(col.field)">{{rowData[col.field]}}</span>
+        <div *ngIf="['title', 'creator'].includes(col.field)">{{rowData[col.field]}}</div>
         <span *ngIf="col.field == 'base'" class="baserom-cell">
           <span *ngFor="let base of rowData[col.field]" [style.background-color]="base.color"
                 class="baserom">{{base.short_name}}</span>
         </span>
-        <p-rating *ngIf="col.field == 'rating'" [(ngModel)]="rowData[col.field]" [readonly]="true"
+        <p-rating *ngIf="col.field == 'rating'" [(ngModel)]="rowData[col.field]" [readonly]="true" style="text-align: center;"
                   [cancel]="false"></p-rating>
-        <span *ngIf="['fakemon', 'newStory', 'newGraphics'].includes(col.field)">
+        <div *ngIf="['fakemon', 'original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)" style="text-align: center;">
           <i *ngIf="rowData[col.field] == true" class="pi pi-check"></i>
           <i *ngIf="rowData[col.field] == false" class="pi pi-times"></i>
-        </span>
+        </div>
       </td>
     </tr>
-
-    <!--<tr [pSelectableRow]="game">
-      <td>{{game.title}}</td>
-      <td>{{game.creator}}</td>
-      <td class="baserom-cell">
-        <span *ngFor="let base of game.base" [style.background-color]="base.color" class="baserom">{{base.short_name}}</span>
-      </td>
-      <td>{{game.version}}</td>
-      <td>{{game.newStory}}</td>
-      <td>{{game.newGraphics}}</td>
-      <td>{{game.catchable}}</td>
-      <td>{{game.fakemon}}</td>
-      <td>{{game.physicalSpecialSplit}}</td>
-      <td>{{game.builtInRandomizer}}</td>
-      <td>{{game.builtInNuzlocke}}</td>
-      <td>{{game.difficulty}}</td>
-      <td>
-        <p-rating [(ngModel)]="game.rating" [readonly]="true" [cancel]="false"></p-rating>
-      </td>
-    </tr>-->
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div class="p-d-flex p-ai-center p-jc-between">
+      <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+                     selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
+                     placeholder="Choose Columns"></p-multiSelect>
+    </div>
   </ng-template>
 </p-table>

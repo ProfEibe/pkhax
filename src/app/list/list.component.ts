@@ -35,18 +35,27 @@ export class ListComponent implements OnInit {
       {field: 'base', header: 'Baserom'},
       {field: 'creator', header: 'Creator'},
       {field: 'version', header: 'Version'},
-      {field: 'newStory', header: 'new Story'},
+      {field: 'original', header: 'Original'},
       {field: 'newGraphics', header: 'new Graphics'},
       {field: 'catchable', header: 'Catchable'},
       {field: 'fakemon', header: 'Fakemon'},
       {field: 'physicalSpecialSplit', header: 'physical/special-Split'},
-      {field: 'builtinRandomzier', header: 'built-in Randomizer'},
-      {field: 'builtinNuzlocke', header: 'built-in Nuzlocke'},
+      {field: 'builtInRandomizer', header: 'built-in Randomizer'},
+      {field: 'builtInNuzlocke', header: 'built-in Nuzlocke'},
       {field: 'difficulty', header: 'Difficulty'},
       {field: 'rating', header: 'Rating'},
     ];
 
-    this._selectedColumns = this.cols;
+    this._selectedColumns = [
+      {field: 'title', header: 'Name'},
+      {field: 'base', header: 'Baserom'},
+      {field: 'original', header: 'Original'},
+      {field: 'catchable', header: 'Catchable'},
+      {field: 'fakemon', header: 'Fakemon'},
+      {field: 'physicalSpecialSplit', header: 'physical/special-Split'},
+      {field: 'difficulty', header: 'Difficulty'},
+      {field: 'rating', header: 'Rating'},
+    ];
   }
 
   onRowSelect($event: any): void {
