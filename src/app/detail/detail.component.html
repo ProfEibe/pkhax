@@ -31,6 +31,31 @@
           <span *ngIf="game.original == null">N/A</span>
         </div>
         <div class="p-col">
+          Physical / Special-Split:
+          <i *ngIf="game.physicalSpecialSplit == true" class="pi pi-check"></i>
+          <i *ngIf="game.physicalSpecialSplit == false" class="pi pi-times"></i>
+          <span *ngIf="game.physicalSpecialSplit == null">N/A</span>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col">
+          Catchable: {{game.catchable}}
+        </div>
+        <div class="p-col">
+          Fakemon:
+          <i *ngIf="game.fakemon == true" class="pi pi-check"></i>
+          <i *ngIf="game.fakemon == false" class="pi pi-times"></i>
+          <span *ngIf="game.fakemon == null">N/A</span>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col">
+          Built-in nuzlocke:
+          <i *ngIf="game.builtInNuzlocke == true" class="pi pi-check"></i>
+          <i *ngIf="game.builtInNuzlocke == false" class="pi pi-times"></i>
+          <span *ngIf="game.builtInNuzlocke == null">N/A</span>
+        </div>
+        <div class="p-col">
           Built-in randomizer:
           <i *ngIf="game.builtInRandomizer == true" class="pi pi-check"></i>
           <i *ngIf="game.builtInRandomizer == false" class="pi pi-times"></i>
@@ -38,11 +63,28 @@
         </div>
       </div>
 
-      <p-fieldset legend="Description / Features">
-        <div [innerHTML]="game.description"></div>
-      </p-fieldset>
+      <div class="p-grid">
+        <div class="p-col">
+          New graphics: {{game.newGraphics || 'N/A'}}
+        </div>
+        <div class="p-col">
+          Difficulty: {{game.difficulty || 'N/A'}}
+        </div>
+      </div>
 
-      <p-button label="Editor" [routerLink]="'/editor/' + game.id"></p-button>
+      <div class="p-grid">
+        <div class="p-col">
+          <p-fieldset *ngIf="game.description" legend="Description / Features">
+            <div [innerHTML]="game.description"></div>
+          </p-fieldset>
+        </div>
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col">
+          <p-button label="Editor" [routerLink]="'/editor/' + game.id"></p-button>
+        </div>
+      </div>
     </p-card>
   </div>
 </div>

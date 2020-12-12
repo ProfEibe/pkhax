@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GameService} from '../game.service';
 import {HttpClient} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
 import {environment} from '../../environments/environment';
+import {Baserom, Choice, Game} from '../game';
 
 @Component({
   selector: 'app-editor',
@@ -12,19 +13,24 @@ import {environment} from '../../environments/environment';
   providers: [MessageService]
 })
 export class EditorComponent implements OnInit {
-  game: any = {};
-  baseroms: any[] = [];
-  consoles: any[] = [];
-  status: any[] = [];
+  game: Game | undefined;
+  baseroms: Baserom[] = [];
+  consoles: Choice[] = [];
+  status: Choice[] = [];
 
   baseUrl = environment.baseUrl;
 
-  constructor(private route: ActivatedRoute, private gameService: GameService, private router: Router, private http: HttpClient, private messageService: MessageService) { }
+  constructor(private route: ActivatedRoute,
+              private gameService: GameService,
+              private router: Router,
+              private http: HttpClient,
+              private messageService: MessageService) {
+  }
 
   ngOnInit(): void {
-    this.http.get<any[]>(this.baseUrl + '/api/baseroms/').subscribe(baseroms => this.baseroms = baseroms);
-    this.http.get<any[]>(this.baseUrl + '/api/consoles/').subscribe(consoles => this.consoles = consoles);
-    this.http.get<any[]>(this.baseUrl + '/api/status/').subscribe(status => this.status = status);
+    this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe(baseroms => this.baseroms = baseroms);
+    this.http.get<Choice[]>(this.baseUrl + '/consoles/').subscribe(consoles => this.consoles = consoles);
+    this.http.get<Choice[]>(this.baseUrl + '/status/').subscribe(status => this.status = status);
 
     this.route.paramMap.subscribe(params => {
       console.log(params);
@@ -37,6 +43,8 @@ export class EditorComponent implements OnInit {
         }, error => {
           // stop Loading, show Error
         });
+      } else {
+        this.game = new Game();
       }
     });
   }

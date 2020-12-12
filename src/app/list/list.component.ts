@@ -3,6 +3,7 @@ import {GameService} from '../game.service';
 import {Router} from '@angular/router';
 import {Table} from 'primeng/table';
 import {GlobalFilterService} from '../global-filter.service';
+import {Game} from '../game';
 
 @Component({
   selector: 'app-list',
@@ -14,10 +15,11 @@ export class ListComponent implements OnInit {
 
   cols: any[] = [];
 
+  // tslint:disable-next-line:variable-name
   _selectedColumns: any[] = [];
 
-  games = [];
-  selectedGame: any;
+  games: Game[] = [];
+  selectedGame: Game;
 
   constructor(private gameService: GameService, private router: Router, private filterService: GlobalFilterService) {
   }
