@@ -2,20 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GameService} from '../game.service';
 import {HttpClient} from '@angular/common/http';
+import {MessageService} from 'primeng/api';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.css']
+  styleUrls: ['./editor.component.css'],
+  providers: [MessageService]
 })
 export class EditorComponent implements OnInit {
   game: any = {};
   baseroms: any[] = [];
+  consoles: any[] = [];
+  status: any[] = [];
 
-  constructor(private route: ActivatedRoute, private gameService: GameService, private router: Router, private http:HttpClient) { }
+  baseUrl = environment.baseUrl;
+
+  constructor(private route: ActivatedRoute, private gameService: GameService, private router: Router, private http: HttpClient, private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.http.get<any[]>('http://localhost:996/api/baseroms/').subscribe(baseroms => this.baseroms = baseroms);
+    this.http.get<any[]>(this.baseUrl + '/api/baseroms/').subscribe(baseroms => this.baseroms = baseroms);
+    this.http.get<any[]>(this.baseUrl + '/api/consoles/').subscribe(consoles => this.consoles = consoles);
+    this.http.get<any[]>(this.baseUrl + '/api/status/').subscribe(status => this.status = status);
 
     this.route.paramMap.subscribe(params => {
       console.log(params);
@@ -36,7 +45,9 @@ export class EditorComponent implements OnInit {
     console.log(this.game);
     this.gameService.updateGame(this.game).subscribe(game => {
       this.game = game;
+      this.messageService.add({severity: 'success', summary: 'Saved', detail: 'Game updated'});
     }, error => {
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'An error occured'});
       console.log(error);
     });
   }
@@ -45,7 +56,9 @@ export class EditorComponent implements OnInit {
     this.gameService.createGame(this.game).subscribe(game => {
       this.game = game;
       this.router.navigate(['/editor', game.id]);
+      this.messageService.add({severity: 'success', summary: 'Saved', detail: 'Game created'});
     }, error => {
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'An error occured'});
       console.log(error);
     });
   }

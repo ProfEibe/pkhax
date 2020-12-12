@@ -1,63 +1,93 @@
-<div class="p-grid">
+<p-toast></p-toast>
+<div class="p-grid wrapper">
   <p-card [header]="game.id ? game.title : 'New Entry'" *ngIf="game" class="p-col-12 p-md-6 p-md-offset-3">
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">Title</label>
+      <label class="p-col-3">Title</label>
       <div class="p-col"><input pInputText [(ngModel)]="game.title"></div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">Link</label>
+      <label class="p-col-3">Link</label>
       <div class="p-col"><input pInputText [(ngModel)]="game.link"></div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">Discord</label>
+      <label class="p-col-3">Discord</label>
       <div class="p-col"><input pInputText [(ngModel)]="game.discord"></div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">Creator</label>
+      <label class="p-col-3">Creator</label>
       <div class="p-col"><input pInputText [(ngModel)]="game.creator"></div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">Creator</label>
+      <label class="p-col-3">Version</label>
       <div class="p-col"><input pInputText [(ngModel)]="game.version"></div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">Status</label>
-      <div class="p-col"><p-dropdown [(ngModel)]="game.status"></p-dropdown></div>
+      <label class="p-col-3">Status</label>
+      <div class="p-col">
+        <p-dropdown [options]="status" [showClear]="true" [(ngModel)]="game.status" placeholder="Status" optionLabel="name"></p-dropdown>
+      </div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">original</label>
-      <div class="p-col"><p-checkbox [(ngModel)]="game.original" [binary]="true"></p-checkbox></div>
+      <label class="p-col-3">original</label>
+      <div class="p-col">
+        <p-checkbox [(ngModel)]="game.original" [binary]="true"></p-checkbox>
+      </div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">new graphics</label>
-      <div class="p-col"><p-checkbox [(ngModel)]="game.newGraphics" [binary]="true"></p-checkbox></div>
+      <label class="p-col-3">new graphics</label>
+      <div class="p-col">
+        <p-checkbox [(ngModel)]="game.newGraphics" [binary]="true"></p-checkbox>
+      </div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">fakemon</label>
-      <div class="p-col"><p-checkbox [(ngModel)]="game.fakemon" [binary]="true"></p-checkbox></div>
+      <label class="p-col-3">fakemon</label>
+      <div class="p-col">
+        <p-checkbox [(ngModel)]="game.fakemon" [binary]="true"></p-checkbox>
+      </div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">physical/special-split</label>
-      <div class="p-col"><p-checkbox [(ngModel)]="game.physicalSpecialSplit" [binary]="true"></p-checkbox></div>
+      <label class="p-col-3">physical/special-split</label>
+      <div class="p-col">
+        <p-checkbox [(ngModel)]="game.physicalSpecialSplit" [binary]="true"></p-checkbox>
+      </div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">built-in randomizer</label>
-      <div class="p-col"><p-checkbox [(ngModel)]="game.builtInRandomizer" [binary]="true"></p-checkbox></div>
+      <label class="p-col-3">built-in randomizer</label>
+      <div class="p-col">
+        <p-checkbox [(ngModel)]="game.builtInRandomizer" [binary]="true"></p-checkbox>
+      </div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">built-in nuzlocke</label>
-      <div class="p-col"><p-checkbox [(ngModel)]="game.builtInNuzlocke" [binary]="true"></p-checkbox></div>
+      <label class="p-col-3">built-in nuzlocke</label>
+      <div class="p-col">
+        <p-checkbox [(ngModel)]="game.builtInNuzlocke" [binary]="true"></p-checkbox>
+      </div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">difficulty</label>
-      <div class="p-col"><p-inputNumber [(ngModel)]="game.difficulty"></p-inputNumber></div>
+      <label class="p-col-3">difficulty</label>
+      <div class="p-col">
+        <p-inputNumber [(ngModel)]="game.difficulty"></p-inputNumber>
+      </div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-fixed" style="width: 100px">Baserom</label>
-      <p-multiSelect [options]="baseroms" [(ngModel)]="game.base" optionLabel="name"></p-multiSelect>
+      <label class="p-col-3">Baserom</label>
+      <div class="p-col">
+        <p-multiSelect [options]="baseroms" [(ngModel)]="game.base" optionLabel="name"></p-multiSelect>
+      </div>
+    </div>
+
+    <div class="p-field p-grid">
+      <label class="p-col-3">Console</label>
+      <div class="p-col">
+        <p-dropdown [options]="consoles" [showClear]="true" placeholder="Console" [(ngModel)]="game.console"
+                    optionLabel="name"></p-dropdown>
+      </div>
     </div>
     <div class="p-field p-grid">
-      <p-editor [(ngModel)]="game.description" [style]="{'height':'320px'}"></p-editor>
+      <div class="p-col-12">Description / Features</div>
+      <div class="p-col-12">
+        <p-editor [(ngModel)]="game.description" [style]="{'height':'320px'}"></p-editor>
+      </div>
     </div>
 
 

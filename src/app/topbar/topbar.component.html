@@ -1,7 +1,7 @@
-<div class="layout-topbar p-d-flex p-ai-center p-jc-between">
-  <a class="title" [routerLink]="['/']">
-    Pokémon Hacks
-  </a>
+<div class="layout-topbar p-component p-d-flex p-ai-center p-jc-between">
+  <h1 [routerLink]="['/']" style="cursor: pointer">
+      Pokémon Hacks
+  </h1>
 
   <input pInputText (input)="callFilter($event)" placeholder="Search..." style="width: 40vw;">
 

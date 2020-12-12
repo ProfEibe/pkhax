@@ -21,6 +21,8 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {InputNumberModule} from 'primeng/inputnumber';
 import { TopbarComponent } from './topbar/topbar.component';
 import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
+import {FieldsetModule} from 'primeng/fieldset';
+import {ToastModule} from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
     DropdownModule,
     CheckboxModule,
     InputNumberModule,
-    TriStateCheckboxModule
+    TriStateCheckboxModule,
+    FieldsetModule,
+    ToastModule
   ],
   providers: [],
   bootstrap: [AppComponent]

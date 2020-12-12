@@ -1,12 +1,48 @@
-<div class="p-grid">
-  <p-card [header]="game.title" *ngIf="game" class="p-col-12 p-md-6 p-md-offset-3">
-    Baserom:
-    <span class="baserom-cell">
-      <span *ngFor="let base of game.base" [style.background-color]="base.color" class="baserom">{{base.name}}</span>
-    </span><br />
-    Rating: {{game.rating}}
-    <div [innerHTML]="game.description"></div>
+<div class="wrapper">
+  <div class="p-grid">
+    <p-card [header]="game.title" *ngIf="game" class="p-col-12 p-md-6 p-md-offset-3">
+      <div class="p-grid p-ai-center">
+        <div class="p-col">
+          Baserom:
+          <span class="baserom-cell">
+            <span *ngFor="let base of game.base" [style.background-color]="base.color" [style.color]="base.fontColor"
+                  class="baserom">{{base.name}}</span>
+          </span>
+        </div>
+        <div class="p-col p-text-right">
+          <a pButton icon="pi-external-link" href="{{game.link}}" *ngIf="game.link" label="Download" class="p-mr-1"></a>
+          <a pButton icon="pi-external-link" href="{{game.discord}}" *ngIf="game.discord" label="Discord"></a>
+        </div>
+      </div>
 
-    <p-button label="Editor" [routerLink]="'/editor/' + game.id"></p-button>
-  </p-card>
+      <div class="p-grid">
+        <div class="p-col">
+          Creator: {{game.creator || 'N/A'}}
+        </div>
+        <div class="p-col">
+          Version: {{game.version || 'N/A'}}
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col">
+          Original:
+          <i *ngIf="game.original == true" class="pi pi-check"></i>
+          <i *ngIf="game.original == false" class="pi pi-times"></i>
+          <span *ngIf="game.original == null">N/A</span>
+        </div>
+        <div class="p-col">
+          Built-in randomizer:
+          <i *ngIf="game.builtInRandomizer == true" class="pi pi-check"></i>
+          <i *ngIf="game.builtInRandomizer == false" class="pi pi-times"></i>
+          <span *ngIf="game.builtInRandomizer == null">N/A</span>
+        </div>
+      </div>
+
+      <p-fieldset legend="Description / Features">
+        <div [innerHTML]="game.description"></div>
+      </p-fieldset>
+
+      <p-button label="Editor" [routerLink]="'/editor/' + game.id"></p-button>
+    </p-card>
+  </div>
 </div>

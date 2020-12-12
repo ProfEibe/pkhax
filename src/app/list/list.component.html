@@ -13,11 +13,11 @@
     <tr [pSelectableRow]="rowData">
       <td *ngFor="let col of columns">
         <div *ngIf="['title', 'creator'].includes(col.field)">{{rowData[col.field]}}</div>
-        <span *ngIf="col.field == 'base'" class="baserom-cell">
-          <span *ngFor="let base of rowData[col.field]" [style.background-color]="base.color"
+        <div *ngIf="col.field == 'base'" class="baserom-cell p-text-center">
+          <span *ngFor="let base of rowData[col.field]" [style.background-color]="base.color" [style.color]="base.fontColor"
                 class="baserom">{{base.short_name}}</span>
-        </span>
-        <p-rating *ngIf="col.field == 'rating'" [(ngModel)]="rowData[col.field]" [readonly]="true" style="text-align: center;"
+        </div>
+        <p-rating *ngIf="col.field == 'rating'" [(ngModel)]="rowData[col.field]" [readonly]="true" class="p-text-center"
                   [cancel]="false"></p-rating>
         <div *ngIf="['fakemon', 'original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)" style="text-align: center;">
           <i *ngIf="rowData[col.field] == true" class="pi pi-check"></i>
