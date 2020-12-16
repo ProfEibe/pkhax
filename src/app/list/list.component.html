@@ -3,9 +3,11 @@
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let col of columns">
-        {{col.header}}
+        <span *ngIf="col.field != 'base'">{{col.header}}</span>
         <p-triStateCheckbox *ngIf="['fakemon', 'original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
                             (onChange)="dt.filter($event.value, col.field, 'equals')"></p-triStateCheckbox>
+        <p-multiSelect *ngIf="col.field == 'base'" [options]="baseroms" optionLabel="name" (onChange)="dt.filter($event.value,col.field,'isInBaserom')"
+                       appendTo="body" placeholder="Baserom"></p-multiSelect>
       </th>
     </tr>
   </ng-template>

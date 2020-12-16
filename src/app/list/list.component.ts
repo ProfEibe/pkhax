@@ -1,9 +1,12 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {GameService} from '../game.service';
 import {Router} from '@angular/router';
 import {Table} from 'primeng/table';
 import {GlobalFilterService} from '../global-filter.service';
-import {Game} from '../game';
+import {Baserom, Game} from '../game';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+import {FilterService} from 'primeng/api';
 
 @Component({
   selector: 'app-list',
@@ -11,25 +14,50 @@ import {Game} from '../game';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
+  cols: any[] = [];
+  games: Game[] = [];
+  selectedGame: Game;
+  baseroms: Baserom[];
+  baseUrl = environment.baseUrl;
   @ViewChild('dt', {static: false}) private dt: Table | undefined;
 
-  cols: any[] = [];
+  constructor(private gameService: GameService,
+              private router: Router,
+              private globalFilterService: GlobalFilterService,
+              private filterService: FilterService,
+              private http: HttpClient) {
+  }
 
   // tslint:disable-next-line:variable-name
   _selectedColumns: any[] = [];
 
-  games: Game[] = [];
-  selectedGame: Game;
+  @Input() get selectedColumns(): any[] {
+    return this._selectedColumns;
+  }
 
-  constructor(private gameService: GameService, private router: Router, private filterService: GlobalFilterService) {
+  set selectedColumns(val: any[]) {
+    // restore original order
+    const asdf = this.cols.filter(col => val.includes(col));
+    console.log(asdf);
+    this._selectedColumns = asdf;
   }
 
   ngOnInit(): void {
     this.gameService.getGames().subscribe(games => this.games = games);
-    this.filterService.filter$.subscribe(filter => {
+    this.globalFilterService.filter$.subscribe(filter => {
       if (this.dt) {
         this.dt.filterGlobal(filter, 'contains');
       }
+    });
+
+    this.filterService.register('isInBaserom', (value: Baserom[], filter: Baserom[]): boolean => {
+      if (filter === undefined || filter === null) {
+        return true;
+      }
+      if (value === undefined || value === null) {
+        return false;
+      }
+      return filter.some(f => value.some(v => v.id === f.id));
     });
 
     this.cols = [
@@ -60,21 +88,12 @@ export class ListComponent implements OnInit {
       this.cols[11],
       this.cols[12],
     ];
+
+    this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe(baseroms => this.baseroms = baseroms);
   }
 
   onRowSelect($event: any): void {
     this.router.navigate(['/' + this.selectedGame.id]);
-  }
-
-  @Input() get selectedColumns(): any[] {
-    return this._selectedColumns;
-  }
-
-  set selectedColumns(val: any[]) {
-    // restore original order
-    const asdf = this.cols.filter(col => val.includes(col));
-    console.log(asdf);
-    this._selectedColumns = asdf;
   }
 
   inputFilter($event: Event, field: string, matchMode: string): void {
