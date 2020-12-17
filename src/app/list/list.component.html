@@ -4,10 +4,23 @@
     <tr>
       <th *ngFor="let col of columns">
         <span *ngIf="col.field != 'base'">{{col.header}}</span>
-        <p-triStateCheckbox *ngIf="['fakemon', 'original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
+        <p-triStateCheckbox *ngIf="['fakemon', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
                             (onChange)="dt.filter($event.value, col.field, 'equals')"></p-triStateCheckbox>
         <p-multiSelect *ngIf="col.field == 'base'" [options]="baseroms" optionLabel="name" (onChange)="dt.filter($event.value,col.field,'isInBaserom')"
                        appendTo="body" placeholder="Baserom"></p-multiSelect>
+        <!--<p-dropdown *ngIf="col.field == 'story'" [options]="stories" optionLabel="name" (onChange)="filter($event.value)"
+                    appendTo="body" placeholder="Story" [showClear]="true"></p-dropdown>-->
+        <p-columnFilter *ngIf="col.field == 'story'" field="story" matchMode="equals" [showMenu]="false">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown [ngModel]="value" [options]="stories" optionLabel="name" (onChange)="filter($event.value)" placeholder="Story" [showClear]="true" appendTo="body">
+              <ng-template let-option pTemplate="item">
+                <span [class]="'customer-badge status-' + option.value">{{option.name}}</span>
+              </ng-template>
+            </p-dropdown>
+          </ng-template>
+        </p-columnFilter>
+
+
       </th>
     </tr>
   </ng-template>
@@ -23,7 +36,7 @@
           <span *ngFor="let base of rowData[col.field]" [style.background-color]="base.color" [style.color]="base.fontColor"
                 class="baserom">{{base.short_name}}</span>
         </div>
-        <div *ngIf="col.field == 'status'" class="p-text-center">{{rowData[col.field]?.name}}</div>
+        <div *ngIf="['status', 'story'].includes(col.field)" class="p-text-center">{{rowData[col.field]?.name}}</div>
         <p-rating *ngIf="col.field == 'rating'" [(ngModel)]="rowData[col.field]" [readonly]="true" class="p-text-center"
                   [cancel]="false"></p-rating>
         <div *ngIf="['fakemon', 'original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)" style="text-align: center;">

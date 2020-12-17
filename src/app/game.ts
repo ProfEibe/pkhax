@@ -18,7 +18,6 @@ export class Game {
   public creator: string;
   public version: string;
   public description: string;
-  public original: boolean;
   public newGraphics: boolean;
   public lastUpdate: Date;
   public catchable: number;
@@ -31,5 +30,6 @@ export class Game {
   public base: Baserom[];
   public console: Choice;
   public status: Choice;
+  public story: Choice;
   public rating: number;
 }

@@ -28,9 +28,9 @@
       </div>
     </div>
     <div class="p-field p-grid">
-      <label class="p-col-3">original</label>
+      <label class="p-col-3">Story</label>
       <div class="p-col">
-        <p-triStateCheckbox [(ngModel)]="game.original"></p-triStateCheckbox>
+        <p-dropdown [options]="stories" [showClear]="true" [(ngModel)]="game.story" placeholder="Story" optionLabel="name"></p-dropdown>
       </div>
     </div>
     <div class="p-field p-grid">

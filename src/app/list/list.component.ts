@@ -3,7 +3,7 @@ import {GameService} from '../game.service';
 import {Router} from '@angular/router';
 import {Table} from 'primeng/table';
 import {GlobalFilterService} from '../global-filter.service';
-import {Baserom, Game} from '../game';
+import {Baserom, Choice, Game} from '../game';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {FilterService} from 'primeng/api';
@@ -18,6 +18,7 @@ export class ListComponent implements OnInit {
   games: Game[] = [];
   selectedGame: Game;
   baseroms: Baserom[];
+  stories: Choice[];
   baseUrl = environment.baseUrl;
   @ViewChild('dt', {static: false}) private dt: Table | undefined;
 
@@ -65,7 +66,7 @@ export class ListComponent implements OnInit {
       {field: 'base', header: 'Baserom'},
       {field: 'creator', header: 'Creator'},
       {field: 'version', header: 'Version'},
-      {field: 'original', header: 'Original'},
+      {field: 'story', header: 'Story'},
       {field: 'newGraphics', header: 'new Graphics'},
       {field: 'catchable', header: 'Catchable'},
       {field: 'fakemon', header: 'Fakemon'},
@@ -90,6 +91,7 @@ export class ListComponent implements OnInit {
     ];
 
     this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe(baseroms => this.baseroms = baseroms);
+    this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe(stories => this.stories = stories);
   }
 
   onRowSelect($event: any): void {

@@ -25,10 +25,7 @@
       </div>
       <div class="p-grid">
         <div class="p-col">
-          Original:
-          <i *ngIf="game.original == true" class="pi pi-check"></i>
-          <i *ngIf="game.original == false" class="pi pi-times"></i>
-          <span *ngIf="game.original == null">N/A</span>
+          Story: {{game.story?.name || 'N/A'}}
         </div>
         <div class="p-col">
           Physical / Special-Split:
