@@ -23,6 +23,8 @@ import { TopbarComponent } from './topbar/topbar.component';
 import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
 import {FieldsetModule} from 'primeng/fieldset';
 import {ToastModule} from 'primeng/toast';
+import {AuthModule} from '@auth0/auth0-angular';
+import { AuthButtonComponent } from './auth-button/auth-button.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import {ToastModule} from 'primeng/toast';
     ListComponent,
     DetailComponent,
     EditorComponent,
-    TopbarComponent
+    TopbarComponent,
+    AuthButtonComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,11 @@ import {ToastModule} from 'primeng/toast';
     InputNumberModule,
     TriStateCheckboxModule,
     FieldsetModule,
-    ToastModule
+    ToastModule,
+    AuthModule.forRoot({
+      domain: 'pkhax.eu.auth0.com',
+      clientId: '7sWkLFfOuzg423qt9RK4QOXo2jTqeLcH'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

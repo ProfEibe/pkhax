@@ -1,9 +1,12 @@
 <div class="layout-topbar p-component p-d-flex p-ai-center p-jc-between">
   <h1 [routerLink]="['/']" style="cursor: pointer">
-      Pokémon Hacks
+    Pokémon Hacks
   </h1>
 
   <input pInputText (input)="callFilter($event)" placeholder="Search..." style="width: 40vw;">
 
-  <p-button label="New Entry" [routerLink]="'/editor/'"></p-button>
+  <div>
+    <p-button label="New Entry" [routerLink]="'/editor/'" styleClass="p-mr-2"></p-button>
+    <app-auth-button></app-auth-button>
+  </div>
 </div>
