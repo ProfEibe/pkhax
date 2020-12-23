@@ -3,18 +3,30 @@
     Pokémon Hacks
   </h1>
 
-  <input pInputText (input)="callFilter($event)" placeholder="Search..." style="width: 40vw;">
+  <input class="p-d-none p-d-lg-inline" pInputText (input)="callFilter($event)" placeholder="Search..." style="width: 40vw;">
 
-  <div>
+  <div class="p-d-none p-d-lg-inline p-md-3 p-text-right">
     <p-button label="New Entry" [routerLink]="'/editor/'" styleClass="p-mr-2"></p-button>
     <app-auth-button></app-auth-button>
+  </div>
+
+  <div class="p-d-lg-none">
     <button pButton pRipple type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text" (click)="op.toggle($event)"></button>
   </div>
 </div>
 
 <p-overlayPanel #op>
   <ng-template pTemplate>
-    <p-button label="New Entry" [routerLink]="'/editor/'" (onClick)="op.hide()" styleClass="p-mr-2"></p-button>
-    <app-auth-button (click)="op.hide()"></app-auth-button>
+    <div class="p-grid">
+      <div class="p-col-12">
+        <input pInputText (input)="callFilter($event)" placeholder="Search..." style="width: 100%;" />
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-12">
+        <p-button label="New Entry" [routerLink]="'/editor/'" (onClick)="op.hide()" styleClass="p-mr-2"></p-button>
+        <app-auth-button (click)="op.hide()"></app-auth-button>
+      </div>
+    </div>
   </ng-template>
 </p-overlayPanel>
