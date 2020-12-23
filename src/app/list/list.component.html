@@ -3,20 +3,26 @@
          selectionMode="single" [(selection)]="selectedGame" (onRowSelect)="onRowSelect($event)" dataKey="id">
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th *ngFor="let col of columns">
-        <span *ngIf="col.field != 'base'">{{col.header}}</span>
+      <th *ngFor="let col of columns" class="p-fluid">
+        <span *ngIf="!['base', 'story', 'status'].includes(col.field)">{{col.header}}&nbsp;</span>
         <p-triStateCheckbox *ngIf="['fakemon', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
                             (onChange)="dt.filter($event.value, col.field, 'equals')"></p-triStateCheckbox>
         <p-multiSelect *ngIf="col.field == 'base'" [options]="baseroms" optionLabel="name" (onChange)="dt.filter($event.value,col.field,'isInBaserom')"
                        appendTo="body" placeholder="Baserom"></p-multiSelect>
-        <!--<p-dropdown *ngIf="col.field == 'story'" [options]="stories" optionLabel="name" (onChange)="filter($event.value)"
-                    appendTo="body" placeholder="Story" [showClear]="true"></p-dropdown>-->
-        <p-columnFilter *ngIf="col.field == 'story'" field="story" matchMode="equals" [showMenu]="false">
+
+
+        <p-columnFilter *ngIf="col.field == 'story'" field="story" matchMode="isChoice" [showMenu]="false">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [ngModel]="value" [options]="stories" optionLabel="name" (onChange)="filter($event.value)" placeholder="Story" [showClear]="true" appendTo="body">
-              <ng-template let-option pTemplate="item">
-                <span [class]="'customer-badge status-' + option.value">{{option.name}}</span>
-              </ng-template>
+            <p-dropdown [ngModel]="value" [options]="stories" optionLabel="name" appendTo="body"
+                        (onChange)="filter($event.value)" placeholder="Story" [showClear]="true">
+            </p-dropdown>
+          </ng-template>
+        </p-columnFilter>
+
+        <p-columnFilter *ngIf="col.field == 'status'" field="status" matchMode="isChoice" [showMenu]="false">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown [ngModel]="value" [options]="status" optionLabel="name" appendTo="body"
+                        (onChange)="filter($event.value)" placeholder="Status" [showClear]="true">
             </p-dropdown>
           </ng-template>
         </p-columnFilter>

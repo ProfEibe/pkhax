@@ -19,6 +19,7 @@ export class ListComponent implements OnInit {
   selectedGame: Game;
   baseroms: Baserom[];
   stories: Choice[];
+  status: Choice[];
   baseUrl = environment.baseUrl;
   @ViewChild('dt', {static: false}) private dt: Table | undefined;
 
@@ -61,6 +62,16 @@ export class ListComponent implements OnInit {
       return filter.some(f => value.some(v => v.id === f.id));
     });
 
+    this.filterService.register('isChoice', (value: Choice, filter: Choice): boolean => {
+      if (filter === undefined || filter === null) {
+        return true;
+      }
+      if (value === undefined || value === null) {
+        return false;
+      }
+      return value.id === filter.id;
+    });
+
     this.cols = [
       {field: 'title', header: 'Name'},
       {field: 'base', header: 'Baserom'},
@@ -92,6 +103,7 @@ export class ListComponent implements OnInit {
 
     this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe(baseroms => this.baseroms = baseroms);
     this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe(stories => this.stories = stories);
+    this.http.get<Choice[]>(this.baseUrl + '/status/').subscribe(status => this.status = status);
   }
 
   onRowSelect($event: any): void {
