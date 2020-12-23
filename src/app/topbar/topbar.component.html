@@ -8,5 +8,13 @@
   <div>
     <p-button label="New Entry" [routerLink]="'/editor/'" styleClass="p-mr-2"></p-button>
     <app-auth-button></app-auth-button>
+    <button pButton pRipple type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text" (click)="op.toggle($event)"></button>
   </div>
 </div>
+
+<p-overlayPanel #op>
+  <ng-template pTemplate>
+    <p-button label="New Entry" [routerLink]="'/editor/'" (onClick)="op.hide()" styleClass="p-mr-2"></p-button>
+    <app-auth-button (click)="op.hide()"></app-auth-button>
+  </ng-template>
+</p-overlayPanel>
