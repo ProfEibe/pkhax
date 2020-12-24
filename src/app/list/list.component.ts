@@ -23,6 +23,10 @@ export class ListComponent implements OnInit {
   baseUrl = environment.baseUrl;
   @ViewChild('dt', {static: false}) private dt: Table | undefined;
 
+  get screenWidth(): number {
+    return window.innerWidth;
+  }
+
   constructor(private gameService: GameService,
               private router: Router,
               private globalFilterService: GlobalFilterService,
@@ -90,16 +94,24 @@ export class ListComponent implements OnInit {
     ];
 
 
-    this.selectedColumns = [
-      this.cols[0],
-      this.cols[1],
-      this.cols[4],
-      this.cols[6],
-      this.cols[7],
-      this.cols[8],
-      this.cols[11],
-      this.cols[12],
-    ];
+    if (window.innerWidth > 640) {
+      this.selectedColumns = [
+        this.cols[0],
+        this.cols[1],
+        this.cols[4],
+        this.cols[6],
+        this.cols[7],
+        this.cols[8],
+        this.cols[11],
+        this.cols[12],
+      ];
+    } else {
+      this.selectedColumns = [
+        this.cols[0],
+        this.cols[1],
+        this.cols[11],
+      ];
+    }
 
     this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe(baseroms => this.baseroms = baseroms);
     this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe(stories => this.stories = stories);
