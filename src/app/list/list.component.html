@@ -1,13 +1,15 @@
-<p-table [columns]="selectedColumns" #dt [value]="games" [scrollable]="true" scrollHeight="calc(100vh - 70px)"
+<p-table [columns]="selectedColumns" #dt [value]="games" [scrollable]="true" scrollHeight="flex"
          styleClass="p-datatable-sm p-datatable-gridlines p-datatable-responsive-demo"
          selectionMode="single" [(selection)]="selectedGame" (onRowSelect)="onRowSelect($event)" dataKey="id">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let col of columns" class="p-fluid">
         <span *ngIf="!['base', 'story', 'status'].includes(col.field)">{{col.header}}&nbsp;</span>
-        <p-triStateCheckbox *ngIf="['fakemon', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
-                            (onChange)="dt.filter($event.value, col.field, 'equals')"></p-triStateCheckbox>
-        <p-multiSelect *ngIf="col.field == 'base'" [options]="baseroms" optionLabel="name" (onChange)="dt.filter($event.value,col.field,'isInBaserom')"
+        <p-triStateCheckbox
+          *ngIf="['fakemon', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
+          (onChange)="dt.filter($event.value, col.field, 'equals')"></p-triStateCheckbox>
+        <p-multiSelect *ngIf="col.field == 'base'" [options]="baseroms" optionLabel="name"
+                       (onChange)="dt.filter($event.value,col.field,'isInBaserom')"
                        appendTo="body" placeholder="Baserom"></p-multiSelect>
 
 
@@ -41,13 +43,16 @@
           <span *ngIf="!rowData[col.field]" style="color: lightgray;">N/A</span>
         </div>
         <div *ngIf="col.field == 'base'" class="baserom-cell p-text-center">
-          <span *ngFor="let base of rowData[col.field]" [style.background-color]="base.color" [style.color]="base.fontColor"
+          <span *ngFor="let base of rowData[col.field]" [style.background-color]="base.color"
+                [style.color]="base.fontColor"
                 class="baserom">{{base.short_name}}</span>
         </div>
         <div *ngIf="['status', 'story'].includes(col.field)" class="p-text-center">{{rowData[col.field]?.name}}</div>
         <p-rating *ngIf="col.field == 'rating'" [(ngModel)]="rowData[col.field]" [readonly]="true" class="p-text-center"
                   [cancel]="false"></p-rating>
-        <div *ngIf="['fakemon', 'original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)" style="text-align: center;">
+        <div
+          *ngIf="['fakemon', 'original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
+          style="text-align: center;">
           <i *ngIf="rowData[col.field] == true" class="pi pi-check"></i>
           <i *ngIf="rowData[col.field] == false" class="pi pi-times"></i>
         </div>
@@ -59,7 +64,18 @@
       <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
                      selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
                      placeholder="Choose Columns"></p-multiSelect>
-      {{screenWidth}}
+      <button pButton pRipple type="button" label="Filter" class="p-button-rounded p-button-text p-d-md-none"
+              (click)="filter.toggle($event)"></button>
     </div>
   </ng-template>
 </p-table>
+
+<p-overlayPanel #filter [showCloseIcon]="true">
+  <ng-template pTemplate>
+    <div class="p-grid">
+      <div class="p-col-12">
+        Coming soon :)
+      </div>
+    </div>
+  </ng-template>
+</p-overlayPanel>
