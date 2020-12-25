@@ -2,12 +2,14 @@
 <div class="p-grid wrapper">
   <p-card [header]="game.id ? game.title : 'New Entry'" *ngIf="game" class="p-col-12 p-md-6 p-md-offset-3">
     <div class="p-field p-grid">
-      <label class="p-col-3">Title</label>
-      <div class="p-col"><input pInputText [(ngModel)]="game.title"></div>
+      <label class="p-col-3" for="title">Title</label>
+      <div class="p-col"><input id="title" pInputText [(ngModel)]="game.title"></div>
     </div>
     <div class="p-field p-grid">
       <label class="p-col-3">Link</label>
-      <div class="p-col"><input pInputText [(ngModel)]="game.link"></div>
+      <div class="p-col"><input pInputText [(ngModel)]="game.link" (blur)="checkLink()"></div>
+      <p-message class="p-col-12" *ngIf="linkExists" severity="error" text="Link already exists!"></p-message>
+      <span class="p-col-12">Insert link to original website or forum-post.</span>
     </div>
     <div class="p-field p-grid">
       <label class="p-col-3">Discord</label>

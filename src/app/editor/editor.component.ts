@@ -20,6 +20,7 @@ export class EditorComponent implements OnInit {
   stories: Choice[];
 
   baseUrl = environment.baseUrl;
+  linkExists = false;
 
   constructor(private route: ActivatedRoute,
               private gameService: GameService,
@@ -71,5 +72,36 @@ export class EditorComponent implements OnInit {
       this.messageService.add({severity: 'error', summary: 'Error', detail: 'An error occured'});
       console.log(error);
     });
+  }
+
+  checkLink(): void {
+    this.gameService.getGames().subscribe(games => {
+      const filter = games.filter(game => {
+        if (game.link != null) {
+          const existingLink = this.trim(game.link.trim(), '/');
+          const newLink = this.trim(this.game?.link.trim(), '/');
+          return existingLink === newLink;
+        } else {
+          return false;
+        }
+      });
+      if (filter.length > 0) {
+        this.linkExists = true;
+      } else {
+        this.linkExists = false;
+      }
+    });
+  }
+
+  trim(s: any, c: any): string {
+    if (c === ']') {
+      c = '\\]';
+    }
+    if (c === '\\') {
+      c = '\\\\';
+    }
+    return s.replace(new RegExp(
+      '^[' + c + ']+|[' + c + ']+$', 'g'
+    ), '');
   }
 }

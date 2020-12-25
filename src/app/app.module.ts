@@ -26,6 +26,8 @@ import {ToastModule} from 'primeng/toast';
 import {AuthModule} from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './auth-button/auth-button.component';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {MessageModule} from 'primeng/message';
+import {MessagesModule} from 'primeng/messages';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
     FieldsetModule,
     ToastModule,
     OverlayPanelModule,
+    MessagesModule,
+    MessageModule,
     AuthModule.forRoot({
       domain: 'pkhax.eu.auth0.com',
       clientId: '7sWkLFfOuzg423qt9RK4QOXo2jTqeLcH'
