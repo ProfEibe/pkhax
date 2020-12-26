@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {GameService} from '../game.service';
 import {Router} from '@angular/router';
 import {Table} from 'primeng/table';
@@ -21,10 +21,12 @@ export class ListComponent implements OnInit {
   stories: Choice[];
   status: Choice[];
   baseUrl = environment.baseUrl;
+  innerWidth = 0;
   @ViewChild('dt', {static: false}) private dt: Table | undefined;
 
-  get screenWidth(): number {
-    return window.innerWidth;
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.innerWidth = event.target.innerWidth;
   }
 
   constructor(private gameService: GameService,
@@ -93,8 +95,8 @@ export class ListComponent implements OnInit {
       {field: 'rating', header: 'Rating'},
     ];
 
-
-    if (window.innerWidth > 640) {
+    this.innerWidth = window.innerWidth;
+    if (this.innerWidth > 640) {
       this.selectedColumns = [
         this.cols[0],
         this.cols[1],

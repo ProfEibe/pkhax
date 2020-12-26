@@ -42,6 +42,12 @@
       </div>
     </div>
     <div class="p-field p-grid">
+      <label class="p-col-3">catchable</label>
+      <div class="p-col">
+        <p-inputNumber [(ngModel)]="game.catchable"></p-inputNumber>
+      </div>
+    </div>
+    <div class="p-field p-grid">
       <label class="p-col-3">fakemon</label>
       <div class="p-col">
         <p-triStateCheckbox [(ngModel)]="game.fakemon"></p-triStateCheckbox>
