@@ -27,3 +27,7 @@ body {
 .p-datatable .p-datatable-thead > tr > th {
   text-align: center!important;
 }
+
+a.p-button {
+  text-decoration: none;
+}
