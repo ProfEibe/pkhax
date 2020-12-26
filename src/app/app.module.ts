@@ -1,15 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { ListComponent } from './list/list.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {ListComponent} from './list/list.component';
 import {TableModule} from 'primeng/table';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RatingModule} from 'primeng/rating';
 import {FormsModule} from '@angular/forms';
-import { DetailComponent } from './detail/detail.component';
-import { EditorComponent } from './editor/editor.component';
+import {DetailComponent} from './detail/detail.component';
+import {EditorComponent} from './editor/editor.component';
 import {InputTextModule} from 'primeng/inputtext';
 import {EditorModule} from 'primeng/editor';
 import {ButtonModule} from 'primeng/button';
@@ -19,12 +19,12 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DropdownModule} from 'primeng/dropdown';
 import {CheckboxModule} from 'primeng/checkbox';
 import {InputNumberModule} from 'primeng/inputnumber';
-import { TopbarComponent } from './topbar/topbar.component';
+import {TopbarComponent} from './topbar/topbar.component';
 import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
 import {FieldsetModule} from 'primeng/fieldset';
 import {ToastModule} from 'primeng/toast';
-import {AuthModule} from '@auth0/auth0-angular';
-import { AuthButtonComponent } from './auth-button/auth-button.component';
+import {AuthHttpInterceptor, AuthModule} from '@auth0/auth0-angular';
+import {AuthButtonComponent} from './auth-button/auth-button.component';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {MessageModule} from 'primeng/message';
 import {MessagesModule} from 'primeng/messages';
@@ -68,13 +68,40 @@ import {ContextMenuModule} from 'primeng/contextmenu';
     DividerModule,
     RatingModule,
     ContextMenuModule,
+    RippleModule,
     AuthModule.forRoot({
+      // The domain and clientId were configured in the previous chapter
       domain: 'pkhax.eu.auth0.com',
-      clientId: '7sWkLFfOuzg423qt9RK4QOXo2jTqeLcH'
+      clientId: '7sWkLFfOuzg423qt9RK4QOXo2jTqeLcH',
+
+      // Request this audience at user authentication time
+      audience: 'https://pkhax.eu.auth0.com/api/v2/',
+
+      // Request this scope at user authentication time
+      scope: 'read:current_user',
+
+      // Specify configuration for the interceptor
+      httpInterceptor: {
+        allowedList: [
+          {
+            // Match any request that starts 'https://pkhax.eu.auth0.com/api/v2/' (note the asterisk)
+            uri: 'https://pkhax.eu.auth0.com/api/v2/*',
+            tokenOptions: {
+              // The attached token should target this audience
+              audience: 'http://localhost:1996/api',
+
+              // The attached token should have these scopes
+              scope: 'read:current_user'
+            }
+          }
+        ]
+      }
     }),
-    RippleModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true},
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
