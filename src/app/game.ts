@@ -10,6 +10,12 @@ export class Baserom {
   public fontColor: string;
 }
 
+export class Difficulty {
+  public id: number;
+  public name: string;
+  public description: string;
+}
+
 export class Game {
   public id: number;
   public title: string;
@@ -25,7 +31,7 @@ export class Game {
   public physicalSpecialSplit: boolean;
   public builtInRandomizer: boolean;
   public builtInNuzlocke: boolean;
-  public difficulty: number;
+  public difficulty: Difficulty;
 
   public base: Baserom[];
   public console: Choice;

@@ -4,7 +4,7 @@ import {GameService} from '../game.service';
 import {HttpClient} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
 import {environment} from '../../environments/environment';
-import {Baserom, Choice, Game} from '../game';
+import {Baserom, Choice, Difficulty, Game} from '../game';
 
 @Component({
   selector: 'app-editor',
@@ -18,6 +18,7 @@ export class EditorComponent implements OnInit {
   consoles: Choice[] = [];
   status: Choice[] = [];
   stories: Choice[];
+  difficulties: Difficulty[] = [];
 
   baseUrl = environment.baseUrl;
   linkExists = false;
@@ -34,6 +35,7 @@ export class EditorComponent implements OnInit {
     this.http.get<Choice[]>(this.baseUrl + '/consoles/').subscribe(consoles => this.consoles = consoles);
     this.http.get<Choice[]>(this.baseUrl + '/status/').subscribe(status => this.status = status);
     this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe(stories => this.stories = stories);
+    this.http.get<Difficulty[]>(this.baseUrl + '/difficulties/').subscribe(difficulties => this.difficulties = difficulties);
 
     this.route.paramMap.subscribe(params => {
       console.log(params);

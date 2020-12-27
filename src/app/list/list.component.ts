@@ -3,7 +3,7 @@ import {GameService} from '../game.service';
 import {Router} from '@angular/router';
 import {Table} from 'primeng/table';
 import {GlobalFilterService} from '../global-filter.service';
-import {Baserom, Choice, Game} from '../game';
+import {Baserom, Choice, Difficulty, Game} from '../game';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {FilterService} from 'primeng/api';
@@ -20,6 +20,7 @@ export class ListComponent implements OnInit {
   baseroms: Baserom[];
   stories: Choice[];
   status: Choice[];
+  difficulties: Difficulty[];
   baseUrl = environment.baseUrl;
   innerWidth = 0;
   @ViewChild('dt', {static: false}) private dt: Table | undefined;
@@ -118,6 +119,7 @@ export class ListComponent implements OnInit {
     this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe(baseroms => this.baseroms = baseroms);
     this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe(stories => this.stories = stories);
     this.http.get<Choice[]>(this.baseUrl + '/status/').subscribe(status => this.status = status);
+    this.http.get<Difficulty[]>(this.baseUrl + '/difficulties/').subscribe(difficulties => this.difficulties = difficulties);
   }
 
   onRowSelect($event: any): void {

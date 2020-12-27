@@ -74,7 +74,7 @@
     <div class="p-field p-grid">
       <label class="p-col-3">difficulty</label>
       <div class="p-col">
-        <p-inputNumber [(ngModel)]="game.difficulty"></p-inputNumber>
+        <p-dropdown [options]="difficulties" [showClear]="true" [(ngModel)]="game.difficulty" placeholder="Difficulty" optionLabel="name"></p-dropdown>
       </div>
     </div>
     <div class="p-field p-grid">

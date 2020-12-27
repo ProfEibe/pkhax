@@ -5,7 +5,7 @@
     <ng-template pTemplate="header" let-columns>
       <tr>
         <th *ngFor="let col of columns" class="p-fluid">
-          <span *ngIf="!['base', 'story', 'status'].includes(col.field)">{{col.header}}&nbsp;</span>
+          <span *ngIf="!['base', 'story', 'status', 'difficulty'].includes(col.field)">{{col.header}}&nbsp;</span>
           <p-triStateCheckbox
             *ngIf="['fakemon', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
             (onChange)="dt.filter($event.value, col.field, 'equals')"></p-triStateCheckbox>
@@ -30,6 +30,13 @@
             </ng-template>
           </p-columnFilter>
 
+          <p-columnFilter *ngIf="col.field == 'difficulty'" field="difficulty" matchMode="isChoice" [showMenu]="false">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <p-dropdown [ngModel]="value" [options]="difficulties" optionLabel="name" appendTo="body"
+                          (onChange)="filter($event.value)" placeholder="Difficulty" [showClear]="true">
+              </p-dropdown>
+            </ng-template>
+          </p-columnFilter>
 
         </th>
       </tr>
@@ -48,7 +55,7 @@
                 [style.color]="base.fontColor"
                 class="baserom">{{base.short_name}}</span>
           </div>
-          <div *ngIf="['status', 'story'].includes(col.field)" class="p-text-center">{{rowData[col.field]?.name}}</div>
+          <div *ngIf="['status', 'story', 'difficulty'].includes(col.field)" class="p-text-center">{{rowData[col.field]?.name}}</div>
           <p-rating *ngIf="col.field == 'rating'" [(ngModel)]="rowData[col.field]" [readonly]="true"
                     class="p-text-center"
                     [cancel]="false"></p-rating>
