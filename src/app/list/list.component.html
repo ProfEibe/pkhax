@@ -1,7 +1,8 @@
 <div style="height: calc(100vh - 126px)">
   <p-table [columns]="selectedColumns" #dt [value]="games" [scrollable]="true" scrollHeight="flex"
            styleClass="p-datatable-sm p-datatable-gridlines p-datatable-responsive-demo"
-           selectionMode="single" [(selection)]="selectedGame" (onRowSelect)="onRowSelect($event)" dataKey="id">
+           selectionMode="single" [(selection)]="selectedGame" (onRowSelect)="onRowSelect($event)" dataKey="id"
+           stateStorage="session" stateKey="pkhax-filter-session">
     <ng-template pTemplate="header" let-columns>
       <tr>
         <th *ngFor="let col of columns" class="p-fluid">
