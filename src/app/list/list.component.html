@@ -5,7 +5,8 @@
            stateStorage="session" stateKey="pkhax-filter-session">
     <ng-template pTemplate="header" let-columns>
       <tr>
-        <th *ngFor="let col of columns" class="p-fluid">
+        <th *ngFor="let col of columns" class="p-fluid" [pSortableColumn]="['catchable','avgRating'].includes(col.field) ? col.field : null">
+          <p-sortIcon *ngIf="['catchable','avgRating'].includes(col.field)" [field]="col.field"></p-sortIcon>
           <span *ngIf="!['base', 'story', 'status', 'difficulty'].includes(col.field)">{{col.header}}&nbsp;</span>
           <p-triStateCheckbox
             *ngIf="['fakemon', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
