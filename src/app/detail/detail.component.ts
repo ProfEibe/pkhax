@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {GameService} from '../game.service';
 import {Game} from '../game';
@@ -11,7 +11,8 @@ import {Game} from '../game';
 export class DetailComponent implements OnInit {
   game: Game;
 
-  constructor(private route: ActivatedRoute, private gameService: GameService) { }
+  constructor(private route: ActivatedRoute, private gameService: GameService) {
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -25,5 +26,4 @@ export class DetailComponent implements OnInit {
       }
     });
   }
-
 }

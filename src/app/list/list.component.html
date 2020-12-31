@@ -57,7 +57,7 @@
                 class="baserom">{{base.short_name}}</span>
           </div>
           <div *ngIf="['status', 'story', 'difficulty'].includes(col.field)" class="p-text-center">{{rowData[col.field]?.name}}</div>
-          <p-rating *ngIf="col.field == 'rating'" [(ngModel)]="rowData[col.field]" [readonly]="true"
+          <p-rating *ngIf="col.field == 'avgRating'" [ngModel]="rowData[col.field] - 0.49" [readonly]="true"
                     class="p-text-center"
                     [cancel]="false"></p-rating>
           <div

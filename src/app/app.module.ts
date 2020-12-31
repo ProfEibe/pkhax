@@ -28,6 +28,8 @@ import { AuthButtonComponent } from './auth-button/auth-button.component';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {MessageModule} from 'primeng/message';
 import {MessagesModule} from 'primeng/messages';
+import { RatingComponent } from './detail/rating/rating.component';
+import {RippleModule} from 'primeng/ripple';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import {MessagesModule} from 'primeng/messages';
     DetailComponent,
     EditorComponent,
     TopbarComponent,
-    AuthButtonComponent
+    AuthButtonComponent,
+    RatingComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,8 @@ import {MessagesModule} from 'primeng/messages';
     AuthModule.forRoot({
       domain: 'pkhax.eu.auth0.com',
       clientId: '7sWkLFfOuzg423qt9RK4QOXo2jTqeLcH'
-    })
+    }),
+    RippleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

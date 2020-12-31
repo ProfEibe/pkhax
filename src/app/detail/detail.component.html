@@ -10,8 +10,15 @@
           </span>
         </div>
         <div class="p-col p-text-right">
-          <a pButton icon="pi pi-external-link" href="{{game.link}}" *ngIf="game.link" label="Source" class="p-mr-1"></a>
+          <a pButton icon="pi pi-external-link" href="{{game.link}}" *ngIf="game.link" label="Source"
+             class="p-mr-1"></a>
           <a pButton icon="pi pi-external-link" href="{{game.discord}}" *ngIf="game.discord" label="Discord"></a>
+        </div>
+      </div>
+      <div class="p-grid p-ai-center">
+        <div class="p-col">
+          Rating:
+          <app-rating [game]="game"></app-rating>
         </div>
       </div>
 

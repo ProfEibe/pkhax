@@ -1,0 +1,6 @@
+<div class="p-d-inline-flex p-jc-start p-ai-center">
+  <p-rating [(ngModel)]="value" (mouseenter)="hover = true" (mouseleave)="hover = false" [cancel]="false"
+            [readonly]="readOnly"></p-rating>
+  <button pButton pRipple (click)="saveRating()" *ngIf="!readOnly" type="button" icon="pi pi-check"
+          class="p-button-rounded p-button-text"></button>
+</div>

@@ -93,7 +93,7 @@ export class ListComponent implements OnInit {
       {field: 'builtInNuzlocke', header: 'built-in Nuzlocke'},
       {field: 'status', header: 'Status'},
       {field: 'difficulty', header: 'Difficulty'},
-      {field: 'rating', header: 'Rating'},
+      {field: 'avgRating', header: 'Rating'},
     ];
 
     this.innerWidth = window.innerWidth;
@@ -107,6 +107,7 @@ export class ListComponent implements OnInit {
         this.cols[8],
         this.cols[11],
         this.cols[12],
+        this.cols[13],
       ];
     } else {
       this.selectedColumns = [

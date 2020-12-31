@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:1996/api/'
+  baseUrl: 'http://localhost:1996/api'
+  // baseUrl: 'http://pkhax.com/api'
 };
 
 /*
