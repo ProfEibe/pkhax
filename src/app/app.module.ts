@@ -30,6 +30,7 @@ import {MessageModule} from 'primeng/message';
 import {MessagesModule} from 'primeng/messages';
 import { RatingComponent } from './detail/rating/rating.component';
 import {RippleModule} from 'primeng/ripple';
+import {DividerModule} from 'primeng/divider';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import {RippleModule} from 'primeng/ripple';
     OverlayPanelModule,
     MessagesModule,
     MessageModule,
+    DividerModule,
     AuthModule.forRoot({
       domain: 'pkhax.eu.auth0.com',
       clientId: '7sWkLFfOuzg423qt9RK4QOXo2jTqeLcH'

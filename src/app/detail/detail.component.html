@@ -21,7 +21,7 @@
           <app-rating [game]="game"></app-rating>
         </div>
       </div>
-
+      <p-divider></p-divider>
       <div class="p-grid">
         <div class="p-col">
           Creator: {{game.creator || 'N/A'}}
@@ -30,6 +30,7 @@
           Version: {{game.version || 'N/A'}}
         </div>
       </div>
+      <p-divider></p-divider>
       <div class="p-grid">
         <div class="p-col">
           Story: {{game.story?.name || 'N/A'}}
@@ -41,6 +42,7 @@
           <span *ngIf="game.physicalSpecialSplit == null">N/A</span>
         </div>
       </div>
+      <p-divider></p-divider>
       <div class="p-grid">
         <div class="p-col">
           Catchable: {{game.catchable}}
@@ -52,6 +54,7 @@
           <span *ngIf="game.fakemon == null">N/A</span>
         </div>
       </div>
+      <p-divider></p-divider>
       <div class="p-grid">
         <div class="p-col">
           Built-in nuzlocke:
@@ -66,7 +69,7 @@
           <span *ngIf="game.builtInRandomizer == null">N/A</span>
         </div>
       </div>
-
+      <p-divider></p-divider>
       <div class="p-grid">
         <div class="p-col">
           New graphics: {{game.newGraphics || 'N/A'}}
