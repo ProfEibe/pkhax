@@ -49,6 +49,9 @@ export class Game {
   public rating: Rating[];
 
   public get avgRating(): number {
+    if (this.rating?.length === 0) {
+      return 0;
+    }
     let sum = 0;
     for (const rating of this.rating) {
       sum += rating.value;
