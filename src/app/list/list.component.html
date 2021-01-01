@@ -75,6 +75,9 @@
         <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
                        selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
                        placeholder="Choose Columns"></p-multiSelect>
+        <div>
+          <a href="https://github.com/ProfEibe/pkhax" target="_blank" pButton pRipple type="button" icon="pi pi-github" label="Github" class="p-button-rounded p-button-outlined"></a>
+        </div>
         <button pButton pRipple type="button" label="Filter" class="p-button-rounded p-button-text p-d-md-none"
                 (click)="filter.toggle($event)"></button>
       </div>
