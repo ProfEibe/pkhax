@@ -2,6 +2,6 @@
   <p-rating [(ngModel)]="value" (mouseenter)="hover = true" (mouseleave)="hover = false" [cancel]="false"
             [readonly]="readOnly"></p-rating>
   ({{game.rating.length}})
-  <button pButton pRipple (click)="saveRating()" *ngIf="!readOnly" type="button" icon="pi pi-check"
+  <button pButton pRipple (click)="saveRating()" *ngIf="!readOnly" type="button" icon="pi pi-check" [disabled]="!ownValue"
           class="p-button-rounded p-button-text"></button>
 </div>

@@ -10,14 +10,14 @@ import {environment} from '../../../environments/environment';
 })
 export class RatingComponent implements OnInit {
   @Input() game: Game;
-  private locRatings: any[];
+  private locRatings: Rating[];
   private set: boolean;
   readOnly: boolean;
 
   baseUrl = environment.baseUrl;
 
   private avgValue: number;
-  private ownValue: number;
+  ownValue: number;
   hover = false;
 
   get value(): number {
@@ -45,7 +45,9 @@ export class RatingComponent implements OnInit {
       ratings = '[]';
     }
     this.locRatings = JSON.parse(ratings);
-    const filter = this.locRatings.filter((rating: { 'game': number, 'value': number }) => rating.game === this.game.id);
+    const filter = this.locRatings.filter((rating: { 'game': number, 'value': number }) => {
+      return rating.game === this.game.id && rating.value != null;
+    });
     if (filter.length > 0) {
       this.ownValue = filter[0].value;
       this.readOnly = true;
@@ -59,7 +61,13 @@ export class RatingComponent implements OnInit {
         rating.game = this.game.id;
         this.locRatings.push(rating);
         this.game.rating.push(rating);
-        localStorage.setItem('pk-rating', JSON.stringify(this.locRatings));
+        const newLoc: Rating[] = [];
+        this.locRatings.forEach(el => {
+          if (el.value != null) {
+            newLoc.push(el);
+          }
+        });
+        localStorage.setItem('pk-rating', JSON.stringify(newLoc));
         this.readOnly = true;
         this.set = false;
         this.loadAvg();
