@@ -1,5 +1,5 @@
-import {Adapter} from './adapter';
-import {Injectable} from '@angular/core';
+import { Adapter } from './adapter';
+import { Injectable } from '@angular/core';
 
 export class Choice {
   public id: number;
@@ -36,7 +36,7 @@ export class Game {
   public newGraphics: boolean;
   public lastUpdate: Date;
   public catchable: number;
-  public fakemon: boolean;
+  public fakemon: Choice;
   public physicalSpecialSplit: boolean;
   public builtInRandomizer: boolean;
   public builtInNuzlocke: boolean;

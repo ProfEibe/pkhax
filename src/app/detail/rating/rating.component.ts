@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Game, Rating} from '../../game';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
+import { Component, Input, OnInit } from '@angular/core';
+import { Game, Rating } from '../../game';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-rating',
@@ -57,7 +57,7 @@ export class RatingComponent implements OnInit {
   saveRating(): void {
     if (!this.readOnly) {
 
-      this.http.post<Rating>(this.baseUrl + '/ratings', {game: this.game.id, value: this.ownValue}).subscribe((rating: Rating) => {
+      this.http.post<Rating>(this.baseUrl + '/ratings', { game: this.game.id, value: this.ownValue }).subscribe((rating: Rating) => {
         rating.game = this.game.id;
         this.locRatings.push(rating);
         this.game.rating.push(rating);

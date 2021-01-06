@@ -1,25 +1,35 @@
 <div style="height: calc(100vh - 126px)">
   <p-table [columns]="selectedColumns" #dt [value]="games" [scrollable]="true" scrollHeight="flex"
-           styleClass="p-datatable-sm p-datatable-gridlines p-datatable-responsive-demo"
-           selectionMode="single" [(selection)]="selectedGame" (onRowSelect)="onRowSelect($event)" dataKey="id"
-           stateStorage="session" stateKey="pkhax-filter-session">
+    styleClass="p-datatable-sm p-datatable-gridlines p-datatable-responsive-demo" selectionMode="single"
+    [(selection)]="selectedGame" (onRowSelect)="onRowSelect($event)" dataKey="id" stateStorage="session"
+    stateKey="pkhax-filter-session">
     <ng-template pTemplate="header" let-columns>
       <tr>
-        <th *ngFor="let col of columns" class="p-fluid" [pSortableColumn]="['catchable','avgRating'].includes(col.field) ? col.field : null">
+        <th *ngFor="let col of columns" class="p-fluid"
+          [pSortableColumn]="['catchable','avgRating'].includes(col.field) ? col.field : null">
           <p-sortIcon *ngIf="['catchable','avgRating'].includes(col.field)" [field]="col.field"></p-sortIcon>
-          <span *ngIf="!['base', 'story', 'status', 'difficulty'].includes(col.field)">{{col.header}}&nbsp;</span>
+          <span
+            *ngIf="!['fakemon', 'base', 'story', 'status', 'difficulty'].includes(col.field)">{{col.header}}&nbsp;</span>
           <p-triStateCheckbox
-            *ngIf="['fakemon', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
+            *ngIf="['newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
             (onChange)="dt.filter($event.value, col.field, 'equals')"></p-triStateCheckbox>
           <p-multiSelect *ngIf="col.field == 'base'" [options]="baseroms" optionLabel="name"
-                         (onChange)="dt.filter($event.value,col.field,'isInBaserom')"
-                         appendTo="body" placeholder="Baserom"></p-multiSelect>
+            (onChange)="dt.filter($event.value,col.field,'isInBaserom')" appendTo="body" placeholder="Baserom">
+          </p-multiSelect>
 
 
           <p-columnFilter *ngIf="col.field == 'story'" field="story" matchMode="isChoice" [showMenu]="false">
             <ng-template pTemplate="filter" let-value let-filter="filterCallback">
               <p-dropdown [ngModel]="value" [options]="stories" optionLabel="name" appendTo="body"
-                          (onChange)="filter($event.value)" placeholder="Story" [showClear]="true">
+                (onChange)="filter($event.value)" placeholder="Story" [showClear]="true">
+              </p-dropdown>
+            </ng-template>
+          </p-columnFilter>
+
+          <p-columnFilter *ngIf="col.field == 'fakemon'" field="fakemon" matchMode="isChoice" [showMenu]="false">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <p-dropdown [ngModel]="value" [options]="fakemon" optionLabel="name" appendTo="body"
+                (onChange)="filter($event.value)" placeholder="Fakemon" [showClear]="true">
               </p-dropdown>
             </ng-template>
           </p-columnFilter>
@@ -27,7 +37,7 @@
           <p-columnFilter *ngIf="col.field == 'status'" field="status" matchMode="isChoice" [showMenu]="false">
             <ng-template pTemplate="filter" let-value let-filter="filterCallback">
               <p-dropdown [ngModel]="value" [options]="status" optionLabel="name" appendTo="body"
-                          (onChange)="filter($event.value)" placeholder="Status" [showClear]="true">
+                (onChange)="filter($event.value)" placeholder="Status" [showClear]="true">
               </p-dropdown>
             </ng-template>
           </p-columnFilter>
@@ -35,7 +45,7 @@
           <p-columnFilter *ngIf="col.field == 'difficulty'" field="difficulty" matchMode="isChoice" [showMenu]="false">
             <ng-template pTemplate="filter" let-value let-filter="filterCallback">
               <p-dropdown [ngModel]="value" [options]="difficulties" optionLabel="name" appendTo="body"
-                          (onChange)="filter($event.value)" placeholder="Difficulty" [showClear]="true">
+                (onChange)="filter($event.value)" placeholder="Difficulty" [showClear]="true">
               </p-dropdown>
             </ng-template>
           </p-columnFilter>
@@ -53,14 +63,13 @@
             <span *ngIf="!rowData[col.field]" style="color: lightgray;">N/A</span>
           </div>
           <div *ngIf="col.field == 'base'" class="baserom-cell p-text-center">
-          <span *ngFor="let base of rowData[col.field]" [style.background-color]="base.color"
-                [style.color]="base.fontColor"
-                class="baserom">{{base.short_name}}</span>
+            <span *ngFor="let base of rowData[col.field]" [style.background-color]="base.color"
+              [style.color]="base.fontColor" class="baserom">{{base.short_name}}</span>
           </div>
-          <div *ngIf="['status', 'story', 'difficulty'].includes(col.field)" class="p-text-center">{{rowData[col.field]?.name}}</div>
+          <div *ngIf="['status', 'story', 'difficulty'].includes(col.field)" class="p-text-center">
+            {{rowData[col.field]?.name}}</div>
           <p-rating *ngIf="col.field == 'avgRating'" [ngModel]="rowData[col.field] - 0.49" [readonly]="true"
-                    class="p-text-center"
-                    [cancel]="false"></p-rating>
+            class="p-text-center" [cancel]="false"></p-rating>
           <div
             *ngIf="['fakemon', 'original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
             style="text-align: center;">
@@ -73,13 +82,14 @@
     <ng-template pTemplate="summary">
       <div class="p-d-flex p-ai-center p-jc-between">
         <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
-                       selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
-                       placeholder="Choose Columns"></p-multiSelect>
+          selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}" placeholder="Choose Columns">
+        </p-multiSelect>
         <div>
-          <a href="https://github.com/ProfEibe/pkhax" target="_blank" pButton pRipple type="button" icon="pi pi-github" label="Github" class="p-button-rounded p-button-outlined"></a>
+          <a href="https://github.com/ProfEibe/pkhax" target="_blank" pButton pRipple type="button" icon="pi pi-github"
+            label="Github" class="p-button-rounded p-button-outlined"></a>
         </div>
         <button pButton pRipple type="button" label="Filter" class="p-button-rounded p-button-text p-d-md-none"
-                (click)="filter.toggle($event)"></button>
+          (click)="filter.toggle($event)"></button>
       </div>
     </ng-template>
   </p-table>

@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {GameService} from '../game.service';
-import {HttpClient} from '@angular/common/http';
-import {MessageService} from 'primeng/api';
-import {environment} from '../../environments/environment';
-import {Baserom, Choice, Difficulty, Game} from '../game';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GameService } from '../game.service';
+import { HttpClient } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
+import { environment } from '../../environments/environment';
+import { Baserom, Choice, Difficulty, Game } from '../game';
 
 @Component({
   selector: 'app-editor',
@@ -17,6 +17,7 @@ export class EditorComponent implements OnInit {
   baseroms: Baserom[] = [];
   consoles: Choice[] = [];
   status: Choice[] = [];
+  fakemon: Choice[] = [];
   stories: Choice[];
   difficulties: Difficulty[] = [];
 
@@ -24,16 +25,17 @@ export class EditorComponent implements OnInit {
   linkExists = false;
 
   constructor(private route: ActivatedRoute,
-              private gameService: GameService,
-              private router: Router,
-              private http: HttpClient,
-              private messageService: MessageService) {
+    private gameService: GameService,
+    private router: Router,
+    private http: HttpClient,
+    private messageService: MessageService) {
   }
 
   ngOnInit(): void {
     this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe(baseroms => this.baseroms = baseroms);
     this.http.get<Choice[]>(this.baseUrl + '/consoles/').subscribe(consoles => this.consoles = consoles);
     this.http.get<Choice[]>(this.baseUrl + '/status/').subscribe(status => this.status = status);
+    this.http.get<Choice[]>(this.baseUrl + '/fakemon/').subscribe(fakemon => this.fakemon = fakemon);
     this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe(stories => this.stories = stories);
     this.http.get<Difficulty[]>(this.baseUrl + '/difficulties/').subscribe(difficulties => this.difficulties = difficulties);
 
@@ -58,9 +60,9 @@ export class EditorComponent implements OnInit {
     console.log(this.game);
     this.gameService.updateGame(this.game).subscribe(game => {
       this.game = game;
-      this.messageService.add({severity: 'success', summary: 'Saved', detail: 'Game updated'});
+      this.messageService.add({ severity: 'success', summary: 'Saved', detail: 'Game updated' });
     }, error => {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: 'An error occured'});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occured' });
       console.log(error);
     });
   }
@@ -69,9 +71,9 @@ export class EditorComponent implements OnInit {
     this.gameService.createGame(this.game).subscribe(game => {
       this.game = game;
       this.router.navigate(['/editor', game.id]);
-      this.messageService.add({severity: 'success', summary: 'Saved', detail: 'Game created'});
+      this.messageService.add({ severity: 'success', summary: 'Saved', detail: 'Game created' });
     }, error => {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: 'An error occured'});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occured' });
       console.log(error);
     });
   }
