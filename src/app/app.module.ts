@@ -31,6 +31,7 @@ import {MessagesModule} from 'primeng/messages';
 import { RatingComponent } from './detail/rating/rating.component';
 import {RippleModule} from 'primeng/ripple';
 import {DividerModule} from 'primeng/divider';
+import {ContextMenuModule} from 'primeng/contextmenu';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import {DividerModule} from 'primeng/divider';
     MessageModule,
     DividerModule,
     RatingModule,
+    ContextMenuModule,
     AuthModule.forRoot({
       domain: 'pkhax.eu.auth0.com',
       clientId: '7sWkLFfOuzg423qt9RK4QOXo2jTqeLcH'

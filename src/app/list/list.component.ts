@@ -26,6 +26,11 @@ export class ListComponent implements OnInit {
   @ViewChild('dt', {static: false}) private dt: Table | undefined;
   mobileFilter = false;
 
+  contextMenuItems = [
+    {label: 'Open in new tab', icon: 'pi pi-fw pi-clone', command: () => window.open('/' + this.selectedGame.id, '_blank')},
+    {label: 'Editor', icon: 'pi pi-fw pi-pencil', command: () => this.router.navigate(['/editor/' + this.selectedGame.id])}
+  ];
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
     this.innerWidth = event.target.innerWidth;
@@ -126,6 +131,12 @@ export class ListComponent implements OnInit {
 
   onRowSelect($event: any): void {
     this.router.navigate(['/' + this.selectedGame.id]);
+  }
+
+  onAuxClick($event: any): void {
+    $event.preventDefault();
+    console.log($event);
+    window.open('/' + this.selectedGame.id, '_blank');
   }
 
   inputFilter($event: Event, field: string, matchMode: string): void {
