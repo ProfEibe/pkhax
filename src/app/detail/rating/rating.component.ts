@@ -12,7 +12,7 @@ export class RatingComponent implements OnInit {
   @Input() game: Game;
   private locRatings: Rating[];
   private set: boolean;
-  readOnly: boolean;
+  readOnly = false;
 
   baseUrl = environment.baseUrl;
 

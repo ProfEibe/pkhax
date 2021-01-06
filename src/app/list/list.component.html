@@ -5,8 +5,9 @@
            stateStorage="session" stateKey="pkhax-filter-session">
     <ng-template pTemplate="header" let-columns>
       <tr>
-        <th *ngFor="let col of columns" class="p-fluid" [pSortableColumn]="['catchable','avgRating'].includes(col.field) ? col.field : null">
-          <p-sortIcon *ngIf="['catchable','avgRating'].includes(col.field)" [field]="col.field"></p-sortIcon>
+        <th *ngFor="let col of columns" class="p-fluid"
+            [pSortableColumn]="['catchable','avgRating', 'title'].includes(col.field) ? col.field : null">
+          <p-sortIcon *ngIf="['catchable','avgRating', 'title'].includes(col.field)" [field]="col.field"></p-sortIcon>
           <span *ngIf="!['base', 'story', 'status', 'difficulty'].includes(col.field)">{{col.header}}&nbsp;</span>
           <p-triStateCheckbox
             *ngIf="['fakemon', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
@@ -42,6 +43,57 @@
 
         </th>
       </tr>
+      <!-- Mobile filter -->
+      <div class="p-grid p-d-md-none">
+        <div class="p-col-12" style="margin: 0.5rem 0 0 0.5rem;">
+          <button pButton pRipple [icon]="mobileFilter ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" label="Filter"
+                  type="button" class="p-button-rounded p-button-outlined" (click)="toggleFilter()"></button>
+        </div>
+        <div class="p-col-12" *ngIf="mobileFilter" style="max-height: 30vh; overflow-y: scroll;">
+          <div *ngFor="let col of columns">
+            <div class="p-ai-center" style="padding: 0 0.5rem;" *ngIf="!['creator', 'version', 'avgRating', 'catchable'].includes(col.field)">
+            <span class="p-col-fixed"
+              style="padding: .4rem; min-width: 30%; display: inline-block; margin: -.4em 1em -.4em -.4rem; font-weight: bold; color: #495057;">{{col.header}}</span>
+            <div style="display: inline-block" class="p-col">
+              <input *ngIf="col.field == 'title'"  pInputText type="text" (input)="dt.filter($event.target.value, 'title', 'contains')" placeholder="Search by Name" class="p-column-filter">
+
+              <p-multiSelect *ngIf="col.field == 'base'" [options]="baseroms" optionLabel="name"
+                             (onChange)="dt.filter($event.value,col.field,'isInBaserom')"
+                             appendTo="body" placeholder="Baserom"></p-multiSelect>
+
+              <p-columnFilter *ngIf="col.field == 'status'" field="status" matchMode="isChoice" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-dropdown [ngModel]="value" [options]="status" optionLabel="name" appendTo="body"
+                              (onChange)="filter($event.value)" placeholder="Status" [showClear]="true">
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+
+              <p-columnFilter *ngIf="col.field == 'story'" field="story" matchMode="isChoice" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-dropdown [ngModel]="value" [options]="stories" optionLabel="name" appendTo="body"
+                              (onChange)="filter($event.value)" placeholder="Story" [showClear]="true">
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+
+              <p-columnFilter *ngIf="col.field == 'difficulty'" field="difficulty" matchMode="isChoice" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-dropdown [ngModel]="value" [options]="difficulties" optionLabel="name" appendTo="body"
+                              (onChange)="filter($event.value)" placeholder="Difficulty" [showClear]="true">
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+
+              <p-triStateCheckbox
+                *ngIf="['fakemon', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
+                (onChange)="dt.filter($event.value, col.field, 'equals')"></p-triStateCheckbox>
+
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr [pSelectableRow]="rowData">
@@ -57,7 +109,8 @@
                 [style.color]="base.fontColor"
                 class="baserom">{{base.short_name}}</span>
           </div>
-          <div *ngIf="['status', 'story', 'difficulty'].includes(col.field)" class="p-text-center">{{rowData[col.field]?.name}}</div>
+          <div *ngIf="['status', 'story', 'difficulty'].includes(col.field)"
+               class="p-text-center">{{rowData[col.field]?.name}}</div>
           <p-rating *ngIf="col.field == 'avgRating'" [ngModel]="rowData[col.field] - 0.49" [readonly]="true"
                     class="p-text-center"
                     [cancel]="false"></p-rating>
@@ -75,22 +128,14 @@
         <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
                        selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
                        placeholder="Choose Columns"></p-multiSelect>
-        <div>
-          <a href="https://github.com/ProfEibe/pkhax" target="_blank" pButton pRipple type="button" icon="pi pi-github" label="Github" class="p-button-rounded p-button-outlined"></a>
+        <div *ngIf="games && games.length > 0" class="p-d-none p-d-md-block">
+          In total there are {{games.length}} games.
         </div>
-        <button pButton pRipple type="button" label="Filter" class="p-button-rounded p-button-text p-d-md-none"
-                (click)="filter.toggle($event)"></button>
+        <div>
+          <a href="https://github.com/ProfEibe/pkhax" target="_blank" pButton pRipple type="button" icon="pi pi-github"
+             label="Github" class="p-button-rounded p-button-outlined"></a>
+        </div>
       </div>
     </ng-template>
   </p-table>
 </div>
-
-<p-overlayPanel #filter [showCloseIcon]="true">
-  <ng-template pTemplate>
-    <div class="p-grid">
-      <div class="p-col-12">
-        Coming soon :)
-      </div>
-    </div>
-  </ng-template>
-</p-overlayPanel>

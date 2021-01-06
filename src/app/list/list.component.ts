@@ -24,6 +24,7 @@ export class ListComponent implements OnInit {
   baseUrl = environment.baseUrl;
   innerWidth = 0;
   @ViewChild('dt', {static: false}) private dt: Table | undefined;
+  mobileFilter = false;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
@@ -131,5 +132,9 @@ export class ListComponent implements OnInit {
     if (this.dt) {
       this.dt.filter(($event.target as HTMLInputElement).value, field, matchMode);
     }
+  }
+
+  toggleFilter(): void {
+    this.mobileFilter = !this.mobileFilter;
   }
 }

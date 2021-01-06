@@ -65,6 +65,7 @@ import {DividerModule} from 'primeng/divider';
     MessagesModule,
     MessageModule,
     DividerModule,
+    RatingModule,
     AuthModule.forRoot({
       domain: 'pkhax.eu.auth0.com',
       clientId: '7sWkLFfOuzg423qt9RK4QOXo2jTqeLcH'
