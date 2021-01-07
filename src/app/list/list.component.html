@@ -56,8 +56,7 @@
             <span class="p-col-fixed"
               style="padding: .4rem; min-width: 30%; display: inline-block; margin: -.4em 1em -.4em -.4rem; font-weight: bold; color: #495057;">{{col.header}}</span>
             <div style="display: inline-block" class="p-col">
-              <input *ngIf="col.field == 'title'"  pInputText type="text" (input)="dt.filter($event.target.value, 'title', 'contains')" placeholder="Search by Name" class="p-column-filter">
-
+              <input *ngIf="col.field == 'title'"  pInputText type="text" (input)="inputFilter($event, 'title', 'contains')" placeholder="Search by Name" class="p-column-filter">
               <p-multiSelect *ngIf="col.field == 'base'" [options]="baseroms" optionLabel="name"
                              (onChange)="dt.filter($event.value,col.field,'isInBaserom')"
                              appendTo="body" placeholder="Baserom"></p-multiSelect>

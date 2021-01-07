@@ -23,15 +23,16 @@ import {TopbarComponent} from './topbar/topbar.component';
 import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
 import {FieldsetModule} from 'primeng/fieldset';
 import {ToastModule} from 'primeng/toast';
-import {AuthHttpInterceptor, AuthModule} from '@auth0/auth0-angular';
+import {AuthHttpInterceptor, AuthModule, HttpMethod} from '@auth0/auth0-angular';
 import {AuthButtonComponent} from './auth-button/auth-button.component';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {MessageModule} from 'primeng/message';
 import {MessagesModule} from 'primeng/messages';
-import { RatingComponent } from './detail/rating/rating.component';
+import {RatingComponent} from './detail/rating/rating.component';
 import {RippleModule} from 'primeng/ripple';
 import {DividerModule} from 'primeng/divider';
 import {ContextMenuModule} from 'primeng/contextmenu';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,7 @@ import {ContextMenuModule} from 'primeng/contextmenu';
       clientId: '7sWkLFfOuzg423qt9RK4QOXo2jTqeLcH',
 
       // Request this audience at user authentication time
-      audience: 'https://pkhax.eu.auth0.com/api/v2/',
+      audience: 'https://pkhax.com/api/',
 
       // Request this scope at user authentication time
       scope: 'read:current_user',
@@ -85,14 +86,15 @@ import {ContextMenuModule} from 'primeng/contextmenu';
         allowedList: [
           {
             // Match any request that starts 'https://pkhax.eu.auth0.com/api/v2/' (note the asterisk)
-            uri: 'https://pkhax.eu.auth0.com/api/v2/*',
+            uri: environment.baseUrl + '/games/*',
             tokenOptions: {
               // The attached token should target this audience
-              audience: 'http://localhost:1996/api',
+              audience: 'https://pkhax.com/api/',
 
               // The attached token should have these scopes
               scope: 'read:current_user'
-            }
+            },
+            httpMethod: HttpMethod.Post
           }
         ]
       }

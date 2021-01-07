@@ -16,7 +16,7 @@ export class GameService {
   }
 
   getGames(): Observable<Game[]> {
-    return this.http.get<Game[]>(this.baseUrl + '/games').pipe(
+    return this.http.get<Game[]>(this.baseUrl + '/games/').pipe(
       map((list) => list.map(game => this.adapter.adapt(game))
     ));
   }
