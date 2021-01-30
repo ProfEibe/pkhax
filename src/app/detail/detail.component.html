@@ -92,6 +92,20 @@
           <p-button label="Editor" [routerLink]="'/editor/' + game.id"></p-button>
         </div>
       </div>
+
+      <div class="p-grid">
+        <div class="p-col">
+          <h3>Comments</h3>
+          <p-editor [(ngModel)]="rootCommentBox"></p-editor>
+          <button pButton pRipple label="Save" (click)="saveRootComment()"></button>
+          <div *ngIf="comments && comments.length > 0; else noComments" class="p-mt-2">
+            <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
+          </div>
+          <ng-template #noComments>
+            There are no comments for this hack.
+          </ng-template>
+        </div>
+      </div>
     </p-card>
   </div>
 </div>

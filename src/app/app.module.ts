@@ -32,6 +32,7 @@ import {RatingComponent} from './detail/rating/rating.component';
 import {RippleModule} from 'primeng/ripple';
 import {DividerModule} from 'primeng/divider';
 import {ContextMenuModule} from 'primeng/contextmenu';
+import {CommentComponent} from './detail/comment/comment.component';
 import {environment} from '../environments/environment';
 
 @NgModule({
@@ -42,7 +43,8 @@ import {environment} from '../environments/environment';
     EditorComponent,
     TopbarComponent,
     AuthButtonComponent,
-    RatingComponent
+    RatingComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,
