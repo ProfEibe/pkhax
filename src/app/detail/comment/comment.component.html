@@ -1,19 +1,27 @@
-<div style="border-left: 2px solid #808080; padding: 0.5rem;" *ngIf="comment.id">
+<div style="border-left: 1px solid #808080; padding: 0.5rem;" *ngIf="comment.id" [id]="'comment-' + comment.id">
   <div style="font-size: x-small; color: #808080">{{comment.created_by.displayName}} · {{comment.created_at | date: 'medium'}}</div>
 
-  <div class="p-py-1" [innerHTML]="comment.content">{{comment.content}}</div>
+  <div class="comment" [innerHTML]="comment.content">{{comment.content}}</div>
 
   <div *ngIf="comment.modified_at != comment.created_at" style="font-size: x-small; color: #808080">Edited by {{comment.modified_by.displayName}} at {{comment.modified_at | date}}</div>
 
   <div style="font-size: x-small;">
-    <button pButton pRipple type="button" label="Reply" (click)="toggleReplyEditor()" class="p-button-text p-button-plain p-button-sm"></button>
-    <button pButton pRipple type="button" label="Edit" class="p-button-text p-button-plain p-button-sm"></button>
-    <button pButton pRipple type="button" label="Report" class="p-button-text p-button-plain p-button-sm"></button>
-    <button pButton pRipple type="button" label="Share" disabled class="p-button-text p-button-plain p-button-sm"></button>
+    <button pButton pRipple type="button" label="Reply" (click)="toggleReplyEditor()" class="p-button-text p-button-plain p-button-xs"></button>
+    <button pButton pRipple type="button" label="Edit" disabled class="p-button-text p-button-plain p-button-xs"></button>
+    <button pButton pRipple type="button" label="Report" disabled class="p-button-text p-button-plain p-button-xs"></button>
+    <button pButton pRipple type="button" label="Share" disabled class="p-button-text p-button-plain p-button-xs"></button>
   </div>
-  <div *ngIf="showReply">
-    <p-editor [(ngModel)]="reply"></p-editor>
-    <button pButton pRipple label="Save" (click)="createReply()"></button>
+  <div *ngIf="showReply" class="p-p-2">
+    <p-editor [(ngModel)]="reply">
+      <p-header class="p-d-flex p-jc-between">
+        <span class="ql-formats">
+            <button type="button" class="ql-bold" aria-label="Bold"></button>
+            <button type="button" class="ql-italic" aria-label="Italic"></button>
+            <button type="button" class="ql-underline" aria-label="Underline"></button>
+        </span>
+        <button pButton class="p-button-xs p-button-secondary p-button-rounded p-button-outlined" style="width: auto;" type="button" (click)="createReply()" label="Reply"></button>
+      </p-header>
+    </p-editor>
   </div>
 
   <div *ngIf="comment.children && comment.children.length > 0">

@@ -31,3 +31,11 @@ body {
 a.p-button {
   text-decoration: none;
 }
+
+.p-button.p-button-xs {
+  font-size: 0.6rem;
+  padding: 0.2rem 0.5rem;
+}
+.p-button.p-button-xs .p-button-icon {
+  font-size: 0.6rem;
+}

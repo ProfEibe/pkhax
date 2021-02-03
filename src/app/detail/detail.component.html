@@ -96,8 +96,16 @@
       <div class="p-grid">
         <div class="p-col">
           <h3>Comments</h3>
-          <p-editor [(ngModel)]="rootCommentBox"></p-editor>
-          <button pButton pRipple label="Save" (click)="saveRootComment()"></button>
+          <p-editor [(ngModel)]="rootCommentBox">
+            <p-header class="p-d-flex p-jc-between">
+              <span class="ql-formats">
+                  <button type="button" class="ql-bold" aria-label="Bold"></button>
+                  <button type="button" class="ql-italic" aria-label="Italic"></button>
+                  <button type="button" class="ql-underline" aria-label="Underline"></button>
+              </span>
+              <button pButton class="p-button-xs p-button-secondary p-button-rounded p-button-outlined" style="width: auto;" type="button" (click)="saveRootComment()" label="Comment"></button>
+            </p-header>
+          </p-editor>
           <div *ngIf="comments && comments.length > 0; else noComments" class="p-mt-2">
             <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
           </div>
