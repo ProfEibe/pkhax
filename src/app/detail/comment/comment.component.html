@@ -12,7 +12,7 @@
     <button pButton pRipple type="button" label="Share" disabled class="p-button-text p-button-plain p-button-xs"></button>
   </div>
   <div *ngIf="showReply" class="p-p-2">
-    <p-editor [(ngModel)]="reply">
+    <p-editor *ngIf="(auth.isAuthenticated$ | async) && (userService.currentUser | async)?.displayName; else loginInfo"  [(ngModel)]="reply">
       <p-header class="p-d-flex p-jc-between">
         <span class="ql-formats">
             <button type="button" class="ql-bold" aria-label="Bold"></button>
@@ -22,6 +22,12 @@
         <button pButton class="p-button-xs p-button-secondary p-button-rounded p-button-outlined" style="width: auto;" type="button" (click)="createReply()" label="Reply"></button>
       </p-header>
     </p-editor>
+    <ng-template #loginInfo>
+      <button *ngIf="(auth.isAuthenticated$ | async); else displayName" pRipple pButton label="Choose a displayname" [routerLink]="'/user'"></button>
+      <ng-template #displayName>
+        <button pRipple pButton label="Login to comment" (click)="auth.loginWithRedirect()"></button>
+      </ng-template>
+    </ng-template>
   </div>
 
   <div *ngIf="comment.children && comment.children.length > 0">

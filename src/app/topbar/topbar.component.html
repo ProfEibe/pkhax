@@ -3,15 +3,21 @@
     PkHax
   </h1>
 
-  <input class="p-d-none p-d-lg-inline" pInputText (input)="callFilter($event)" placeholder="Search..." style="width: 40vw;">
+  <input class="p-d-none p-d-lg-inline" pInputText (input)="callFilter($event)" placeholder="Search..."
+         style="width: 40vw;">
 
   <div class="p-d-none p-d-lg-inline p-md-3 p-text-right">
     <p-button label="New Entry" [routerLink]="'/editor/'" styleClass="p-mr-2"></p-button>
     <app-auth-button></app-auth-button>
+    <a routerLink="/user">
+      <p-avatar *ngIf="auth.user$ | async as user" [image]="user.picture" styleClass="p-ml-2" size="large"
+                shape="circle"></p-avatar>
+    </a>
   </div>
 
   <div class="p-d-lg-none">
-    <button pButton pRipple type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text" (click)="op.toggle($event)"></button>
+    <button pButton pRipple type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text"
+            (click)="op.toggle($event)"></button>
   </div>
 </div>
 
@@ -19,7 +25,7 @@
   <ng-template pTemplate>
     <div class="p-grid">
       <div class="p-col-12">
-        <input pInputText (input)="callFilter($event)" placeholder="Search..." style="width: 100%;" />
+        <input pInputText (input)="callFilter($event)" placeholder="Search..." style="width: 100%;"/>
       </div>
     </div>
     <div class="p-grid">

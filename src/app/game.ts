@@ -1,5 +1,6 @@
 import {Adapter} from './adapter';
 import {Injectable} from '@angular/core';
+import {User} from './user';
 
 export class Choice {
   public id: number;
@@ -23,6 +24,8 @@ export class Rating {
   public id: number;
   public game: number;
   public value: number;
+  // tslint:disable-next-line:variable-name
+  public created_by: User;
 }
 
 export class Game {

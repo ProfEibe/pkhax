@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {GlobalFilterService} from '../global-filter.service';
+import {AuthService} from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-topbar',
@@ -8,10 +9,9 @@ import {GlobalFilterService} from '../global-filter.service';
 })
 export class TopbarComponent implements OnInit {
 
-  constructor(private filterService: GlobalFilterService) { }
+  constructor(private filterService: GlobalFilterService, public auth: AuthService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   callFilter($event: Event): void {
     this.filterService.addFilter(($event.target as HTMLInputElement).value);

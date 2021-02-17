@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Game, Rating} from '../../game';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {UserService} from '../../user.service';
+import {AuthService} from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-rating',
@@ -12,7 +14,7 @@ export class RatingComponent implements OnInit {
   @Input() game: Game;
   private locRatings: Rating[];
   private set: boolean;
-  readOnly = false;
+  readOnly = true;
 
   baseUrl = environment.baseUrl;
 
@@ -34,40 +36,30 @@ export class RatingComponent implements OnInit {
     this.ownValue = value;
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private auth: AuthService) {
   }
 
   ngOnInit(): void {
     this.loadAvg();
 
-    let ratings = localStorage.getItem('pk-rating');
-    if (!ratings) {
-      ratings = '[]';
-    }
-    this.locRatings = JSON.parse(ratings);
-    const filter = this.locRatings.filter((rating: { 'game': number, 'value': number }) => {
-      return rating.game === this.game.id && rating.value != null;
+    this.auth.user$.subscribe(user => {
+      const ratings1 = this.game.rating.filter(rating => rating.created_by?.auth0Id === user.sub);
+      if (ratings1.length > 0) {
+        this.ownValue = ratings1[0].value;
+        this.readOnly = true;
+      } else {
+        this.readOnly = false;
+      }
     });
-    if (filter.length > 0) {
-      this.ownValue = filter[0].value;
-      this.readOnly = true;
-    }
   }
 
   saveRating(): void {
     if (!this.readOnly) {
 
-      this.http.post<Rating>(this.baseUrl + '/ratings', {game: this.game.id, value: this.ownValue}).subscribe((rating: Rating) => {
+      this.http.post<Rating>(this.baseUrl + '/ratings/' + this.game.id,
+        {game: this.game.id, value: this.ownValue}).subscribe((rating: Rating) => {
         rating.game = this.game.id;
-        this.locRatings.push(rating);
         this.game.rating.push(rating);
-        const newLoc: Rating[] = [];
-        this.locRatings.forEach(el => {
-          if (el.value != null) {
-            newLoc.push(el);
-          }
-        });
-        localStorage.setItem('pk-rating', JSON.stringify(newLoc));
         this.readOnly = true;
         this.set = false;
         this.loadAvg();

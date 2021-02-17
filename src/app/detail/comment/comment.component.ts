@@ -1,6 +1,8 @@
 import {AfterViewChecked, Component, Input, OnInit} from '@angular/core';
 import {Comment} from '../../comment';
 import {CommentService} from '../../comment.service';
+import {AuthService} from '@auth0/auth0-angular';
+import {UserService} from '../../user.service';
 
 @Component({
   selector: 'app-comment',
@@ -13,11 +15,10 @@ export class CommentComponent implements OnInit, AfterViewChecked {
   reply: string;
   private newComment: number;
 
-  constructor(private service: CommentService) {
+  constructor(private service: CommentService, public auth: AuthService, public userService: UserService) {
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   toggleReplyEditor(): void {
     this.showReply = !this.showReply;

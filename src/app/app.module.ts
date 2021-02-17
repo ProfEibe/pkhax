@@ -34,6 +34,8 @@ import {DividerModule} from 'primeng/divider';
 import {ContextMenuModule} from 'primeng/contextmenu';
 import {CommentComponent} from './detail/comment/comment.component';
 import {environment} from '../environments/environment';
+import { UserComponent } from './user/user.component';
+import {AvatarModule} from 'primeng/avatar';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import {environment} from '../environments/environment';
     TopbarComponent,
     AuthButtonComponent,
     RatingComponent,
-    CommentComponent
+    CommentComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -72,13 +75,14 @@ import {environment} from '../environments/environment';
     RatingModule,
     ContextMenuModule,
     RippleModule,
+    AvatarModule,
     AuthModule.forRoot({
       // The domain and clientId were configured in the previous chapter
       domain: 'pkhax.eu.auth0.com',
       clientId: '7sWkLFfOuzg423qt9RK4QOXo2jTqeLcH',
 
       // Request this audience at user authentication time
-      audience: 'https://pkhax.com/api/',
+      audience: 'https://pkhax.eu.auth0.com/api/v2/',
 
       // Request this scope at user authentication time
       scope: 'read:current_user',
@@ -91,9 +95,41 @@ import {environment} from '../environments/environment';
             uri: environment.baseUrl + '/games/*',
             tokenOptions: {
               // The attached token should target this audience
-              audience: 'https://pkhax.com/api/',
+              audience: 'https://pkhax.eu.auth0.com/api/v2/',
 
               // The attached token should have these scopes
+              scope: 'read:current_user'
+            },
+            httpMethod: HttpMethod.Post
+          },
+          {
+            uri: environment.baseUrl + '/games/*',
+            tokenOptions: {
+              audience: 'https://pkhax.eu.auth0.com/api/v2/',
+              scope: 'read:current_user'
+            },
+            httpMethod: HttpMethod.Put
+          },
+          {
+            uri: environment.baseUrl + '/user',
+            tokenOptions: {
+              audience: 'https://pkhax.eu.auth0.com/api/v2/',
+              scope: 'read:current_user'
+            },
+            httpMethod: HttpMethod.Get
+          },
+          {
+            uri: environment.baseUrl + '/user',
+            tokenOptions: {
+              audience: 'https://pkhax.eu.auth0.com/api/v2/',
+              scope: 'read:current_user'
+            },
+            httpMethod: HttpMethod.Put
+          },
+          {
+            uri: environment.baseUrl + '/ratings/*',
+            tokenOptions: {
+              audience: 'https://pkhax.eu.auth0.com/api/v2/',
               scope: 'read:current_user'
             },
             httpMethod: HttpMethod.Post

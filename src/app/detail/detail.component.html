@@ -96,7 +96,7 @@
       <div class="p-grid">
         <div class="p-col">
           <h3>Comments</h3>
-          <p-editor [(ngModel)]="rootCommentBox">
+          <p-editor *ngIf="(auth.isAuthenticated$ | async) && (userService.currentUser | async)?.displayName; else loginInfo" [(ngModel)]="rootCommentBox">
             <p-header class="p-d-flex p-jc-between">
               <span class="ql-formats">
                   <button type="button" class="ql-bold" aria-label="Bold"></button>
@@ -106,6 +106,12 @@
               <button pButton class="p-button-xs p-button-secondary p-button-rounded p-button-outlined" style="width: auto;" type="button" (click)="saveRootComment()" label="Comment"></button>
             </p-header>
           </p-editor>
+          <ng-template #loginInfo>
+            <button *ngIf="(auth.isAuthenticated$ | async); else displayName" pRipple pButton label="Choose a displayname" [routerLink]="'/user'"></button>
+            <ng-template #displayName>
+              <button pRipple pButton label="Login to comment" (click)="auth.loginWithRedirect()"></button>
+            </ng-template>
+          </ng-template>
           <div *ngIf="comments && comments.length > 0; else noComments" class="p-mt-2">
             <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
           </div>

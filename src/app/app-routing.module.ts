@@ -4,8 +4,14 @@ import {ListComponent} from './list/list.component';
 import {DetailComponent} from './detail/detail.component';
 import {EditorComponent} from './editor/editor.component';
 import {AuthGuard} from '@auth0/auth0-angular';
+import {UserComponent} from './user/user.component';
 
 const routes: Routes = [
+  {
+    path: 'user',
+    component: UserComponent,
+    canActivate: [AuthGuard]
+  },
   {
     path: 'editor',
     redirectTo: 'editor/',

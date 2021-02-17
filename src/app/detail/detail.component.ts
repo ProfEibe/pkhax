@@ -4,6 +4,8 @@ import {GameService} from '../game.service';
 import {Game} from '../game';
 import {Comment} from '../comment';
 import {CommentService} from '../comment.service';
+import {AuthService} from '@auth0/auth0-angular';
+import {UserService} from '../user.service';
 
 @Component({
   selector: 'app-detail',
@@ -18,7 +20,11 @@ export class DetailComponent implements OnInit, AfterViewChecked {
 
   private newComment: number;
 
-  constructor(private route: ActivatedRoute, private gameService: GameService, private commentService: CommentService) {
+  constructor(private route: ActivatedRoute,
+              private gameService: GameService,
+              private commentService: CommentService,
+              public userService: UserService,
+              public auth: AuthService) {
   }
 
   ngOnInit(): void {
@@ -34,6 +40,10 @@ export class DetailComponent implements OnInit, AfterViewChecked {
           // stop Loading, show Error
         });
       }
+    });
+
+    this.auth.user$.subscribe(auth0User => {
+      this.userService.getCurrentUser().subscribe();
     });
   }
 
@@ -58,7 +68,7 @@ export class DetailComponent implements OnInit, AfterViewChecked {
     if (this.newComment !== null) {
       const itemToScrollTo = document.getElementById('comment-' + this.newComment);
       if (itemToScrollTo) {
-        itemToScrollTo.scrollIntoView({block: 'center', behavior: 'auto'} );
+        itemToScrollTo.scrollIntoView({block: 'center', behavior: 'auto'});
         setTimeout(() => itemToScrollTo.animate([{backgroundColor: '#c1d4ff'}, {backgroundColor: '#FFFFFF'}], 500), 200);
       }
 
