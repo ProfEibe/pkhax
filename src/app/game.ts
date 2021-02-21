@@ -45,6 +45,8 @@ export class Game {
   public builtInNuzlocke: boolean;
   public difficulty: Difficulty;
 
+  public images: string;
+
   public base: Baserom[];
   public console: Choice;
   public status: Choice;

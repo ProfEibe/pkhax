@@ -98,6 +98,13 @@
       </div>
     </div>
 
+    <div class="p-field p-grid">
+      <div class="p-col-12">Images (add one image-link per line)</div>
+      <div class="p-col-12">
+        <textarea pInputTextarea [(ngModel)]="game.images"></textarea>
+      </div>
+    </div>
+
 
     <p-button *ngIf="game.id" (onClick)="updateGame()" label="Save" icon="pi pi-save"></p-button>
     <p-button *ngIf="!game.id" (onClick)="createGame()" label="Create" icon="pi pi-save"></p-button>

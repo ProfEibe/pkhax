@@ -89,6 +89,28 @@
 
       <div class="p-grid">
         <div class="p-col">
+          <h3>Images</h3>
+          <p-galleria [(value)]="images" [(visible)]="displayCustom" [(activeIndex)]="activeIndex" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '850px'}" [numVisible]="7"
+                      [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false" [baseZIndex]="100000">
+            <ng-template pTemplate="item" let-item>
+              <img [src]="item" style="width: 100%; display: block;"/>
+            </ng-template>
+            <ng-template pTemplate="thumbnail" let-item>
+              <div class="p-grid p-nogutter p-justify-center">
+                <img [src]="item" style="display: block;"/>
+              </div>
+            </ng-template>
+          </p-galleria>
+          <div *ngIf="images" class="p-grid" style="max-width: 400px;">
+            <div *ngFor="let image of images; let index = index;" class="p-col-3" key="index">
+              <img [src]="image" [alt]="image" style="cursor: pointer" width="80" height="60" (click)="imageClick(index)"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col">
           <p-button label="Editor" [routerLink]="'/editor/' + game.id"></p-button>
         </div>
       </div>

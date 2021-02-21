@@ -20,6 +20,25 @@ export class DetailComponent implements OnInit, AfterViewChecked {
 
   private newComment: number;
 
+  responsiveOptions: any[] = [
+    {
+      breakpoint: '1024px',
+      numVisible: 8
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 3
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 1
+    }
+  ];
+
+  activeIndex = 0;
+  displayCustom: boolean;
+  images: string[];
+
   constructor(private route: ActivatedRoute,
               private gameService: GameService,
               private commentService: CommentService,
@@ -36,6 +55,9 @@ export class DetailComponent implements OnInit, AfterViewChecked {
           this.commentService.getCommentsByGame(game.id).subscribe(comments => {
             this.comments = comments;
           });
+          if (game.images && game.images !== '') {
+            this.images = game.images.split('\n');
+          }
         }, error => {
           // stop Loading, show Error
         });
@@ -75,5 +97,10 @@ export class DetailComponent implements OnInit, AfterViewChecked {
       // @ts-ignore
       this.newComment = null;
     }
+  }
+
+  imageClick(index: number): void {
+    this.activeIndex = index;
+    this.displayCustom = true;
   }
 }

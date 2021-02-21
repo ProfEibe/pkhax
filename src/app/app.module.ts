@@ -36,6 +36,8 @@ import {CommentComponent} from './detail/comment/comment.component';
 import {environment} from '../environments/environment';
 import { UserComponent } from './user/user.component';
 import {AvatarModule} from 'primeng/avatar';
+import {GalleriaModule} from 'primeng/galleria';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,8 @@ import {AvatarModule} from 'primeng/avatar';
     ContextMenuModule,
     RippleModule,
     AvatarModule,
+    GalleriaModule,
+    InputTextareaModule,
     AuthModule.forRoot({
       // The domain and clientId were configured in the previous chapter
       domain: 'pkhax.eu.auth0.com',
