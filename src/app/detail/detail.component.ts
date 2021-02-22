@@ -37,7 +37,7 @@ export class DetailComponent implements OnInit, AfterViewChecked {
 
   activeIndex = 0;
   displayCustom: boolean;
-  images: string[];
+  images: any[];
 
   constructor(private route: ActivatedRoute,
               private gameService: GameService,
