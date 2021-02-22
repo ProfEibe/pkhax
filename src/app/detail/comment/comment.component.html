@@ -3,7 +3,7 @@
 
   <div class="comment" [innerHTML]="comment.content">{{comment.content}}</div>
 
-  <div *ngIf="comment.modified_at != comment.created_at" style="font-size: x-small; color: #808080">Edited by {{comment.modified_by.displayName}} at {{comment.modified_at | date}}</div>
+  <div *ngIf="diffCreateModified()" style="font-size: x-small; color: #808080">Edited by {{comment.modified_by.displayName}} at {{comment.modified_at | date}}</div>
 
   <div style="font-size: x-small;">
     <button pButton pRipple type="button" label="Reply" (click)="toggleReplyEditor()" class="p-button-text p-button-plain p-button-xs"></button>

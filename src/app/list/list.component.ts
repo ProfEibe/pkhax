@@ -25,6 +25,7 @@ export class ListComponent implements OnInit {
   innerWidth = 0;
   @ViewChild('dt', {static: false}) private dt: Table | undefined;
   mobileFilter = false;
+  loading = false;
 
   contextMenuItems = [
     {label: 'Open in new tab', icon: 'pi pi-fw pi-clone', command: () => window.open('/' + this.selectedGame.id, '_blank')},
@@ -58,7 +59,11 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gameService.getGames().subscribe(games => this.games = games);
+    this.loading = true;
+    this.gameService.getGames().subscribe(games => {
+      this.games = games;
+      this.loading = false;
+    });
     this.globalFilterService.filter$.subscribe(filter => {
       if (this.dt) {
         this.dt.filterGlobal(filter, 'contains');

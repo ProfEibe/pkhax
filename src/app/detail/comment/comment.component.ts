@@ -20,6 +20,10 @@ export class CommentComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {}
 
+  diffCreateModified(): boolean {
+    return new Date(this.comment.created_at).getMilliseconds() !== new Date(this.comment.modified_at).getMilliseconds();
+  }
+
   toggleReplyEditor(): void {
     this.showReply = !this.showReply;
   }
