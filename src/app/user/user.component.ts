@@ -23,7 +23,7 @@ export class UserComponent implements OnInit {
       this.user = user;
       this.messageService.add({severity: 'success', summary: 'Saved', detail: 'User updated'});
     }, error => {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: 'An error occured'});
+      this.messageService.add({severity: 'error', summary: 'Error', detail: error.error.message});
       console.log(error);
     });
   }
