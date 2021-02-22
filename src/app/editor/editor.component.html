@@ -7,7 +7,7 @@
     </div>
     <div class="p-field p-grid">
       <label class="p-col-3">Link</label>
-      <div class="p-col"><input pInputText [(ngModel)]="game.link" (blur)="checkLink()"></div>
+      <div class="p-col"><input pInputText required="required" [(ngModel)]="game.link" (blur)="checkLink()"></div>
       <p-message class="p-col-12" *ngIf="linkExists" severity="error" text="Link already exists!"></p-message>
       <span class="p-col-12">Insert link to original website or forum-post.</span>
     </div>
@@ -107,7 +107,7 @@
     </div>
 
 
-    <p-button *ngIf="game.id" (onClick)="updateGame()" label="Save" icon="pi pi-save"></p-button>
-    <p-button *ngIf="!game.id" (onClick)="createGame()" label="Create" icon="pi pi-save"></p-button>
+    <p-button *ngIf="game.id" (onClick)="updateGame()" [disabled]="!game.link || game.link == ''" label="Save" icon="pi pi-save"></p-button>
+    <p-button *ngIf="!game.id" (onClick)="createGame()" [disabled]="!game.link || game.link == ''" label="Create" icon="pi pi-save"></p-button>
   </p-card>
 </div>
