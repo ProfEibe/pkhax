@@ -1,6 +1,19 @@
 <div class="wrapper">
   <div class="p-grid">
-    <p-card [header]="game.title" *ngIf="game" class="p-col-12 p-md-6 p-md-offset-3">
+    <p-card *ngIf="game" class="p-col-12 p-md-6 p-md-offset-3">
+      <ng-template pTemplate="header">
+        <div class="p-p-3 p-d-flex p-ai-center p-jc-between">
+          <div class="p-card-title">
+            {{game.title}}
+          </div>
+          <div class="p-text-right">
+            <a pButton icon="pi pi-external-link" href="{{game.link}}" target="_blank" *ngIf="game.link" label="Source"></a>
+            <a pButton icon="pi pi-external-link" href="{{game.discord}}" target="_blank" *ngIf="game.discord" label="Discord"
+               class="p-ml-1"></a>
+            <p-button label="Editor" [routerLink]="'/editor/' + game.id" class="p-ml-1"></p-button>
+          </div>
+        </div>
+      </ng-template>
       <div class="p-grid p-ai-center">
         <div class="p-col">
           Baserom:
@@ -9,13 +22,6 @@
                   class="baserom">{{base.name}}</span>
           </span>
         </div>
-        <div class="p-col p-text-right">
-          <a pButton icon="pi pi-external-link" href="{{game.link}}" target="_blank" *ngIf="game.link" label="Source"
-             class="p-mr-1"></a>
-          <a pButton icon="pi pi-external-link" href="{{game.discord}}" target="_blank" *ngIf="game.discord" label="Discord"></a>
-        </div>
-      </div>
-      <div class="p-grid p-ai-center">
         <div class="p-col">
           Rating:
           <app-rating [game]="game"></app-rating>
@@ -101,17 +107,16 @@
               </div>
             </ng-template>
           </p-galleria>
-          <div *ngIf="images" class="p-grid">
+          <div *ngIf="images && images.length > 0; else noImages" class="p-grid">
             <div *ngFor="let image of images; let index = index;" class="p-col-3" key="index">
               <img [src]="image" [alt]="image" style="cursor: pointer; width: 90%; height: auto;" (click)="imageClick(index)"/>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="p-grid">
-        <div class="p-col">
-          <p-button label="Editor" [routerLink]="'/editor/' + game.id"></p-button>
+          <ng-template #noImages>
+            <div class="p-grid">
+              <div class="p-col">No images yet.</div>
+            </div>
+          </ng-template>
         </div>
       </div>
 

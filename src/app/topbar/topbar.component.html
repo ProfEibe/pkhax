@@ -15,9 +15,13 @@
     </a>
   </div>
 
-  <div class="p-d-lg-none">
+  <div class="p-d-lg-none p-d-flex p-ai-center p-jc-end">
     <button pButton pRipple type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text"
             (click)="op.toggle($event)"></button>
+    <a routerLink="/user">
+      <p-avatar *ngIf="auth.user$ | async as user" [image]="user.picture" styleClass="p-ml-2" size="large"
+                shape="circle"></p-avatar>
+    </a>
   </div>
 </div>
 

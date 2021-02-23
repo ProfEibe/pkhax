@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://test.pkhax.com/api'
+  baseUrl: 'https://pkhax.com/api'
 };

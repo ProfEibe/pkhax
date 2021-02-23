@@ -1,6 +1,16 @@
 <p-toast></p-toast>
 <div class="p-grid wrapper">
-  <p-card [header]="game.id ? game.title : 'New Entry'" *ngIf="game" class="p-col-12 p-md-6 p-md-offset-3">
+  <p-card *ngIf="game" class="p-col-12 p-md-6 p-md-offset-3">
+    <ng-template pTemplate="header">
+      <div class="p-p-3 p-d-flex p-ai-center p-jc-between">
+        <div class="p-card-title">
+          {{game.id ? game.title : 'New Entry'}}
+        </div>
+        <div>
+          <p-button icon="pi pi-chevron-left" label="Back to game" [routerLink]="'/' + game.id"></p-button>
+        </div>
+      </div>
+    </ng-template>
     <div class="p-field p-grid">
       <label class="p-col-3" for="title">Title</label>
       <div class="p-col"><input id="title" pInputText [(ngModel)]="game.title"></div>
