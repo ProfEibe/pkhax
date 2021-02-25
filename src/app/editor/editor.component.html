@@ -60,7 +60,7 @@
     <div class="p-field p-grid">
       <label class="p-col-3">fakemon</label>
       <div class="p-col">
-        <p-triStateCheckbox [(ngModel)]="game.fakemon"></p-triStateCheckbox>
+        <p-dropdown [options]="fakemon" [showClear]="true" [(ngModel)]="game.fakemon" placeholder="Fakemon" optionLabel="name"></p-dropdown>
       </div>
     </div>
     <div class="p-field p-grid">

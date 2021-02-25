@@ -17,7 +17,8 @@ export class EditorComponent implements OnInit {
   baseroms: Baserom[] = [];
   consoles: Choice[] = [];
   status: Choice[] = [];
-  stories: Choice[];
+  fakemon: Choice[] = [];
+  stories: Choice[] = [];
   difficulties: Difficulty[] = [];
 
   baseUrl = environment.baseUrl;
@@ -35,6 +36,7 @@ export class EditorComponent implements OnInit {
     this.http.get<Choice[]>(this.baseUrl + '/consoles/').subscribe(consoles => this.consoles = consoles);
     this.http.get<Choice[]>(this.baseUrl + '/status/').subscribe(status => this.status = status);
     this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe(stories => this.stories = stories);
+    this.http.get<Choice[]>(this.baseUrl + '/fakemon/').subscribe(fakemon => this.fakemon = fakemon);
     this.http.get<Difficulty[]>(this.baseUrl + '/difficulties/').subscribe(difficulties => this.difficulties = difficulties);
 
     this.route.paramMap.subscribe(params => {

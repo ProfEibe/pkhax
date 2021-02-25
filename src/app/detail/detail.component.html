@@ -54,10 +54,7 @@
           Catchable: {{game.catchable}}
         </div>
         <div class="p-col">
-          Fakemon:
-          <i *ngIf="game.fakemon == true" class="pi pi-check"></i>
-          <i *ngIf="game.fakemon == false" class="pi pi-times"></i>
-          <span *ngIf="game.fakemon == null">N/A</span>
+          Fakemon: {{game.fakemon?.name || 'N/A'}}
         </div>
       </div>
       <p-divider></p-divider>

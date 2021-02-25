@@ -9,9 +9,9 @@
         <th *ngFor="let col of columns" class="p-fluid"
             [pSortableColumn]="['catchable','avgRating', 'title'].includes(col.field) ? col.field : null">
           <p-sortIcon *ngIf="['catchable','avgRating', 'title'].includes(col.field)" [field]="col.field"></p-sortIcon>
-          <span *ngIf="!['base', 'story', 'status', 'difficulty'].includes(col.field)">{{col.header}}&nbsp;</span>
+          <span *ngIf="!['base', 'story', 'status', 'difficulty', 'fakemon'].includes(col.field)">{{col.header}}&nbsp;</span>
           <p-triStateCheckbox
-            *ngIf="['fakemon', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
+            *ngIf="['newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
             (onChange)="dt.filter($event.value, col.field, 'equals')"></p-triStateCheckbox>
           <p-multiSelect *ngIf="col.field == 'base'" [options]="baseroms" optionLabel="name"
                          (onChange)="dt.filter($event.value,col.field,'isInBaserom')"
@@ -38,6 +38,14 @@
             <ng-template pTemplate="filter" let-value let-filter="filterCallback">
               <p-dropdown [ngModel]="value" [options]="difficulties" optionLabel="name" appendTo="body"
                           (onChange)="filter($event.value)" placeholder="Difficulty" [showClear]="true">
+              </p-dropdown>
+            </ng-template>
+          </p-columnFilter>
+
+          <p-columnFilter *ngIf="col.field == 'fakemon'" field="fakemon" matchMode="isChoice" [showMenu]="false">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <p-dropdown [ngModel]="value" [options]="fakemon" optionLabel="name" appendTo="body"
+                          (onChange)="filter($event.value)" placeholder="Fakemon" [showClear]="true">
               </p-dropdown>
             </ng-template>
           </p-columnFilter>
@@ -85,8 +93,16 @@
                 </ng-template>
               </p-columnFilter>
 
+              <p-columnFilter *ngIf="col.field == 'fakemon'" field="fakemon" matchMode="isChoice" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-dropdown [ngModel]="value" [options]="fakemon" optionLabel="name" appendTo="body"
+                              (onChange)="filter($event.value)" placeholder="Fakemon" [showClear]="true">
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+
               <p-triStateCheckbox
-                *ngIf="['fakemon', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
+                *ngIf="['newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
                 (onChange)="dt.filter($event.value, col.field, 'equals')"></p-triStateCheckbox>
 
             </div>
@@ -109,13 +125,13 @@
                 [style.color]="base.fontColor"
                 class="baserom">{{base.short_name}}</span>
           </div>
-          <div *ngIf="['status', 'story', 'difficulty'].includes(col.field)"
+          <div *ngIf="['status', 'story', 'difficulty', 'fakemon'].includes(col.field)"
                class="p-text-center">{{rowData[col.field]?.name}}</div>
           <p-rating *ngIf="col.field == 'avgRating'" [ngModel]="rowData[col.field] - 0.49" [readonly]="true"
                     class="p-text-center"
                     [cancel]="false"></p-rating>
           <div
-            *ngIf="['fakemon', 'original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
+            *ngIf="['original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
             style="text-align: center;">
             <i *ngIf="rowData[col.field] == true" class="pi pi-check"></i>
             <i *ngIf="rowData[col.field] == false" class="pi pi-times"></i>

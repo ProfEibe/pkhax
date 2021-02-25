@@ -19,6 +19,7 @@ export class ListComponent implements OnInit {
   selectedGame: Game;
   baseroms: Baserom[];
   stories: Choice[];
+  fakemon: Choice[];
   status: Choice[];
   difficulties: Difficulty[];
   baseUrl = environment.baseUrl;
@@ -131,6 +132,7 @@ export class ListComponent implements OnInit {
     this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe(baseroms => this.baseroms = baseroms);
     this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe(stories => this.stories = stories);
     this.http.get<Choice[]>(this.baseUrl + '/status/').subscribe(status => this.status = status);
+    this.http.get<Choice[]>(this.baseUrl + '/fakemon/').subscribe(fakemon => this.fakemon = fakemon);
     this.http.get<Difficulty[]>(this.baseUrl + '/difficulties/').subscribe(difficulties => this.difficulties = difficulties);
   }
 
