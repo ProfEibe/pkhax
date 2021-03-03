@@ -39,6 +39,36 @@ import {AvatarModule} from 'primeng/avatar';
 import {GalleriaModule} from 'primeng/galleria';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule} from 'ngx-google-analytics';
+import {NgcCookieConsentConfig, NgcCookieConsentModule} from 'ngx-cookieconsent';
+
+const cookieConfig: NgcCookieConsentConfig = {
+  cookie: {
+    domain: 'pkhax.com'
+  },
+  position: 'bottom-right',
+  theme: 'classic',
+  palette: {
+    popup: {
+      background: '#000000',
+      text: '#ffffff',
+      link: '#ffffff'
+    },
+    button: {
+      background: '#f1d600',
+      text: '#000000',
+      border: 'transparent'
+    }
+  },
+  type: 'info',
+  content: {
+    message: 'This website uses cookies to ensure you get the best experience on our website.',
+    dismiss: 'Got it!',
+    deny: 'Refuse cookies',
+    link: 'Learn more',
+    href: 'https://cookiesandyou.com',
+    policy: 'Cookie Policy'
+  }
+};
 
 @NgModule({
   declarations: [
@@ -83,6 +113,7 @@ import {NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule} from 'ngx-goog
     InputTextareaModule,
     NgxGoogleAnalyticsModule.forRoot('G-KP19D747BT'),
     NgxGoogleAnalyticsRouterModule,
+    NgcCookieConsentModule.forRoot(cookieConfig),
     AuthModule.forRoot({
       // The domain and clientId were configured in the previous chapter
       domain: 'pkhax.eu.auth0.com',
