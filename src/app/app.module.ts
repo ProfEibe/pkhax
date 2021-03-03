@@ -38,6 +38,7 @@ import { UserComponent } from './user/user.component';
 import {AvatarModule} from 'primeng/avatar';
 import {GalleriaModule} from 'primeng/galleria';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import {NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule} from 'ngx-google-analytics';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,8 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     AvatarModule,
     GalleriaModule,
     InputTextareaModule,
+    NgxGoogleAnalyticsModule.forRoot('G-KP19D747BT'),
+    NgxGoogleAnalyticsRouterModule,
     AuthModule.forRoot({
       // The domain and clientId were configured in the previous chapter
       domain: 'pkhax.eu.auth0.com',
