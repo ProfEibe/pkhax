@@ -45,7 +45,7 @@ export class ListComponent implements OnInit {
               private http: HttpClient) {
   }
 
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
   _selectedColumns: any[] = [];
 
   @Input() get selectedColumns(): any[] {

@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Game, Rating} from '../../game';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {UserService} from '../../user.service';
 import {AuthService} from '@auth0/auth0-angular';
 
 @Component({
@@ -12,7 +11,6 @@ import {AuthService} from '@auth0/auth0-angular';
 })
 export class RatingComponent implements OnInit {
   @Input() game: Game;
-  private locRatings: Rating[];
   private set: boolean;
   readOnly = true;
 
@@ -43,6 +41,7 @@ export class RatingComponent implements OnInit {
     this.loadAvg();
 
     this.auth.user$.subscribe(user => {
+      if (!user) return;
       const ratings1 = this.game.rating.filter(rating => rating.created_by?.auth0Id === user.sub);
       if (ratings1.length > 0) {
         this.ownValue = ratings1[0].value;
