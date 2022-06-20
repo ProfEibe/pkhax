@@ -1,8 +1,8 @@
 <p-toast></p-toast>
-<div class="p-grid wrapper">
-  <p-card *ngIf="game" class="p-col-12 p-md-6 p-md-offset-3">
+<div class="grid wrapper">
+  <p-card *ngIf="game" class="col-12 md:col-6 md:col-offset-3">
     <ng-template pTemplate="header">
-      <div class="p-p-3 p-d-flex p-ai-center p-jc-between">
+      <div class="p-3 flex align-items-center justify-content-between">
         <div class="p-card-title">
           {{game.id ? game.title : 'New Entry'}}
         </div>
@@ -11,109 +11,109 @@
         </div>
       </div>
     </ng-template>
-    <div class="p-field p-grid">
-      <label class="p-col-3" for="title">Title</label>
-      <div class="p-col"><input id="title" pInputText [(ngModel)]="game.title"></div>
+    <div class="field grid">
+      <label class="col-3" for="title">Title</label>
+      <div class="col"><input id="title" pInputText [(ngModel)]="game.title"></div>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">Link</label>
-      <div class="p-col"><input pInputText required="required" [(ngModel)]="game.link" (blur)="checkLink()"></div>
-      <p-message class="p-col-12" *ngIf="linkExists" severity="error" text="Link already exists!"></p-message>
-      <span class="p-col-12">Insert link to original website or forum-post.</span>
+    <div class="field grid">
+      <label class="col-3">Link</label>
+      <div class="col"><input pInputText required="required" [(ngModel)]="game.link" (blur)="checkLink()"></div>
+      <p-message class="col-12" *ngIf="linkExists" severity="error" text="Link already exists!"></p-message>
+      <span class="col-12">Insert link to original website or forum-post.</span>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">Discord</label>
-      <div class="p-col"><input pInputText [(ngModel)]="game.discord"></div>
+    <div class="field grid">
+      <label class="col-3">Discord</label>
+      <div class="col"><input pInputText [(ngModel)]="game.discord"></div>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">Creator</label>
-      <div class="p-col"><input pInputText [(ngModel)]="game.creator"></div>
+    <div class="field grid">
+      <label class="col-3">Creator</label>
+      <div class="col"><input pInputText [(ngModel)]="game.creator"></div>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">Version</label>
-      <div class="p-col"><input pInputText [(ngModel)]="game.version"></div>
+    <div class="field grid">
+      <label class="col-3">Version</label>
+      <div class="col"><input pInputText [(ngModel)]="game.version"></div>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">Status</label>
-      <div class="p-col">
+    <div class="field grid">
+      <label class="col-3">Status</label>
+      <div class="col">
         <p-dropdown [options]="status" [showClear]="true" [(ngModel)]="game.status" placeholder="Status" optionLabel="name"></p-dropdown>
       </div>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">Story</label>
-      <div class="p-col">
+    <div class="field grid">
+      <label class="col-3">Story</label>
+      <div class="col">
         <p-dropdown [options]="stories" [showClear]="true" [(ngModel)]="game.story" placeholder="Story" optionLabel="name"></p-dropdown>
       </div>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">new graphics</label>
-      <div class="p-col">
+    <div class="field grid">
+      <label class="col-3">new graphics</label>
+      <div class="col">
         <p-triStateCheckbox [(ngModel)]="game.newGraphics"></p-triStateCheckbox>
       </div>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">catchable</label>
-      <div class="p-col">
+    <div class="field grid">
+      <label class="col-3">catchable</label>
+      <div class="col">
         <p-inputNumber [(ngModel)]="game.catchable"></p-inputNumber>
       </div>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">fakemon</label>
-      <div class="p-col">
+    <div class="field grid">
+      <label class="col-3">fakemon</label>
+      <div class="col">
         <p-dropdown [options]="fakemon" [showClear]="true" [(ngModel)]="game.fakemon" placeholder="Fakemon" optionLabel="name"></p-dropdown>
       </div>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">physical/special-split</label>
-      <div class="p-col">
+    <div class="field grid">
+      <label class="col-3">physical/special-split</label>
+      <div class="col">
         <p-triStateCheckbox [(ngModel)]="game.physicalSpecialSplit"></p-triStateCheckbox>
       </div>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">built-in randomizer</label>
-      <div class="p-col">
+    <div class="field grid">
+      <label class="col-3">built-in randomizer</label>
+      <div class="col">
         <p-triStateCheckbox [(ngModel)]="game.builtInRandomizer"></p-triStateCheckbox>
       </div>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">built-in nuzlocke</label>
-      <div class="p-col">
+    <div class="field grid">
+      <label class="col-3">built-in nuzlocke</label>
+      <div class="col">
         <p-triStateCheckbox [(ngModel)]="game.builtInNuzlocke"></p-triStateCheckbox>
       </div>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">difficulty</label>
-      <div class="p-col">
+    <div class="field grid">
+      <label class="col-3">difficulty</label>
+      <div class="col">
         <p-dropdown [options]="difficulties" [showClear]="true" [(ngModel)]="game.difficulty" placeholder="Difficulty" optionLabel="name"></p-dropdown>
       </div>
     </div>
-    <div class="p-field p-grid">
-      <label class="p-col-3">Baserom</label>
-      <div class="p-col">
+    <div class="field grid">
+      <label class="col-3">Baserom</label>
+      <div class="col">
         <p-multiSelect [options]="baseroms" [(ngModel)]="game.base" optionLabel="name"></p-multiSelect>
       </div>
     </div>
 
-    <div class="p-field p-grid">
-      <label class="p-col-3">Console</label>
-      <div class="p-col">
+    <div class="field grid">
+      <label class="col-3">Console</label>
+      <div class="col">
         <p-dropdown [options]="consoles" [showClear]="true" placeholder="Console" [(ngModel)]="game.console"
                     optionLabel="name"></p-dropdown>
       </div>
     </div>
-    <div class="p-field p-grid">
-      <div class="p-col-12">Description / Features</div>
-      <div class="p-col-12">
+    <div class="field grid">
+      <div class="col-12">Description / Features</div>
+      <div class="col-12">
         <p-editor [(ngModel)]="game.description" [style]="{'height':'320px'}"></p-editor>
       </div>
     </div>
 
-    <div class="p-field p-grid">
-      <div class="p-col-12">Images (add one image-link per line)</div>
-      <div class="p-col-12 p-fluid">
+    <div class="field grid">
+      <div class="col-12">Images (add one image-link per line)</div>
+      <div class="col-12 p-fluid">
         <textarea pInputTextarea [(ngModel)]="game.images" style="height: 150px;"></textarea>
       </div>
-      <div class="p-col-12">Please use an image-uploader like <a href="https://imgur.com/" target="_blank">imgur</a> to upload your images.</div>
+      <div class="col-12">Please use an image-uploader like <a href="https://imgur.com/" target="_blank">imgur</a> to upload your images.</div>
     </div>
 
 

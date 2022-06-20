@@ -1,25 +1,25 @@
-<div class="layout-topbar p-component p-d-flex p-ai-center p-jc-between">
+<div class="layout-topbar p-component flex align-items-center justify-content-between">
   <h1 [routerLink]="['/']" style="cursor: pointer">
     PkHax
   </h1>
 
-  <input class="p-d-none p-d-lg-inline" pInputText (input)="callFilter($event)" placeholder="Search..."
+  <input class="hidden lg:inline" pInputText (input)="callFilter($event)" placeholder="Search..."
          style="width: 40vw;">
 
-  <div class="p-d-none p-d-lg-flex p-md-3 p-text-right p-ai-center p-jc-end">
-    <p-button label="New Entry" [routerLink]="'/editor/'" styleClass="p-mr-2"></p-button>
+  <div class="hidden lg:flex md:col-3 text-right align-items-center justify-content-end">
+    <p-button label="New Entry" [routerLink]="'/editor/'" styleClass="mr-2"></p-button>
     <app-auth-button></app-auth-button>
     <a routerLink="/user">
-      <p-avatar *ngIf="auth.user$ | async as user" [image]="user.picture ?? ''" styleClass="p-ml-2" size="large"
+      <p-avatar *ngIf="auth.user$ | async as user" [image]="user.picture ?? ''" styleClass="ml-2" size="large"
                 shape="circle"></p-avatar>
     </a>
   </div>
 
-  <div class="p-d-lg-none p-d-flex p-ai-center p-jc-end">
+  <div class="lg:hidden flex align-items-center justify-content-end">
     <button pButton pRipple type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text"
             (click)="op.toggle($event)"></button>
     <a routerLink="/user">
-      <p-avatar *ngIf="auth.user$ | async as user" [image]="user.picture ?? ''" styleClass="p-ml-2" size="large"
+      <p-avatar *ngIf="auth.user$ | async as user" [image]="user.picture ?? ''" styleClass="ml-2" size="large"
                 shape="circle"></p-avatar>
     </a>
   </div>
@@ -27,13 +27,13 @@
 
 <p-overlayPanel #op [showCloseIcon]="true">
   <ng-template pTemplate>
-    <div class="p-grid">
-      <div class="p-col-12">
+    <div class="grid">
+      <div class="col-12">
         <input pInputText (input)="callFilter($event)" placeholder="Search..." style="width: 100%;"/>
       </div>
     </div>
-    <div class="p-grid">
-      <div class="p-col-12">
+    <div class="grid">
+      <div class="col-12">
         <p-button label="New Entry" [routerLink]="'/editor/'" (onClick)="op.hide()" styleClass="p-mr-2"></p-button>
         <app-auth-button (click)="op.hide()"></app-auth-button>
       </div>

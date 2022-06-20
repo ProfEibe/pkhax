@@ -6,20 +6,20 @@
   <div *ngIf="diffCreateModified()" style="font-size: x-small; color: #808080">Edited by {{comment.modified_by.displayName}} at {{comment.modified_at | date}}</div>
 
   <div style="font-size: x-small;">
-    <button pButton pRipple type="button" label="Reply" (click)="toggleReplyEditor()" class="p-button-text p-button-plain p-button-xs"></button>
-    <button pButton pRipple type="button" label="Edit" disabled class="p-button-text p-button-plain p-button-xs"></button>
-    <button pButton pRipple type="button" label="Report" disabled class="p-button-text p-button-plain p-button-xs"></button>
-    <button pButton pRipple type="button" label="Share" disabled class="p-button-text p-button-plain p-button-xs"></button>
+    <button pButton pRipple type="button" label="Reply" (click)="toggleReplyEditor()" class="p-button-text p-button-plain p-button-sm"></button>
+    <button pButton pRipple type="button" label="Edit" disabled class="p-button-text p-button-plain p-button-sm"></button>
+    <button pButton pRipple type="button" label="Report" disabled class="p-button-text p-button-plain p-button-sm"></button>
+    <button pButton pRipple type="button" label="Share" disabled class="p-button-text p-button-plain p-button-sm"></button>
   </div>
-  <div *ngIf="showReply" class="p-p-2">
+  <div *ngIf="showReply" class="p-2">
     <p-editor *ngIf="(auth.isAuthenticated$ | async) && (userService.currentUser | async)?.displayName; else loginInfo"  [(ngModel)]="reply">
-      <p-header class="p-d-flex p-jc-between">
+      <p-header class="flex justify-content-between">
         <span class="ql-formats">
             <button type="button" class="ql-bold" aria-label="Bold"></button>
             <button type="button" class="ql-italic" aria-label="Italic"></button>
             <button type="button" class="ql-underline" aria-label="Underline"></button>
         </span>
-        <button pButton class="p-button-xs p-button-secondary p-button-rounded p-button-outlined" style="width: auto;" type="button" (click)="createReply()" label="Reply"></button>
+        <button pButton class="p-button-sm p-button-secondary p-button-rounded p-button-outlined" style="width: auto;" type="button" (click)="createReply()" label="Reply"></button>
       </p-header>
     </p-editor>
     <ng-template #loginInfo>

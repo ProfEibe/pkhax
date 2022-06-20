@@ -1,9 +1,9 @@
 <p-toast></p-toast>
-<div class="p-grid wrapper">
-  <p-card [header]="user.displayName" *ngIf="user" class="p-col-12 p-md-6 p-md-offset-3">
+<div class="grid wrapper">
+  <p-card [header]="user.displayName" *ngIf="user" class="col-12 md:col-6 md:col-offset-3">
     Choose a unique displayname with minlength 3 characters. You can change it later.
-    <div class="p-field p-grid">
-      <label class="p-col-3" for="dn">Displayname</label>
+    <div class="field grid">
+      <label class="col-3" for="dn">Displayname</label>
       <div class="p-col"><input #id id="dn" pInputText [(ngModel)]="user.displayName" minlength="3" maxlength="30"></div>
     </div>
 

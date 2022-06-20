@@ -1,47 +1,47 @@
 <div class="wrapper">
-  <div class="p-grid">
-    <p-card *ngIf="game" class="p-col-12 p-md-6 p-md-offset-3">
+  <div class="grid">
+    <p-card *ngIf="game" class="col-12 md:col-6 md:col-offset-3">
       <ng-template pTemplate="header">
-        <div class="p-p-3 p-d-flex p-ai-center p-jc-between">
+        <div class="p-3 flex align-items-center justify-content-between">
           <div class="p-card-title">
             {{game.title}}
           </div>
-          <div class="p-text-right">
+          <div class="text-right">
             <a pButton icon="pi pi-external-link" href="{{game.link}}" target="_blank" *ngIf="game.link" label="Source"></a>
             <a pButton icon="pi pi-external-link" href="{{game.discord}}" target="_blank" *ngIf="game.discord" label="Discord"
-               class="p-ml-1"></a>
-            <p-button label="Editor" [routerLink]="'/editor/' + game.id" class="p-ml-1"></p-button>
+               class="ml-1"></a>
+            <p-button label="Editor" [routerLink]="'/editor/' + game.id" class="ml-1"></p-button>
           </div>
         </div>
       </ng-template>
-      <div class="p-grid p-ai-center">
-        <div class="p-col">
+      <div class="grid align-items-center">
+        <div class="col">
           Baserom:
           <span class="baserom-cell">
             <span *ngFor="let base of game.base" [style.background-color]="base.color" [style.color]="base.fontColor"
                   class="baserom">{{base.name}}</span>
           </span>
         </div>
-        <div class="p-col">
+        <div class="col">
           Rating:
           <app-rating [game]="game"></app-rating>
         </div>
       </div>
       <p-divider></p-divider>
-      <div class="p-grid">
-        <div class="p-col">
+      <div class="grid">
+        <div class="col">
           Creator: {{game.creator || 'N/A'}}
         </div>
-        <div class="p-col">
+        <div class="col">
           Version: {{game.version || 'N/A'}}
         </div>
       </div>
       <p-divider></p-divider>
-      <div class="p-grid">
-        <div class="p-col">
+      <div class="grid">
+        <div class="col">
           Story: {{game.story?.name || 'N/A'}}
         </div>
-        <div class="p-col">
+        <div class="col">
           Physical / Special-Split:
           <i *ngIf="game.physicalSpecialSplit == true" class="pi pi-check"></i>
           <i *ngIf="game.physicalSpecialSplit == false" class="pi pi-times"></i>
@@ -49,23 +49,23 @@
         </div>
       </div>
       <p-divider></p-divider>
-      <div class="p-grid">
-        <div class="p-col">
+      <div class="grid">
+        <div class="col">
           Catchable: {{game.catchable}}
         </div>
-        <div class="p-col">
+        <div class="col">
           Fakemon: {{game.fakemon?.name || 'N/A'}}
         </div>
       </div>
       <p-divider></p-divider>
-      <div class="p-grid">
-        <div class="p-col">
+      <div class="grid">
+        <div class="col">
           Built-in nuzlocke:
           <i *ngIf="game.builtInNuzlocke == true" class="pi pi-check"></i>
           <i *ngIf="game.builtInNuzlocke == false" class="pi pi-times"></i>
           <span *ngIf="game.builtInNuzlocke == null">N/A</span>
         </div>
-        <div class="p-col">
+        <div class="col">
           Built-in randomizer:
           <i *ngIf="game.builtInRandomizer == true" class="pi pi-check"></i>
           <i *ngIf="game.builtInRandomizer == false" class="pi pi-times"></i>
@@ -73,25 +73,25 @@
         </div>
       </div>
       <p-divider></p-divider>
-      <div class="p-grid">
-        <div class="p-col">
+      <div class="grid">
+        <div class="col">
           New graphics: {{game.newGraphics || 'N/A'}}
         </div>
-        <div class="p-col">
+        <div class="col">
           Difficulty: {{game.difficulty?.name || 'N/A'}}
         </div>
       </div>
 
-      <div class="p-grid">
-        <div class="p-col">
+      <div class="grid">
+        <div class="col">
           <p-fieldset *ngIf="game.description" legend="Description / Features">
             <div [innerHTML]="game.description"></div>
           </p-fieldset>
         </div>
       </div>
 
-      <div class="p-grid">
-        <div class="p-col">
+      <div class="grid">
+        <div class="col">
           <h3>Images</h3>
           <p-galleria [value]="images" [(visible)]="displayCustom" [(activeIndex)]="activeIndex" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1440px'}" [numVisible]="7"
                       [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false" [baseZIndex]="100000">
@@ -99,35 +99,35 @@
               <img [src]="item" style="width: 100%; display: block;"/>
             </ng-template>
             <ng-template pTemplate="thumbnail" let-item>
-              <div class="p-grid p-nogutter p-justify-center">
+              <div class="grid grid-nogutter text-center">
                 <img [src]="item" style="display: block;"/>
               </div>
             </ng-template>
           </p-galleria>
-          <div *ngIf="images && images.length > 0; else noImages" class="p-grid">
-            <div *ngFor="let image of images; let index = index;" class="p-col-3" key="index">
+          <div *ngIf="images && images.length > 0; else noImages" class="grid">
+            <div *ngFor="let image of images; let index = index;" class="col-3" key="index">
               <img [src]="image" [alt]="image" style="cursor: pointer; width: 90%; height: auto;" (click)="imageClick(index)"/>
             </div>
           </div>
           <ng-template #noImages>
-            <div class="p-grid">
-              <div class="p-col">No images yet.</div>
+            <div class="grid">
+              <div class="col">No images yet.</div>
             </div>
           </ng-template>
         </div>
       </div>
 
-      <div class="p-grid">
-        <div class="p-col">
+      <div class="grid">
+        <div class="col">
           <h3>Comments</h3>
           <p-editor *ngIf="(auth.isAuthenticated$ | async) && (userService.currentUser | async)?.displayName; else loginInfo" [(ngModel)]="rootCommentBox">
-            <p-header class="p-d-flex p-jc-between">
+            <p-header class="flex justify-content-between">
               <span class="ql-formats">
                   <button type="button" class="ql-bold" aria-label="Bold"></button>
                   <button type="button" class="ql-italic" aria-label="Italic"></button>
                   <button type="button" class="ql-underline" aria-label="Underline"></button>
               </span>
-              <button pButton class="p-button-xs p-button-secondary p-button-rounded p-button-outlined" style="width: auto;" type="button" (click)="saveRootComment()" label="Comment"></button>
+              <button pButton class="p-button-sm p-button-secondary p-button-rounded p-button-outlined" style="width: auto;" type="button" (click)="saveRootComment()" label="Comment"></button>
             </p-header>
           </p-editor>
           <ng-template #loginInfo>

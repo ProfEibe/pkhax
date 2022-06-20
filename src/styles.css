@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
+html {
+  font-size: 10pt;
+}
+
 body {
   margin: 0;
   background: #f8f9fa;
@@ -7,6 +11,13 @@ body {
 
 .wrapper {
   margin-top: 20px;
+}
+
+.card {
+  background: white; /*var(--surface-card);*/
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
 }
 
 .baserom {
@@ -32,10 +43,10 @@ a.p-button {
   text-decoration: none;
 }
 
-.p-button.p-button-xs {
+.p-button.p-button-sm {
   font-size: 0.6rem;
   padding: 0.2rem 0.5rem;
 }
-.p-button.p-button-xs .p-button-icon {
+.p-button.p-button-sm .p-button-icon {
   font-size: 0.6rem;
 }
