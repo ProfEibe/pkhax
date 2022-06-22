@@ -21,6 +21,8 @@
     "@angular/platform-browser-dynamic": "~13.3.11",
     "@angular/router": "~13.3.11",
     "@auth0/auth0-angular": "^1.10.0",
+    "@ngx-matomo/router": "^2.4.2",
+    "@ngx-matomo/tracker": "^2.4.2",
     "cookieconsent": "^3.1.1",
     "ngx-cookieconsent": "^2.2.3",
     "ngx-google-analytics": "^11.2.0",

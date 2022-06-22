@@ -48,6 +48,8 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {ConfigService} from './service/app.config.service';
 import {MenuService} from './service/app.menu.service';
+import { NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
+import { NgxMatomoRouterModule } from '@ngx-matomo/router';
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -174,6 +176,8 @@ const cookieConfig: NgcCookieConsentConfig = {
     }),
     InputSwitchModule,
     RadioButtonModule,
+    NgxMatomoTrackerModule.forRoot({ trackerUrl: 'https://jakos.uber.space/matomo', siteId: '4' }),
+    NgxMatomoRouterModule,
   ],
   declarations: [
     AppComponent,
