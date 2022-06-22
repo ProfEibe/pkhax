@@ -1,25 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {PrimeNGConfig} from 'primeng/api';
-import {NgcCookieConsentService} from 'ngx-cookieconsent';
-import {Subscription} from 'rxjs';
-
+import { Component } from '@angular/core';
+import { PrimeNGConfig } from 'primeng/api';
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit  {
-  title = 'pkhax';
-  private popupOpenSubscription: Subscription;
+export class AppComponent {
 
-  constructor(private primengConfig: PrimeNGConfig, private ccService: NgcCookieConsentService) {}
+    menuMode = 'overlay';
 
-  ngOnInit(): void {
-    this.primengConfig.ripple = true;
+    constructor(private primengConfig: PrimeNGConfig) { }
 
-    this.popupOpenSubscription = this.ccService.popupOpen$.subscribe(
-      () => {
-        // you can use this.ccService.getConfig() to do stuff...
-      });
-  }
+    ngOnInit() {
+        this.primengConfig.ripple = true;
+        document.documentElement.style.fontSize = '14px';
+    }
 }

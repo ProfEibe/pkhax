@@ -1,13 +1,13 @@
-<div class="card col-12 md:col-10 md:col-offset-1 mt-2">
-  <div style="height: calc(100vh - 126px)">
+<div class="card col-12">
+  <div style="height: calc(100vh - 220px)">
     <p-table [columns]="selectedColumns" #dt [value]="games" [scrollable]="true" scrollHeight="flex"
-             styleClass="p-datatable-sm p-datatable-gridlines" responsiveLayout="stack"
+             styleClass="p-datatable-sm p-datatable-gridlines"
              selectionMode="single" [(selection)]="selectedGame" (onRowSelect)="onRowSelect($event)" dataKey="id"
              stateStorage="session" stateKey="pkhax-filter-session" [loading]="loading"
              [contextMenu]="cm" contextMenuSelectionMode="joint">
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th *ngFor="let col of columns" class="p-fluid"
+          <th *ngFor="let col of columns" class="p-fluid" style="min-width: 200px;"
               [pSortableColumn]="['catchable','avgRating', 'title'].includes(col.field) ? col.field : null">
             <p-sortIcon *ngIf="['catchable','avgRating', 'title'].includes(col.field)" [field]="col.field"></p-sortIcon>
             <span *ngIf="!['base', 'story', 'status', 'difficulty', 'fakemon'].includes(col.field)">{{col.header}}&nbsp;</span>
@@ -114,7 +114,7 @@
       </ng-template>
       <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
-          <td *ngFor="let col of columns">
+          <td *ngFor="let col of columns"  style="min-width: 200px;">
             <span class="p-column-title">{{col.header}}</span>
             <div *ngIf="['title'].includes(col.field)">{{rowData[col.field]}}</div>
             <div *ngIf="['creator', 'catchable'].includes(col.field)" class="text-center">
@@ -122,7 +122,7 @@
               <span *ngIf="!rowData[col.field]" style="color: lightgray;">N/A</span>
             </div>
             <div *ngIf="col.field == 'base'" class="baserom-cell text-center">
-          <span *ngFor="let base of rowData[col.field]" [style.background-color]="base.color"
+              <span *ngFor="let base of rowData[col.field]" [style.background-color]="base.color"
                 [style.color]="base.fontColor"
                 class="baserom">{{base.short_name}}</span>
             </div>
