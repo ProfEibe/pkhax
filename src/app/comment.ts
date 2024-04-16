@@ -1,7 +1,7 @@
-import {User} from './user';
-import {Injectable} from '@angular/core';
-import {Adapter} from './adapter';
-import {Game} from './game';
+import { User } from './user';
+import { Injectable } from '@angular/core';
+import { Adapter } from './adapter';
+import { Game } from './game';
 
 export class Comment {
   id: number;

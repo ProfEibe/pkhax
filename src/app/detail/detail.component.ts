@@ -1,21 +1,21 @@
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
-import {GameService} from '../game.service';
-import {Game} from '../game';
-import {Comment} from '../comment';
-import {CommentService} from '../comment.service';
-import {AuthService} from '@auth0/auth0-angular';
-import {UserService} from '../user.service';
-import {CommentComponent} from "./comment/comment.component";
-import {AsyncPipe} from "@angular/common";
-import {EditorModule} from "primeng/editor";
-import {FormsModule} from "@angular/forms";
-import {GalleriaModule} from "primeng/galleria";
-import {FieldsetModule} from "primeng/fieldset";
-import {DividerModule} from "primeng/divider";
-import {RatingComponent} from "./rating/rating.component";
-import {ButtonModule} from "primeng/button";
-import {CardModule} from "primeng/card";
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { GameService } from '../game.service';
+import { Game } from '../game';
+import { Comment } from '../comment';
+import { CommentService } from '../comment.service';
+import { AuthService } from '@auth0/auth0-angular';
+import { UserService } from '../user.service';
+import { CommentComponent } from './comment/comment.component';
+import { AsyncPipe } from '@angular/common';
+import { EditorModule } from 'primeng/editor';
+import { FormsModule } from '@angular/forms';
+import { GalleriaModule } from 'primeng/galleria';
+import { FieldsetModule } from 'primeng/fieldset';
+import { DividerModule } from 'primeng/divider';
+import { RatingComponent } from './rating/rating.component';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-detail',
@@ -32,9 +32,9 @@ import {CardModule} from "primeng/card";
     DividerModule,
     RatingComponent,
     ButtonModule,
-    CardModule
+    CardModule,
   ],
-  standalone: true
+  standalone: true,
 })
 export class DetailComponent implements OnInit, AfterViewChecked {
   game: Game;
@@ -47,48 +47,54 @@ export class DetailComponent implements OnInit, AfterViewChecked {
   responsiveOptions: any[] = [
     {
       breakpoint: '1024px',
-      numVisible: 8
+      numVisible: 8,
     },
     {
       breakpoint: '768px',
-      numVisible: 3
+      numVisible: 3,
     },
     {
       breakpoint: '560px',
-      numVisible: 1
-    }
+      numVisible: 1,
+    },
   ];
 
   activeIndex = 0;
   displayCustom: boolean;
   images: any[];
 
-  constructor(private route: ActivatedRoute,
-              private gameService: GameService,
-              private commentService: CommentService,
-              public userService: UserService,
-              public auth: AuthService) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private gameService: GameService,
+    private commentService: CommentService,
+    public userService: UserService,
+    public auth: AuthService,
+  ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       if (params.has('id')) {
         // @ts-ignore
-        this.gameService.getGame(+params.get('id')).subscribe(game => {
-          this.game = game;
-          this.commentService.getCommentsByGame(game.id).subscribe(comments => {
-            this.comments = comments;
-          });
-          if (game.images && game.images !== '') {
-            this.images = game.images.split('\n');
-          }
-        }, error => {
-          // stop Loading, show Error
-        });
+        this.gameService.getGame(+params.get('id')).subscribe(
+          (game) => {
+            this.game = game;
+            this.commentService
+              .getCommentsByGame(game.id)
+              .subscribe((comments) => {
+                this.comments = comments;
+              });
+            if (game.images && game.images !== '') {
+              this.images = game.images.split('\n');
+            }
+          },
+          (error) => {
+            // stop Loading, show Error
+          },
+        );
       }
     });
 
-    this.auth.user$.subscribe(auth0User => {
+    this.auth.user$.subscribe((auth0User) => {
       this.userService.getCurrentUser().subscribe();
     });
   }
@@ -102,7 +108,7 @@ export class DetailComponent implements OnInit, AfterViewChecked {
     const comment = new Comment();
     comment.gameId = this.game.id;
     comment.content = this.rootCommentBox;
-    this.commentService.createComment(comment).subscribe(saved => {
+    this.commentService.createComment(comment).subscribe((saved) => {
       this.comments.push(saved);
       this.rootCommentBox = '';
 
@@ -112,10 +118,19 @@ export class DetailComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {
     if (this.newComment !== null) {
-      const itemToScrollTo = document.getElementById('comment-' + this.newComment);
+      const itemToScrollTo = document.getElementById(
+        'comment-' + this.newComment,
+      );
       if (itemToScrollTo) {
-        itemToScrollTo.scrollIntoView({block: 'center', behavior: 'auto'});
-        setTimeout(() => itemToScrollTo.animate([{backgroundColor: '#c1d4ff'}, {backgroundColor: '#FFFFFF'}], 500), 200);
+        itemToScrollTo.scrollIntoView({ block: 'center', behavior: 'auto' });
+        setTimeout(
+          () =>
+            itemToScrollTo.animate(
+              [{ backgroundColor: '#c1d4ff' }, { backgroundColor: '#FFFFFF' }],
+              500,
+            ),
+          200,
+        );
       }
 
       // @ts-ignore

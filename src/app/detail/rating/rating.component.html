@@ -1,9 +1,21 @@
 <div class="inline-flex justify-content-start align-items-center">
-  <p-rating [(ngModel)]="value" (mouseenter)="hover = true" (mouseleave)="hover = false" [cancel]="false"
-  [readonly]="readOnly"></p-rating>
-  ({{game.rating.length}})
+  <p-rating
+    [(ngModel)]="value"
+    (mouseenter)="hover = true"
+    (mouseleave)="hover = false"
+    [cancel]="false"
+    [readonly]="readOnly"
+  ></p-rating>
+  ({{ game.rating.length }})
   @if (!readOnly) {
-    <button pButton pRipple (click)="saveRating()" type="button" icon="pi pi-check" [disabled]="!ownValue"
-    class="p-button-rounded p-button-text"></button>
+    <button
+      pButton
+      pRipple
+      (click)="saveRating()"
+      type="button"
+      icon="pi pi-check"
+      [disabled]="!ownValue"
+      class="p-button-rounded p-button-text"
+    ></button>
   }
 </div>

@@ -1,26 +1,27 @@
-import {Component} from '@angular/core';
-import {PrimeNGConfig} from 'primeng/api';
-import {NgcCookieConsentConfig, NgcCookieConsentService, WindowService} from 'ngx-cookieconsent';
-import {RouterOutlet} from "@angular/router";
+import { Component } from '@angular/core';
+import { PrimeNGConfig } from 'primeng/api';
+import {
+  NgcCookieConsentConfig,
+  NgcCookieConsentService,
+  WindowService,
+} from 'ngx-cookieconsent';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [
-    RouterOutlet
-  ],
+  imports: [RouterOutlet],
   standalone: true,
-  providers: [NgcCookieConsentService, WindowService, NgcCookieConsentConfig]
+  providers: [NgcCookieConsentService, WindowService, NgcCookieConsentConfig],
 })
 export class AppComponent {
+  menuMode = 'overlay';
 
-    menuMode = 'overlay';
+  constructor(private primengConfig: PrimeNGConfig) {}
 
-    constructor(private primengConfig: PrimeNGConfig) { }
-
-    ngOnInit() {
-        this.primengConfig.ripple = true;
-        document.documentElement.style.fontSize = '14px';
-    }
+  ngOnInit() {
+    this.primengConfig.ripple = true;
+    document.documentElement.style.fontSize = '14px';
+  }
 }

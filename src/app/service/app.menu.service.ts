@@ -3,18 +3,17 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class MenuService {
+  private menuSource = new Subject<string>();
+  private resetSource = new Subject();
 
-    private menuSource = new Subject<string>();
-    private resetSource = new Subject();
+  menuSource$ = this.menuSource.asObservable();
+  resetSource$ = this.resetSource.asObservable();
 
-    menuSource$ = this.menuSource.asObservable();
-    resetSource$ = this.resetSource.asObservable();
+  onMenuStateChange(key: string) {
+    this.menuSource.next(key);
+  }
 
-    onMenuStateChange(key: string) {
-        this.menuSource.next(key);
-    }
-
-    reset() {
-       this.resetSource.next(true);
-    }
+  reset() {
+    this.resetSource.next(true);
+  }
 }

@@ -1,22 +1,28 @@
-import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
-import {GameService} from '../game.service';
-import {Router} from '@angular/router';
-import {Table, TableModule} from 'primeng/table';
-import {GlobalFilterService} from '../global-filter.service';
-import {Baserom, Choice, Difficulty, Game} from '../game';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../environments/environment';
-import {FilterService, SortEvent} from 'primeng/api';
-import {TriStateCheckboxModule} from "primeng/tristatecheckbox";
-import {MultiSelectModule} from "primeng/multiselect";
-import {DropdownModule} from "primeng/dropdown";
-import {FormsModule} from "@angular/forms";
-import {ButtonModule} from "primeng/button";
-import {RippleModule} from "primeng/ripple";
-import {RatingModule} from "primeng/rating";
-import {ContextMenuModule} from "primeng/contextmenu";
-import {InputTextModule} from "primeng/inputtext";
-import {DecimalPipe} from "@angular/common";
+import {
+  Component,
+  HostListener,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { GameService } from '../game.service';
+import { Router } from '@angular/router';
+import { Table, TableModule } from 'primeng/table';
+import { GlobalFilterService } from '../global-filter.service';
+import { Baserom, Choice, Difficulty, Game } from '../game';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { FilterService, SortEvent } from 'primeng/api';
+import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { RatingModule } from 'primeng/rating';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { InputTextModule } from 'primeng/inputtext';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-list',
@@ -33,9 +39,9 @@ import {DecimalPipe} from "@angular/common";
     RatingModule,
     ContextMenuModule,
     InputTextModule,
-    DecimalPipe
+    DecimalPipe,
   ],
-  standalone: true
+  standalone: true,
 })
 export class ListComponent implements OnInit {
   cols: any[] = [];
@@ -48,13 +54,21 @@ export class ListComponent implements OnInit {
   difficulties: Difficulty[];
   baseUrl = environment.baseUrl;
   innerWidth = 0;
-  @ViewChild('dt', {static: false}) private dt: Table | undefined;
+  @ViewChild('dt', { static: false }) private dt: Table | undefined;
   mobileFilter = false;
   loading = false;
 
   contextMenuItems = [
-    {label: 'Open in new tab', icon: 'pi pi-fw pi-clone', command: () => window.open('/' + this.selectedGame.id, '_blank')},
-    {label: 'Editor', icon: 'pi pi-fw pi-pencil', command: () => this.router.navigate(['/editor/' + this.selectedGame.id])}
+    {
+      label: 'Open in new tab',
+      icon: 'pi pi-fw pi-clone',
+      command: () => window.open('/' + this.selectedGame.id, '_blank'),
+    },
+    {
+      label: 'Editor',
+      icon: 'pi pi-fw pi-pencil',
+      command: () => this.router.navigate(['/editor/' + this.selectedGame.id]),
+    },
   ];
 
   @HostListener('window:resize', ['$event'])
@@ -62,12 +76,13 @@ export class ListComponent implements OnInit {
     this.innerWidth = event.target.innerWidth;
   }
 
-  constructor(private gameService: GameService,
-              private router: Router,
-              private globalFilterService: GlobalFilterService,
-              private filterService: FilterService,
-              private http: HttpClient) {
-  }
+  constructor(
+    private gameService: GameService,
+    private router: Router,
+    private globalFilterService: GlobalFilterService,
+    private filterService: FilterService,
+    private http: HttpClient,
+  ) {}
 
   // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
   _selectedColumns: any[] = [];
@@ -78,58 +93,64 @@ export class ListComponent implements OnInit {
 
   set selectedColumns(val: any[]) {
     // restore original order
-    const asdf = this.cols.filter(col => val.includes(col));
+    const asdf = this.cols.filter((col) => val.includes(col));
     console.log(asdf);
     this._selectedColumns = asdf;
   }
 
   ngOnInit(): void {
     this.loading = true;
-    this.gameService.getGames().subscribe(games => {
+    this.gameService.getGames().subscribe((games) => {
       this.games = games;
       this.loading = false;
     });
-    this.globalFilterService.filter$.subscribe(filter => {
+    this.globalFilterService.filter$.subscribe((filter) => {
       if (this.dt) {
         this.dt.filterGlobal(filter, 'contains');
       }
     });
 
-    this.filterService.register('isInBaserom', (value: Baserom[], filter: Baserom[]): boolean => {
-      if (filter === undefined || filter === null) {
-        return true;
-      }
-      if (value === undefined || value === null) {
-        return false;
-      }
-      return filter.some(f => value.some(v => v.id === f.id));
-    });
+    this.filterService.register(
+      'isInBaserom',
+      (value: Baserom[], filter: Baserom[]): boolean => {
+        if (filter === undefined || filter === null) {
+          return true;
+        }
+        if (value === undefined || value === null) {
+          return false;
+        }
+        return filter.some((f) => value.some((v) => v.id === f.id));
+      },
+    );
 
-    this.filterService.register('isChoice', (value: Choice, filter: Choice): boolean => {
-      if (filter === undefined || filter === null) {
-        return true;
-      }
-      if (value === undefined || value === null) {
-        return false;
-      }
-      return value.id === filter.id;
-    });
+    this.filterService.register(
+      'isChoice',
+      (value: Choice, filter: Choice): boolean => {
+        if (filter === undefined || filter === null) {
+          return true;
+        }
+        if (value === undefined || value === null) {
+          return false;
+        }
+        return value.id === filter.id;
+      },
+    );
 
     this.cols = [
-      {field: 'title', header: 'Name'},
-      {field: 'base', header: 'Baserom'},
-      {field: 'creator', header: 'Creator'},
-      {field: 'version', header: 'Version'},
-      {field: 'story', header: 'Story'},
-      {field: 'newGraphics', header: 'new Graphics'},
-      {field: 'catchable', header: 'Catchable'},
-      {field: 'fakemon', header: 'Fakemon'},
-      {field: 'physicalSpecialSplit', header: 'physical/special-Split'},
-      {field: 'builtInRandomizer', header: 'built-in Randomizer'},
-      {field: 'builtInNuzlocke', header: 'built-in Nuzlocke'},
-      {field: 'status', header: 'Status'},
-      {field: 'difficulty', header: 'Difficulty'},
-      {field: 'rating', header: 'Rating'},
+      { field: 'title', header: 'Name' },
+      { field: 'base', header: 'Baserom' },
+      { field: 'creator', header: 'Creator' },
+      { field: 'version', header: 'Version' },
+      { field: 'story', header: 'Story' },
+      { field: 'newGraphics', header: 'new Graphics' },
+      { field: 'catchable', header: 'Catchable' },
+      { field: 'fakemon', header: 'Fakemon' },
+      { field: 'physicalSpecialSplit', header: 'physical/special-Split' },
+      { field: 'builtInRandomizer', header: 'built-in Randomizer' },
+      { field: 'builtInNuzlocke', header: 'built-in Nuzlocke' },
+      { field: 'status', header: 'Status' },
+      { field: 'difficulty', header: 'Difficulty' },
+      { field: 'rating', header: 'Rating' },
     ];
 
     this.innerWidth = window.innerWidth;
@@ -146,18 +167,24 @@ export class ListComponent implements OnInit {
         this.cols[13],
       ];
     } else {
-      this.selectedColumns = [
-        this.cols[0],
-        this.cols[1],
-        this.cols[11],
-      ];
+      this.selectedColumns = [this.cols[0], this.cols[1], this.cols[11]];
     }
 
-    this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe(baseroms => this.baseroms = baseroms);
-    this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe(stories => this.stories = stories);
-    this.http.get<Choice[]>(this.baseUrl + '/status/').subscribe(status => this.status = status);
-    this.http.get<Choice[]>(this.baseUrl + '/fakemon/').subscribe(fakemon => this.fakemon = fakemon);
-    this.http.get<Difficulty[]>(this.baseUrl + '/difficulties/').subscribe(difficulties => this.difficulties = difficulties);
+    this.http
+      .get<Baserom[]>(this.baseUrl + '/baseroms/')
+      .subscribe((baseroms) => (this.baseroms = baseroms));
+    this.http
+      .get<Choice[]>(this.baseUrl + '/stories/')
+      .subscribe((stories) => (this.stories = stories));
+    this.http
+      .get<Choice[]>(this.baseUrl + '/status/')
+      .subscribe((status) => (this.status = status));
+    this.http
+      .get<Choice[]>(this.baseUrl + '/fakemon/')
+      .subscribe((fakemon) => (this.fakemon = fakemon));
+    this.http
+      .get<Difficulty[]>(this.baseUrl + '/difficulties/')
+      .subscribe((difficulties) => (this.difficulties = difficulties));
   }
 
   onRowSelect($event: any): void {
@@ -172,7 +199,11 @@ export class ListComponent implements OnInit {
 
   inputFilter($event: Event, field: string, matchMode: string): void {
     if (this.dt) {
-      this.dt.filter(($event.target as HTMLInputElement).value, field, matchMode);
+      this.dt.filter(
+        ($event.target as HTMLInputElement).value,
+        field,
+        matchMode,
+      );
     }
   }
 
@@ -198,11 +229,12 @@ export class ListComponent implements OnInit {
 
       for (let game of event.data as Game[]) {
         if (game.rating.length === 0) continue;
-        game.ranking = (game.avgRating * game.rating.length + avgs * m) / (game.rating.length + m);
+        game.ranking =
+          (game.avgRating * game.rating.length + avgs * m) /
+          (game.rating.length + m);
       }
 
       event.field = 'ranking';
-
     }
     event.data.sort((data1, data2) => {
       if (!event.field || !event.order) return 0;
@@ -210,18 +242,14 @@ export class ListComponent implements OnInit {
       let value2 = data2[event.field];
       let result = null;
 
-      if (value1 == null && value2 != null)
-        result = -1;
-      else if (value1 != null && value2 == null)
-        result = 1;
-      else if (value1 == null && value2 == null)
-        result = 0;
+      if (value1 == null && value2 != null) result = -1;
+      else if (value1 != null && value2 == null) result = 1;
+      else if (value1 == null && value2 == null) result = 0;
       else if (typeof value1 === 'string' && typeof value2 === 'string')
         result = value1.localeCompare(value2);
-      else
-        result = (value1 < value2) ? -1 : (value1 > value2) ? 1 : 0;
+      else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
 
-      return (event.order * result);
+      return event.order * result;
     });
   }
 }

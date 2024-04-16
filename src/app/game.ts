@@ -1,6 +1,6 @@
-import {Adapter} from './adapter';
-import {Injectable} from '@angular/core';
-import {User} from './user';
+import { Adapter } from './adapter';
+import { Injectable } from '@angular/core';
+import { User } from './user';
 
 export class Choice {
   public id: number;
@@ -52,7 +52,6 @@ export class Game {
   public status: Choice;
   public story?: Choice;
   public rating: Rating[];
-
 
   public ranking = 0;
 
