@@ -1,462 +1,458 @@
 <div class="card">
-  <div style="height: calc(100vh - 220px)">
-    <p-table
-      [columns]="selectedColumns"
-      #dt
-      [value]="games"
-      styleClass="p-datatable-sm p-datatable-gridlines"
-      selectionMode="single"
-      [(selection)]="selectedGame"
-      (onRowSelect)="onRowSelect($event)"
-      dataKey="id"
-      stateStorage="session"
-      stateKey="pkhax-filter-session"
-      [loading]="loading"
-      [contextMenu]="cm"
-      contextMenuSelectionMode="joint"
-      sortField="rating"
-      [sortOrder]="-1"
-      (sortFunction)="customSort($event)"
-      [customSort]="true"
-    >
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          @for (col of columns; track col) {
-            <th
-              class="p-fluid"
-              style="min-width: 200px"
-              [pSortableColumn]="
-                ['catchable', 'rating', 'title'].includes(col.field)
-                  ? col.field
-                  : null
-              "
-            >
-              @if (['catchable', 'rating', 'title'].includes(col.field)) {
-                <p-sortIcon [field]="col.field"></p-sortIcon>
-              }
-              @if (
-                !['base', 'story', 'status', 'difficulty', 'fakemon'].includes(
-                  col.field
-                )
-              ) {
-                <span>{{ col.header }}&nbsp;</span>
-              }
-              @if (
-                [
-                  'newGraphics',
-                  'physicalSpecialSplit',
-                  'builtInNuzlocke',
-                  'builtInRandomizer'
-                ].includes(col.field)
-              ) {
-                <p-triStateCheckbox
-                  (onChange)="dt.filter($event.value, col.field, 'equals')"
-                ></p-triStateCheckbox>
-              }
-              @if (col.field === 'base') {
-                <p-multiSelect
-                  [options]="baseroms"
-                  optionLabel="name"
-                  (onChange)="dt.filter($event.value, col.field, 'isInBaserom')"
-                  appendTo="body"
-                  placeholder="Baserom"
-                ></p-multiSelect>
-              }
-              @if (col.field === 'story') {
-                <p-columnFilter
-                  field="story"
-                  matchMode="isChoice"
-                  [showMenu]="false"
+  <p-table
+    [columns]="selectedColumns"
+    #dt
+    [value]="games"
+    styleClass="p-datatable-sm p-datatable-gridlines"
+    selectionMode="single"
+    [(selection)]="selectedGame"
+    (onRowSelect)="onRowSelect($event)"
+    dataKey="id"
+    stateStorage="session"
+    stateKey="pkhax-filter-session"
+    [loading]="loading"
+    [contextMenu]="cm"
+    contextMenuSelectionMode="joint"
+    sortField="rating"
+    [sortOrder]="-1"
+    (sortFunction)="customSort($event)"
+    [customSort]="true"
+  >
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        @for (col of columns; track col) {
+          <th
+            class="p-fluid"
+            style="min-width: 200px"
+            [pSortableColumn]="
+              ['catchable', 'rating', 'title'].includes(col.field)
+                ? col.field
+                : null
+            "
+          >
+            @if (['catchable', 'rating', 'title'].includes(col.field)) {
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            }
+            @if (
+              !['base', 'story', 'status', 'difficulty', 'fakemon'].includes(
+                col.field
+              )
+            ) {
+              <span>{{ col.header }}&nbsp;</span>
+            }
+            @if (
+              [
+                'newGraphics',
+                'physicalSpecialSplit',
+                'builtInNuzlocke',
+                'builtInRandomizer'
+              ].includes(col.field)
+            ) {
+              <p-triStateCheckbox
+                (onChange)="dt.filter($event.value, col.field, 'equals')"
+              ></p-triStateCheckbox>
+            }
+            @if (col.field === 'base') {
+              <p-multiSelect
+                [options]="baseroms"
+                optionLabel="name"
+                (onChange)="dt.filter($event.value, col.field, 'isInBaserom')"
+                appendTo="body"
+                placeholder="Baserom"
+              ></p-multiSelect>
+            }
+            @if (col.field === 'story') {
+              <p-columnFilter
+                field="story"
+                matchMode="isChoice"
+                [showMenu]="false"
+              >
+                <ng-template
+                  pTemplate="filter"
+                  let-value
+                  let-filter="filterCallback"
                 >
-                  <ng-template
-                    pTemplate="filter"
-                    let-value
-                    let-filter="filterCallback"
+                  <p-dropdown
+                    [ngModel]="value"
+                    [options]="stories"
+                    optionLabel="name"
+                    appendTo="body"
+                    (onChange)="filter($event.value)"
+                    placeholder="Story"
+                    [showClear]="true"
                   >
-                    <p-dropdown
-                      [ngModel]="value"
-                      [options]="stories"
-                      optionLabel="name"
-                      appendTo="body"
-                      (onChange)="filter($event.value)"
-                      placeholder="Story"
-                      [showClear]="true"
-                    >
-                    </p-dropdown>
-                  </ng-template>
-                </p-columnFilter>
-              }
-              @if (col.field === 'status') {
-                <p-columnFilter
-                  field="status"
-                  matchMode="isChoice"
-                  [showMenu]="false"
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            }
+            @if (col.field === 'status') {
+              <p-columnFilter
+                field="status"
+                matchMode="isChoice"
+                [showMenu]="false"
+              >
+                <ng-template
+                  pTemplate="filter"
+                  let-value
+                  let-filter="filterCallback"
                 >
-                  <ng-template
-                    pTemplate="filter"
-                    let-value
-                    let-filter="filterCallback"
+                  <p-dropdown
+                    [ngModel]="value"
+                    [options]="status"
+                    optionLabel="name"
+                    appendTo="body"
+                    (onChange)="filter($event.value)"
+                    placeholder="Status"
+                    [showClear]="true"
                   >
-                    <p-dropdown
-                      [ngModel]="value"
-                      [options]="status"
-                      optionLabel="name"
-                      appendTo="body"
-                      (onChange)="filter($event.value)"
-                      placeholder="Status"
-                      [showClear]="true"
-                    >
-                    </p-dropdown>
-                  </ng-template>
-                </p-columnFilter>
-              }
-              @if (col.field === 'difficulty') {
-                <p-columnFilter
-                  field="difficulty"
-                  matchMode="isChoice"
-                  [showMenu]="false"
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            }
+            @if (col.field === 'difficulty') {
+              <p-columnFilter
+                field="difficulty"
+                matchMode="isChoice"
+                [showMenu]="false"
+              >
+                <ng-template
+                  pTemplate="filter"
+                  let-value
+                  let-filter="filterCallback"
                 >
-                  <ng-template
-                    pTemplate="filter"
-                    let-value
-                    let-filter="filterCallback"
+                  <p-dropdown
+                    [ngModel]="value"
+                    [options]="difficulties"
+                    optionLabel="name"
+                    appendTo="body"
+                    (onChange)="filter($event.value)"
+                    placeholder="Difficulty"
+                    [showClear]="true"
                   >
-                    <p-dropdown
-                      [ngModel]="value"
-                      [options]="difficulties"
-                      optionLabel="name"
-                      appendTo="body"
-                      (onChange)="filter($event.value)"
-                      placeholder="Difficulty"
-                      [showClear]="true"
-                    >
-                    </p-dropdown>
-                  </ng-template>
-                </p-columnFilter>
-              }
-              @if (col.field === 'fakemon') {
-                <p-columnFilter
-                  field="fakemon"
-                  matchMode="isChoice"
-                  [showMenu]="false"
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            }
+            @if (col.field === 'fakemon') {
+              <p-columnFilter
+                field="fakemon"
+                matchMode="isChoice"
+                [showMenu]="false"
+              >
+                <ng-template
+                  pTemplate="filter"
+                  let-value
+                  let-filter="filterCallback"
                 >
-                  <ng-template
-                    pTemplate="filter"
-                    let-value
-                    let-filter="filterCallback"
+                  <p-dropdown
+                    [ngModel]="value"
+                    [options]="fakemon"
+                    optionLabel="name"
+                    appendTo="body"
+                    (onChange)="filter($event.value)"
+                    placeholder="Fakemon"
+                    [showClear]="true"
                   >
-                    <p-dropdown
-                      [ngModel]="value"
-                      [options]="fakemon"
-                      optionLabel="name"
-                      appendTo="body"
-                      (onChange)="filter($event.value)"
-                      placeholder="Fakemon"
-                      [showClear]="true"
-                    >
-                    </p-dropdown>
-                  </ng-template>
-                </p-columnFilter>
-              }
-            </th>
-          }
-        </tr>
-        <!-- Mobile filter -->
-        <div class="grid md:hidden">
-          <div class="col-12" style="margin: 0.5rem 0 0 0.5rem">
-            <button
-              pButton
-              pRipple
-              [icon]="
-                mobileFilter ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
-              "
-              label="Filter"
-              type="button"
-              class="p-button-rounded p-button-outlined"
-              (click)="toggleFilter()"
-            ></button>
-          </div>
-          @if (mobileFilter) {
-            <div class="col-12" style="max-height: 30vh; overflow-y: scroll">
-              @for (col of columns; track col) {
-                <div>
-                  @if (
-                    !['creator', 'version', 'rating', 'catchable'].includes(
-                      col.field
-                    )
-                  ) {
-                    <div class="align-items-center" style="padding: 0 0.5rem">
-                      <span
-                        class="col-fixed"
-                        style="
-                          padding: 0.4rem;
-                          min-width: 30%;
-                          display: inline-block;
-                          margin: -0.4em 1em -0.4em -0.4rem;
-                          font-weight: bold;
-                          color: #495057;
-                        "
-                        >{{ col.header }}</span
-                      >
-                      <div style="display: inline-block" class="col">
-                        @if (col.field === 'title') {
-                          <input
-                            pInputText
-                            type="text"
-                            (input)="inputFilter($event, 'title', 'contains')"
-                            placeholder="Search by Name"
-                            class="p-column-filter"
-                          />
-                        }
-                        @if (col.field === 'base') {
-                          <p-multiSelect
-                            [options]="baseroms"
-                            optionLabel="name"
-                            (onChange)="
-                              dt.filter($event.value, col.field, 'isInBaserom')
-                            "
-                            appendTo="body"
-                            placeholder="Baserom"
-                          ></p-multiSelect>
-                        }
-                        @if (col.field === 'status') {
-                          <p-columnFilter
-                            field="status"
-                            matchMode="isChoice"
-                            [showMenu]="false"
-                          >
-                            <ng-template
-                              pTemplate="filter"
-                              let-value
-                              let-filter="filterCallback"
-                            >
-                              <p-dropdown
-                                [ngModel]="value"
-                                [options]="status"
-                                optionLabel="name"
-                                appendTo="body"
-                                (onChange)="filter($event.value)"
-                                placeholder="Status"
-                                [showClear]="true"
-                              >
-                              </p-dropdown>
-                            </ng-template>
-                          </p-columnFilter>
-                        }
-                        @if (col.field === 'story') {
-                          <p-columnFilter
-                            field="story"
-                            matchMode="isChoice"
-                            [showMenu]="false"
-                          >
-                            <ng-template
-                              pTemplate="filter"
-                              let-value
-                              let-filter="filterCallback"
-                            >
-                              <p-dropdown
-                                [ngModel]="value"
-                                [options]="stories"
-                                optionLabel="name"
-                                appendTo="body"
-                                (onChange)="filter($event.value)"
-                                placeholder="Story"
-                                [showClear]="true"
-                              >
-                              </p-dropdown>
-                            </ng-template>
-                          </p-columnFilter>
-                        }
-                        @if (col.field === 'difficulty') {
-                          <p-columnFilter
-                            field="difficulty"
-                            matchMode="isChoice"
-                            [showMenu]="false"
-                          >
-                            <ng-template
-                              pTemplate="filter"
-                              let-value
-                              let-filter="filterCallback"
-                            >
-                              <p-dropdown
-                                [ngModel]="value"
-                                [options]="difficulties"
-                                optionLabel="name"
-                                appendTo="body"
-                                (onChange)="filter($event.value)"
-                                placeholder="Difficulty"
-                                [showClear]="true"
-                              >
-                              </p-dropdown>
-                            </ng-template>
-                          </p-columnFilter>
-                        }
-                        @if (col.field === 'fakemon') {
-                          <p-columnFilter
-                            field="fakemon"
-                            matchMode="isChoice"
-                            [showMenu]="false"
-                          >
-                            <ng-template
-                              pTemplate="filter"
-                              let-value
-                              let-filter="filterCallback"
-                            >
-                              <p-dropdown
-                                [ngModel]="value"
-                                [options]="fakemon"
-                                optionLabel="name"
-                                appendTo="body"
-                                (onChange)="filter($event.value)"
-                                placeholder="Fakemon"
-                                [showClear]="true"
-                              >
-                              </p-dropdown>
-                            </ng-template>
-                          </p-columnFilter>
-                        }
-                        @if (
-                          [
-                            'newGraphics',
-                            'physicalSpecialSplit',
-                            'builtInNuzlocke',
-                            'builtInRandomizer'
-                          ].includes(col.field)
-                        ) {
-                          <p-triStateCheckbox
-                            (onChange)="
-                              dt.filter($event.value, col.field, 'equals')
-                            "
-                          ></p-triStateCheckbox>
-                        }
-                      </div>
-                    </div>
-                  }
-                </div>
-              }
-            </div>
-          }
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            }
+          </th>
+        }
+      </tr>
+      <!-- Mobile filter -->
+      <div class="grid md:hidden">
+        <div class="col-12" style="margin: 0.5rem 0 0 0.5rem">
+          <button
+            pButton
+            pRipple
+            [icon]="mobileFilter ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+            label="Filter"
+            type="button"
+            class="p-button-rounded p-button-outlined"
+            (click)="toggleFilter()"
+          ></button>
         </div>
-      </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
-          @for (col of columns; track col) {
-            <td style="min-width: 200px">
-              <span class="p-column-title">{{ col.header }}</span>
-              @if (['title'].includes(col.field)) {
-                <div>{{ rowData[col.field] }}</div>
-              }
-              @if (['creator', 'catchable'].includes(col.field)) {
-                <div class="text-center">
-                  @if (rowData[col.field]) {
-                    <span>{{ rowData[col.field] }}</span>
-                  }
-                  @if (!rowData[col.field]) {
-                    <span style="color: lightgray">N/A</span>
-                  }
-                </div>
-              }
-              @if (col.field === 'base') {
-                <div class="baserom-cell text-center">
-                  @for (base of rowData[col.field]; track base) {
+        @if (mobileFilter) {
+          <div class="col-12" style="max-height: 30vh; overflow-y: scroll">
+            @for (col of columns; track col) {
+              <div>
+                @if (
+                  !['creator', 'version', 'rating', 'catchable'].includes(
+                    col.field
+                  )
+                ) {
+                  <div class="align-items-center" style="padding: 0 0.5rem">
                     <span
-                      [style.background-color]="base.color"
-                      [style.color]="base.fontColor"
-                      class="baserom"
-                      >{{ base.short_name }}</span
+                      class="col-fixed"
+                      style="
+                        padding: 0.4rem;
+                        min-width: 30%;
+                        display: inline-block;
+                        margin: -0.4em 1em -0.4em -0.4rem;
+                        font-weight: bold;
+                        color: #495057;
+                      "
+                      >{{ col.header }}</span
                     >
-                  }
-                </div>
-              }
-              @if (
-                ['status', 'story', 'difficulty', 'fakemon'].includes(col.field)
-              ) {
-                <div class="text-center">{{ rowData[col.field]?.name }}</div>
-              }
-              @if (col.field === 'rating') {
-                <div>
-                  <p-rating
-                    [ngModel]="rowData['avgRating'] - 0.49"
-                    [readonly]="true"
-                    class="text-center"
-                    [pTooltip]="(rowData['avgRating'] | number) ?? '0'"
-                    [cancel]="false"
-                  ></p-rating>
-                  ({{ rowData['rating'].length }})
-                </div>
-              }
-              @if (
-                [
-                  'original',
-                  'newGraphics',
-                  'physicalSpecialSplit',
-                  'builtInNuzlocke',
-                  'builtInRandomizer'
-                ].includes(col.field)
-              ) {
-                <div style="text-align: center">
-                  @if (rowData[col.field] === true) {
-                    <i class="pi pi-check"></i>
-                  }
-                  @if (rowData[col.field] === false) {
-                    <i class="pi pi-times"></i>
-                  }
-                </div>
-              }
-            </td>
-          }
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="summary">
-        <div class="flex align-items-center justify-content-between flex-wrap">
-          <p-multiSelect
-            [options]="cols"
-            [(ngModel)]="selectedColumns"
-            optionLabel="header"
-            selectedItemsLabel="{0} columns selected"
-            [style]="{ minWidth: '200px' }"
-            placeholder="Choose Columns"
-          ></p-multiSelect>
-          @if (games && games.length > 0) {
-            <div class="hidden md:block">
-              In total there are {{ games.length }} games.
-            </div>
-          }
-          <div class="flex align-items-center">
-            <a
-              href="https://www.buymeacoffee.com/jakobschade"
-              target="_blank"
-              class="mr-1"
-            >
-              <img
-                src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-                alt="Buy Me A Coffee"
-                style="height: 39px"
-              />
-            </a>
-            <a
-              href="https://github.com/ProfEibe/pkhax"
-              target="_blank"
-              pButton
-              pRipple
-              type="button"
-              icon="pi pi-github"
-              label="Github"
-              class="p-button-rounded p-button-outlined"
-            ></a>
+                    <div style="display: inline-block" class="col">
+                      @if (col.field === 'title') {
+                        <input
+                          pInputText
+                          type="text"
+                          (input)="inputFilter($event, 'title', 'contains')"
+                          placeholder="Search by Name"
+                          class="p-column-filter"
+                        />
+                      }
+                      @if (col.field === 'base') {
+                        <p-multiSelect
+                          [options]="baseroms"
+                          optionLabel="name"
+                          (onChange)="
+                            dt.filter($event.value, col.field, 'isInBaserom')
+                          "
+                          appendTo="body"
+                          placeholder="Baserom"
+                        ></p-multiSelect>
+                      }
+                      @if (col.field === 'status') {
+                        <p-columnFilter
+                          field="status"
+                          matchMode="isChoice"
+                          [showMenu]="false"
+                        >
+                          <ng-template
+                            pTemplate="filter"
+                            let-value
+                            let-filter="filterCallback"
+                          >
+                            <p-dropdown
+                              [ngModel]="value"
+                              [options]="status"
+                              optionLabel="name"
+                              appendTo="body"
+                              (onChange)="filter($event.value)"
+                              placeholder="Status"
+                              [showClear]="true"
+                            >
+                            </p-dropdown>
+                          </ng-template>
+                        </p-columnFilter>
+                      }
+                      @if (col.field === 'story') {
+                        <p-columnFilter
+                          field="story"
+                          matchMode="isChoice"
+                          [showMenu]="false"
+                        >
+                          <ng-template
+                            pTemplate="filter"
+                            let-value
+                            let-filter="filterCallback"
+                          >
+                            <p-dropdown
+                              [ngModel]="value"
+                              [options]="stories"
+                              optionLabel="name"
+                              appendTo="body"
+                              (onChange)="filter($event.value)"
+                              placeholder="Story"
+                              [showClear]="true"
+                            >
+                            </p-dropdown>
+                          </ng-template>
+                        </p-columnFilter>
+                      }
+                      @if (col.field === 'difficulty') {
+                        <p-columnFilter
+                          field="difficulty"
+                          matchMode="isChoice"
+                          [showMenu]="false"
+                        >
+                          <ng-template
+                            pTemplate="filter"
+                            let-value
+                            let-filter="filterCallback"
+                          >
+                            <p-dropdown
+                              [ngModel]="value"
+                              [options]="difficulties"
+                              optionLabel="name"
+                              appendTo="body"
+                              (onChange)="filter($event.value)"
+                              placeholder="Difficulty"
+                              [showClear]="true"
+                            >
+                            </p-dropdown>
+                          </ng-template>
+                        </p-columnFilter>
+                      }
+                      @if (col.field === 'fakemon') {
+                        <p-columnFilter
+                          field="fakemon"
+                          matchMode="isChoice"
+                          [showMenu]="false"
+                        >
+                          <ng-template
+                            pTemplate="filter"
+                            let-value
+                            let-filter="filterCallback"
+                          >
+                            <p-dropdown
+                              [ngModel]="value"
+                              [options]="fakemon"
+                              optionLabel="name"
+                              appendTo="body"
+                              (onChange)="filter($event.value)"
+                              placeholder="Fakemon"
+                              [showClear]="true"
+                            >
+                            </p-dropdown>
+                          </ng-template>
+                        </p-columnFilter>
+                      }
+                      @if (
+                        [
+                          'newGraphics',
+                          'physicalSpecialSplit',
+                          'builtInNuzlocke',
+                          'builtInRandomizer'
+                        ].includes(col.field)
+                      ) {
+                        <p-triStateCheckbox
+                          (onChange)="
+                            dt.filter($event.value, col.field, 'equals')
+                          "
+                        ></p-triStateCheckbox>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
           </div>
+        }
+      </div>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+        @for (col of columns; track col) {
+          <td style="min-width: 200px">
+            <span class="p-column-title">{{ col.header }}</span>
+            @if (['title'].includes(col.field)) {
+              <div>{{ rowData[col.field] }}</div>
+            }
+            @if (['creator', 'catchable'].includes(col.field)) {
+              <div class="text-center">
+                @if (rowData[col.field]) {
+                  <span>{{ rowData[col.field] }}</span>
+                }
+                @if (!rowData[col.field]) {
+                  <span style="color: lightgray">N/A</span>
+                }
+              </div>
+            }
+            @if (col.field === 'base') {
+              <div class="baserom-cell text-center">
+                @for (base of rowData[col.field]; track base) {
+                  <span
+                    [style.background-color]="base.color"
+                    [style.color]="base.fontColor"
+                    class="baserom"
+                    >{{ base.short_name }}</span
+                  >
+                }
+              </div>
+            }
+            @if (
+              ['status', 'story', 'difficulty', 'fakemon'].includes(col.field)
+            ) {
+              <div class="text-center">{{ rowData[col.field]?.name }}</div>
+            }
+            @if (col.field === 'rating') {
+              <div>
+                <p-rating
+                  [ngModel]="rowData['avgRating'] - 0.49"
+                  [readonly]="true"
+                  class="text-center"
+                  [pTooltip]="(rowData['avgRating'] | number) ?? '0'"
+                  [cancel]="false"
+                ></p-rating>
+                ({{ rowData['rating'].length }})
+              </div>
+            }
+            @if (
+              [
+                'original',
+                'newGraphics',
+                'physicalSpecialSplit',
+                'builtInNuzlocke',
+                'builtInRandomizer'
+              ].includes(col.field)
+            ) {
+              <div style="text-align: center">
+                @if (rowData[col.field] === true) {
+                  <i class="pi pi-check"></i>
+                }
+                @if (rowData[col.field] === false) {
+                  <i class="pi pi-times"></i>
+                }
+              </div>
+            }
+          </td>
+        }
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between flex-wrap">
+        <p-multiSelect
+          [options]="cols"
+          [(ngModel)]="selectedColumns"
+          optionLabel="header"
+          selectedItemsLabel="{0} columns selected"
+          [style]="{ minWidth: '200px' }"
+          placeholder="Choose Columns"
+        ></p-multiSelect>
+        @if (games && games.length > 0) {
+          <div class="hidden md:block">
+            In total there are {{ games.length }} games.
+          </div>
+        }
+        <div class="flex align-items-center">
+          <a
+            href="https://www.buymeacoffee.com/jakobschade"
+            target="_blank"
+            class="mr-1"
+          >
+            <img
+              src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+              alt="Buy Me A Coffee"
+              style="height: 39px"
+            />
+          </a>
+          <a
+            href="https://github.com/ProfEibe/pkhax"
+            target="_blank"
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-github"
+            label="Github"
+            class="p-button-rounded p-button-outlined"
+          ></a>
         </div>
-      </ng-template>
-      <ng-template pTemplate="loadingbody" let-columns="columns">
-        <tr style="height: 34px">
-          @for (col of columns; track col) {
-            <td>
-              <div class="loading-text"></div>
-            </td>
-          }
-        </tr>
-      </ng-template>
-    </p-table>
-    <p-contextMenu #cm [model]="contextMenuItems"></p-contextMenu>
-  </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="loadingbody" let-columns="columns">
+      <tr style="height: 34px">
+        @for (col of columns; track col) {
+          <td>
+            <div class="loading-text"></div>
+          </td>
+        }
+      </tr>
+    </ng-template>
+  </p-table>
+  <p-contextMenu #cm [model]="contextMenuItems"></p-contextMenu>
 </div>

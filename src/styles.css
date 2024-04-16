@@ -24,9 +24,7 @@
 
 body {
   margin: 0;
-  min-height: 100%;
   overflow-x: hidden;
-  overflow-y: auto;
   background-color: var(--surface-ground);
   font-weight: 400;
   color: var(--text-color);
@@ -37,7 +35,6 @@ body {
 main {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   justify-content: space-between;
   padding: 6rem 15px 2rem 15px;
   transition: margin-left .2s;
