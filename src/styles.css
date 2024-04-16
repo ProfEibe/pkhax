@@ -1,0 +1,84 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'primeng/resources/primeng.min.css';
+@import "primeng/resources/themes/lara-dark-amber/theme.css" (prefers-color-scheme: dark);
+@import "primeng/resources/themes/lara-light-amber/theme.css" (prefers-color-scheme: light);
+@import 'primeflex/primeflex.min.css';
+@import 'primeicons/primeicons.css';
+
+.baserom {
+  font-weight: bold;
+  padding: 0.3em;
+}
+
+.baserom-cell > .baserom:first-child {
+  border-top-left-radius: 0.5em;
+  border-bottom-left-radius: 0.5em;
+}
+
+.baserom-cell > .baserom:last-child {
+  border-top-right-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+}
+
+
+body {
+  margin: 0;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--surface-ground);
+  font-weight: 400;
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  padding: 6rem 15px 2rem 15px;
+  transition: margin-left .2s;
+
+  /*max-width: 1200px;*/
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--card-shadow);
+  border-radius: 12px;
+}
+
+a {
+  color: var(--text-color-secondary);
+}
+
+@media screen and (min-width: 992px) {
+  .lg\:table-cell {
+    display: table-cell !important;
+  }
+}
+
+/* Quill Editor fix dark mode */
+@media(prefers-color-scheme: dark) {
+  .ql-editor.ql-blank::before {
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.wrapper {
+  padding-left: 15px;
+  padding-right: 15px;
+  max-width: 1200px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}

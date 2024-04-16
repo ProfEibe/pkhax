@@ -1,11 +1,9 @@
-<div class="card col-12">
+<div class="card">
   <div style="height: calc(100vh - 220px)">
     <p-table
       [columns]="selectedColumns"
       #dt
       [value]="games"
-      [scrollable]="true"
-      scrollHeight="flex"
       styleClass="p-datatable-sm p-datatable-gridlines"
       selectionMode="single"
       [(selection)]="selectedGame"

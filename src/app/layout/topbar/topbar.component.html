@@ -1,0 +1,27 @@
+<header
+  class="layout-topbar w-full"
+  [ngClass]="{ 'layout-topbar-sticky': scrolled }"
+>
+  <div class="wrapper flex align-items-center justify-content-between">
+    <div class="flex align-items-center cursor-pointer" [routerLink]="['/']">
+      <img src="assets/logo-dark.svg" alt="PkHax" class="logo" />
+      <h1 class="title ml-2">PkHax</h1>
+    </div>
+    <div class="flex align-items-center">
+      @if (isLoggedIn() | async) {
+        <p-button
+          icon="pi pi-user"
+          [rounded]="true"
+          [text]="true"
+          [routerLink]="['/user']"
+        ></p-button>
+        <p-button
+          icon="pi pi-sign-out"
+          [rounded]="true"
+          [text]="true"
+          (onClick)="logout()"
+        ></p-button>
+      }
+    </div>
+  </div>
+</header>
