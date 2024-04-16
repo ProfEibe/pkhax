@@ -1,16 +1,40 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {GameService} from '../game.service';
 import {HttpClient} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
 import {environment} from '../../environments/environment';
 import {Baserom, Choice, Difficulty, Game} from '../game';
+import {ButtonModule} from "primeng/button";
+import {FormsModule} from "@angular/forms";
+import {EditorModule} from "primeng/editor";
+import {DropdownModule} from "primeng/dropdown";
+import {MultiSelectModule} from "primeng/multiselect";
+import {TriStateCheckboxModule} from "primeng/tristatecheckbox";
+import {InputNumberModule} from "primeng/inputnumber";
+import {MessageModule} from "primeng/message";
+import {CardModule} from "primeng/card";
+import {ToastModule} from "primeng/toast";
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.css'],
-  providers: [MessageService]
+  providers: [MessageService],
+  imports: [
+    ButtonModule,
+    FormsModule,
+    EditorModule,
+    DropdownModule,
+    MultiSelectModule,
+    TriStateCheckboxModule,
+    InputNumberModule,
+    MessageModule,
+    RouterLink,
+    CardModule,
+    ToastModule
+  ],
+  standalone: true
 })
 export class EditorComponent implements OnInit {
   game: Game | undefined;

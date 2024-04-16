@@ -1,36 +1,47 @@
-<div style="border-left: 1px solid #808080; padding: 0.5rem;" *ngIf="comment.id" [id]="'comment-' + comment.id">
-  <div style="font-size: x-small; color: #808080">{{comment.created_by.displayName}} · {{comment.created_at | date: 'medium'}}</div>
-
-  <div class="comment" [innerHTML]="comment.content">{{comment.content}}</div>
-
-  <div *ngIf="diffCreateModified()" style="font-size: x-small; color: #808080">Edited by {{comment.modified_by.displayName}} at {{comment.modified_at | date}}</div>
-
-  <div style="font-size: x-small;">
-    <button pButton pRipple type="button" label="Reply" (click)="toggleReplyEditor()" class="p-button-text p-button-plain p-button-sm"></button>
-    <button pButton pRipple type="button" label="Edit" disabled class="p-button-text p-button-plain p-button-sm"></button>
-    <button pButton pRipple type="button" label="Report" disabled class="p-button-text p-button-plain p-button-sm"></button>
-    <button pButton pRipple type="button" label="Share" disabled class="p-button-text p-button-plain p-button-sm"></button>
+@if (comment.id) {
+  <div style="border-left: 1px solid #808080; padding: 0.5rem;" [id]="'comment-' + comment.id">
+    <div style="font-size: x-small; color: #808080">{{comment.created_by.displayName}} · {{comment.created_at | date: 'medium'}}</div>
+    <div class="comment" [innerHTML]="comment.content">{{comment.content}}</div>
+    @if (diffCreateModified()) {
+      <div style="font-size: x-small; color: #808080">Edited by {{comment.modified_by.displayName}} at {{comment.modified_at | date}}</div>
+    }
+    <div style="font-size: x-small;">
+      <button pButton pRipple type="button" label="Reply" (click)="toggleReplyEditor()" class="p-button-text p-button-plain p-button-sm"></button>
+      <button pButton pRipple type="button" label="Edit" disabled class="p-button-text p-button-plain p-button-sm"></button>
+      <button pButton pRipple type="button" label="Report" disabled class="p-button-text p-button-plain p-button-sm"></button>
+      <button pButton pRipple type="button" label="Share" disabled class="p-button-text p-button-plain p-button-sm"></button>
+    </div>
+    @if (showReply) {
+      <div class="p-2">
+        @if ((auth.isAuthenticated$ | async) && (userService.currentUser | async)?.displayName) {
+          <p-editor  [(ngModel)]="reply">
+            <p-header class="flex justify-content-between">
+              <span class="ql-formats">
+                <button type="button" class="ql-bold" aria-label="Bold"></button>
+                <button type="button" class="ql-italic" aria-label="Italic"></button>
+                <button type="button" class="ql-underline" aria-label="Underline"></button>
+              </span>
+              <button pButton class="p-button-sm p-button-secondary p-button-rounded p-button-outlined" style="width: auto;" type="button" (click)="createReply()" label="Reply"></button>
+            </p-header>
+          </p-editor>
+        } @else {
+          @if ((auth.isAuthenticated$ | async)) {
+            <button pRipple pButton label="Choose a displayname" [routerLink]="'/user'"></button>
+          } @else {
+            <button pRipple pButton label="Login to comment" (click)="auth.loginWithRedirect()"></button>
+          }
+          <ng-template #displayName>
+            <button pRipple pButton label="Login to comment" (click)="auth.loginWithRedirect()"></button>
+          </ng-template>
+        }
+      </div>
+    }
+    @if (comment.children && comment.children.length > 0) {
+      <div>
+        @for (child of comment.children; track child) {
+          <app-comment [comment]="child"></app-comment>
+        }
+      </div>
+    }
   </div>
-  <div *ngIf="showReply" class="p-2">
-    <p-editor *ngIf="(auth.isAuthenticated$ | async) && (userService.currentUser | async)?.displayName; else loginInfo"  [(ngModel)]="reply">
-      <p-header class="flex justify-content-between">
-        <span class="ql-formats">
-            <button type="button" class="ql-bold" aria-label="Bold"></button>
-            <button type="button" class="ql-italic" aria-label="Italic"></button>
-            <button type="button" class="ql-underline" aria-label="Underline"></button>
-        </span>
-        <button pButton class="p-button-sm p-button-secondary p-button-rounded p-button-outlined" style="width: auto;" type="button" (click)="createReply()" label="Reply"></button>
-      </p-header>
-    </p-editor>
-    <ng-template #loginInfo>
-      <button *ngIf="(auth.isAuthenticated$ | async); else displayName" pRipple pButton label="Choose a displayname" [routerLink]="'/user'"></button>
-      <ng-template #displayName>
-        <button pRipple pButton label="Login to comment" (click)="auth.loginWithRedirect()"></button>
-      </ng-template>
-    </ng-template>
-  </div>
-
-  <div *ngIf="comment.children && comment.children.length > 0">
-    <app-comment *ngFor="let child of comment.children" [comment]="child"></app-comment>
-  </div>
-</div>
+}

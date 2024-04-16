@@ -1,17 +1,41 @@
 import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {GameService} from '../game.service';
 import {Router} from '@angular/router';
-import {Table} from 'primeng/table';
+import {Table, TableModule} from 'primeng/table';
 import {GlobalFilterService} from '../global-filter.service';
 import {Baserom, Choice, Difficulty, Game} from '../game';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {FilterService, SortEvent} from 'primeng/api';
+import {TriStateCheckboxModule} from "primeng/tristatecheckbox";
+import {MultiSelectModule} from "primeng/multiselect";
+import {DropdownModule} from "primeng/dropdown";
+import {FormsModule} from "@angular/forms";
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
+import {RatingModule} from "primeng/rating";
+import {ContextMenuModule} from "primeng/contextmenu";
+import {InputTextModule} from "primeng/inputtext";
+import {DecimalPipe} from "@angular/common";
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  imports: [
+    TableModule,
+    TriStateCheckboxModule,
+    MultiSelectModule,
+    DropdownModule,
+    FormsModule,
+    ButtonModule,
+    RippleModule,
+    RatingModule,
+    ContextMenuModule,
+    InputTextModule,
+    DecimalPipe
+  ],
+  standalone: true
 })
 export class ListComponent implements OnInit {
   cols: any[] = [];

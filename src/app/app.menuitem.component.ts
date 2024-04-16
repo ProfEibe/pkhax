@@ -1,60 +1,81 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import {NavigationEnd, Router, RouterLink, RouterLinkActive} from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MenuService } from './service/app.menu.service';
 import { AppMainComponent } from './app.main.component';
+import {NgClass} from "@angular/common";
 
 @Component({
-    /* tslint:disable:component-selector */
-    selector: '[app-menuitem]',
-    /* tslint:enable:component-selector */
-    template: `
-		<ng-container>
-			<a [attr.href]="item.url" (click)="itemClick($event)" [ngClass]="item.class"
-			   *ngIf="(!item.routerLink || item.items) && item.visible !== false"
-			   [attr.target]="item.target" [attr.tabindex]="0" [attr.aria-label]="item.label" role="menuitem" pRipple>
-				<i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
-				<span>{{item.label}}</span>
-				<span class="menuitem-badge" *ngIf="item.badge">{{item.badge}}</span>
-				<i class="pi pi-fw {{active ? 'pi-angle-up' : 'pi-angle-down'}} ml-auto" *ngIf="item.items"></i>
-			</a>
-			<a (click)="itemClick($event)" *ngIf="(item.routerLink && !item.items) && item.visible !== false" [ngClass]="item.class"
-			   [routerLink]="item.routerLink" routerLinkActive="active-menuitem-routerlink router-link-exact-active"
-			   [routerLinkActiveOptions]="{exact: !item.preventExact}" [attr.target]="item.target" [attr.tabindex]="0" [attr.aria-label]="item.label" role="menuitem" pRipple>
-				<i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
-				<span>{{item.label}}</span>
-				<span class="p-tag p-badge ml-auto" *ngIf="item.badge">{{item.badge}}</span>
-				<i class="pi pi-fw {{active ? 'pi-angle-up' : 'pi-angle-down'}} ml-auto" *ngIf="item.items"></i>
-			</a>
-			<ul *ngIf="(item.items && active) && item.visible !== false" [@children]="(active ? 'visibleAnimated' : 'hiddenAnimated')" role="menu">
-				<ng-template ngFor let-child let-i="index" [ngForOf]="item.items">
-					<li app-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child.badgeClass" role="none"></li>
-				</ng-template>
-			</ul>
-		</ng-container>
-    `,
-    host: {
-        '[class.active-menuitem]': 'active',
-    },
-    animations: [
-        trigger('children', [
-            state('void', style({
-                height: '0px'
-            })),
-            state('hiddenAnimated', style({
-                height: '0px'
-            })),
-            state('visibleAnimated', style({
-                height: '*'
-            })),
-            transition('visibleAnimated => hiddenAnimated', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
-            transition('hiddenAnimated => visibleAnimated', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
-            transition('void => visibleAnimated, visibleAnimated => void',
-                animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
-        ])
-    ]
+  /* tslint:disable:component-selector */
+  selector: '[app-menuitem]',
+  /* tslint:enable:component-selector */
+  template: `
+    <ng-container>
+      @if ((!item.routerLink || item.items) && item.visible !== false) {
+        <a [attr.href]="item.url" (click)="itemClick($event)" [ngClass]="item.class"
+           [attr.target]="item.target" [attr.tabindex]="0" [attr.aria-label]="item.label" role="menuitem" pRipple>
+          <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
+          <span>{{ item.label }}</span>
+          @if (item.badge) {
+            <span class="menuitem-badge">{{ item.badge }}</span>
+          }
+          @if (item.items) {
+            <i class="pi pi-fw {{active ? 'pi-angle-up' : 'pi-angle-down'}} ml-auto"></i>
+          }
+        </a>
+      }
+      @if ((item.routerLink && !item.items) && item.visible !== false) {
+        <a (click)="itemClick($event)" [ngClass]="item.class"
+           [routerLink]="item.routerLink" routerLinkActive="active-menuitem-routerlink router-link-exact-active"
+           [routerLinkActiveOptions]="{exact: !item.preventExact}" [attr.target]="item.target" [attr.tabindex]="0"
+           [attr.aria-label]="item.label" role="menuitem" pRipple>
+          <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
+          <span>{{ item.label }}</span>
+          @if (item.badge) {
+            <span class="p-tag p-badge ml-auto">{{ item.badge }}</span>
+          }
+          @if (item.items) {
+            <i class="pi pi-fw {{active ? 'pi-angle-up' : 'pi-angle-down'}} ml-auto"></i>
+          }
+        </a>
+      }
+      @if ((item.items && active) && item.visible !== false) {
+        <ul [@children]="(active ? 'visibleAnimated' : 'hiddenAnimated')" role="menu">
+          @for (child of item.items; track child; let i = $index) {
+            <li app-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child.badgeClass" role="none"></li>
+          }
+        </ul>
+      }
+    </ng-container>
+  `,
+  host: {
+    '[class.active-menuitem]': 'active',
+  },
+  standalone: true,
+  imports: [
+    NgClass,
+    RouterLink,
+    RouterLinkActive
+  ],
+  animations: [
+    trigger('children', [
+      state('void', style({
+        height: '0px'
+      })),
+      state('hiddenAnimated', style({
+        height: '0px'
+      })),
+      state('visibleAnimated', style({
+        height: '*'
+      })),
+      transition('visibleAnimated => hiddenAnimated', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
+      transition('hiddenAnimated => visibleAnimated', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
+      transition('void => visibleAnimated, visibleAnimated => void',
+        animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
+    ])
+  ]
 })
 export class AppMenuitemComponent implements OnInit, OnDestroy {
 

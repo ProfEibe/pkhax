@@ -4,22 +4,37 @@ import { AppComponent } from './app.component';
 import { ConfigService } from './service/app.config.service';
 import { AppConfig } from './api/appconfig';
 import { Subscription } from 'rxjs';
+import {AppTopBarComponent} from "./app.topbar.component";
+import {RouterOutlet} from "@angular/router";
+import {AppFooterComponent} from "./app.footer.component";
+import {NgClass} from "@angular/common";
+import {AppMenuComponent} from "./app.menu.component";
+import {MenuService} from "./service/app.menu.service";
 
 @Component({
-    selector: 'app-main',
-    templateUrl: './app.main.component.html',
-    animations: [
-        trigger('submenu', [
-            state('hidden', style({
-                height: '0px'
-            })),
-            state('visible', style({
-                height: '*'
-            })),
-            transition('visible => hidden', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
-            transition('hidden => visible', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
-        ])
-    ]
+  selector: 'app-main',
+  templateUrl: './app.main.component.html',
+  standalone: true,
+  imports: [
+    AppTopBarComponent,
+    RouterOutlet,
+    AppFooterComponent,
+    NgClass,
+    AppMenuComponent
+  ],
+  animations: [
+    trigger('submenu', [
+      state('hidden', style({
+        height: '0px'
+      })),
+      state('visible', style({
+        height: '*'
+      })),
+      transition('visible => hidden', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
+      transition('hidden => visible', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
+    ])
+  ],
+  providers: [ConfigService, MenuService]
 })
 export class AppMainComponent implements AfterViewInit, OnDestroy, OnInit {
 

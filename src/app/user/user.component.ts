@@ -2,12 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from '../user.service';
 import {User} from '../user';
 import {MessageService} from 'primeng/api';
+import {ToastModule} from "primeng/toast";
+import {CardModule} from "primeng/card";
+import {ButtonModule} from "primeng/button";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
-  providers: [MessageService]
+  providers: [MessageService],
+  imports: [
+    ToastModule,
+    CardModule,
+    ButtonModule,
+    FormsModule
+  ],
+  standalone: true
 })
 export class UserComponent implements OnInit {
   user: User;

@@ -39,18 +39,18 @@ export class Game {
   public newGraphics: boolean;
   public lastUpdate: Date;
   public catchable: number;
-  public fakemon: Choice;
+  public fakemon?: Choice;
   public physicalSpecialSplit: boolean;
   public builtInRandomizer: boolean;
   public builtInNuzlocke: boolean;
-  public difficulty: Difficulty;
+  public difficulty?: Difficulty;
 
   public images: string;
 
   public base: Baserom[];
   public console: Choice;
   public status: Choice;
-  public story: Choice;
+  public story?: Choice;
   public rating: Rating[];
 
 

@@ -3,11 +3,22 @@ import {Game, Rating} from '../../game';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {AuthService} from '@auth0/auth0-angular';
+import {RatingModule} from "primeng/rating";
+import {FormsModule} from "@angular/forms";
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
 
 @Component({
+  standalone: true,
   selector: 'app-rating',
   templateUrl: './rating.component.html',
-  styleUrls: ['./rating.component.css']
+  styleUrls: ['./rating.component.css'],
+  imports: [
+    RatingModule,
+    FormsModule,
+    ButtonModule,
+    RippleModule
+  ],
 })
 export class RatingComponent implements OnInit {
   @Input() game: Game;

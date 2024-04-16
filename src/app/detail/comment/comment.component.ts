@@ -3,11 +3,27 @@ import {Comment} from '../../comment';
 import {CommentService} from '../../comment.service';
 import {AuthService} from '@auth0/auth0-angular';
 import {UserService} from '../../user.service';
+import {EditorModule} from "primeng/editor";
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
+import {AsyncPipe, DatePipe} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.css']
+  styleUrls: ['./comment.component.css'],
+  imports: [
+    EditorModule,
+    ButtonModule,
+    RippleModule,
+    AsyncPipe,
+    FormsModule,
+    DatePipe,
+    RouterLink
+  ],
+  standalone: true
 })
 export class CommentComponent implements OnInit, AfterViewChecked {
   @Input() comment: Comment;

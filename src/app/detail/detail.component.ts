@@ -1,16 +1,40 @@
 import {AfterViewChecked, Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {GameService} from '../game.service';
 import {Game} from '../game';
 import {Comment} from '../comment';
 import {CommentService} from '../comment.service';
 import {AuthService} from '@auth0/auth0-angular';
 import {UserService} from '../user.service';
+import {CommentComponent} from "./comment/comment.component";
+import {AsyncPipe} from "@angular/common";
+import {EditorModule} from "primeng/editor";
+import {FormsModule} from "@angular/forms";
+import {GalleriaModule} from "primeng/galleria";
+import {FieldsetModule} from "primeng/fieldset";
+import {DividerModule} from "primeng/divider";
+import {RatingComponent} from "./rating/rating.component";
+import {ButtonModule} from "primeng/button";
+import {CardModule} from "primeng/card";
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css']
+  styleUrls: ['./detail.component.css'],
+  imports: [
+    CommentComponent,
+    RouterLink,
+    AsyncPipe,
+    EditorModule,
+    FormsModule,
+    GalleriaModule,
+    FieldsetModule,
+    DividerModule,
+    RatingComponent,
+    ButtonModule,
+    CardModule
+  ],
+  standalone: true
 })
 export class DetailComponent implements OnInit, AfterViewChecked {
   game: Game;

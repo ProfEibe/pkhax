@@ -1,149 +1,185 @@
 <div class="wrapper">
   <div class="grid">
-    <p-card *ngIf="game" class="col-12 md:col-6 md:col-offset-3">
-      <ng-template pTemplate="header">
-        <div class="p-3 flex align-items-center justify-content-between">
-          <div class="p-card-title">
-            {{game.title}}
+    @if (game) {
+      <p-card class="col-12 md:col-6 md:col-offset-3">
+        <ng-template pTemplate="header">
+          <div class="p-3 flex align-items-center justify-content-between">
+            <div class="p-card-title">
+              {{game.title}}
+            </div>
+            <div class="text-right">
+              @if (game.link) {
+                <a pButton icon="pi pi-external-link" href="{{game.link}}" target="_blank" label="Source"></a>
+              }
+              @if (game.discord) {
+                <a pButton icon="pi pi-external-link" href="{{game.discord}}" target="_blank" label="Discord"
+                class="ml-1"></a>
+              }
+              <p-button label="Editor" [routerLink]="'/editor/' + game.id" class="ml-1"></p-button>
+            </div>
           </div>
-          <div class="text-right">
-            <a pButton icon="pi pi-external-link" href="{{game.link}}" target="_blank" *ngIf="game.link" label="Source"></a>
-            <a pButton icon="pi pi-external-link" href="{{game.discord}}" target="_blank" *ngIf="game.discord" label="Discord"
-               class="ml-1"></a>
-            <p-button label="Editor" [routerLink]="'/editor/' + game.id" class="ml-1"></p-button>
+        </ng-template>
+        <div class="grid align-items-center">
+          <div class="col">
+            Baserom:
+            <span class="baserom-cell">
+              @for (base of game.base; track base) {
+                <span [style.background-color]="base.color" [style.color]="base.fontColor"
+                class="baserom">{{base.name}}</span>
+              }
+            </span>
+          </div>
+          <div class="col">
+            Rating:
+            <app-rating [game]="game"></app-rating>
           </div>
         </div>
-      </ng-template>
-      <div class="grid align-items-center">
-        <div class="col">
-          Baserom:
-          <span class="baserom-cell">
-            <span *ngFor="let base of game.base" [style.background-color]="base.color" [style.color]="base.fontColor"
-                  class="baserom">{{base.name}}</span>
-          </span>
+        <p-divider></p-divider>
+        <div class="grid">
+          <div class="col">
+            Creator: {{game.creator || 'N/A'}}
+          </div>
+          <div class="col">
+            Version: {{game.version || 'N/A'}}
+          </div>
         </div>
-        <div class="col">
-          Rating:
-          <app-rating [game]="game"></app-rating>
+        <p-divider></p-divider>
+        <div class="grid">
+          <div class="col">
+            Story: {{game.story?.name || 'N/A'}}
+          </div>
+          <div class="col">
+            Physical / Special-Split:
+            @if (game.physicalSpecialSplit) {
+              <i class="pi pi-check"></i>
+            }
+            @if (!game.physicalSpecialSplit) {
+              <i class="pi pi-times"></i>
+            }
+            @if (game.physicalSpecialSplit === null) {
+              <span>N/A</span>
+            }
+          </div>
         </div>
-      </div>
-      <p-divider></p-divider>
-      <div class="grid">
-        <div class="col">
-          Creator: {{game.creator || 'N/A'}}
+        <p-divider></p-divider>
+        <div class="grid">
+          <div class="col">
+            Catchable: {{game.catchable}}
+          </div>
+          <div class="col">
+            Fakemon: {{game.fakemon?.name || 'N/A'}}
+          </div>
         </div>
-        <div class="col">
-          Version: {{game.version || 'N/A'}}
+        <p-divider></p-divider>
+        <div class="grid">
+          <div class="col">
+            Built-in nuzlocke:
+            @if (game.builtInNuzlocke) {
+              <i class="pi pi-check"></i>
+            }
+            @if (!game.builtInNuzlocke) {
+              <i class="pi pi-times"></i>
+            }
+            @if (game.builtInNuzlocke === null) {
+              <span>N/A</span>
+            }
+          </div>
+          <div class="col">
+            Built-in randomizer:
+            @if (game.builtInRandomizer) {
+              <i class="pi pi-check"></i>
+            }
+            @if (!game.builtInRandomizer) {
+              <i class="pi pi-times"></i>
+            }
+            @if (game.builtInRandomizer === null) {
+              <span>N/A</span>
+            }
+          </div>
         </div>
-      </div>
-      <p-divider></p-divider>
-      <div class="grid">
-        <div class="col">
-          Story: {{game.story?.name || 'N/A'}}
+        <p-divider></p-divider>
+        <div class="grid">
+          <div class="col">
+            New graphics: {{game.newGraphics || 'N/A'}}
+          </div>
+          <div class="col">
+            Difficulty: {{game.difficulty?.name || 'N/A'}}
+          </div>
         </div>
-        <div class="col">
-          Physical / Special-Split:
-          <i *ngIf="game.physicalSpecialSplit == true" class="pi pi-check"></i>
-          <i *ngIf="game.physicalSpecialSplit == false" class="pi pi-times"></i>
-          <span *ngIf="game.physicalSpecialSplit == null">N/A</span>
+        <div class="grid">
+          <div class="col">
+            @if (game.description) {
+              <p-fieldset legend="Description / Features">
+                <div [innerHTML]="game.description"></div>
+              </p-fieldset>
+            }
+          </div>
         </div>
-      </div>
-      <p-divider></p-divider>
-      <div class="grid">
-        <div class="col">
-          Catchable: {{game.catchable}}
-        </div>
-        <div class="col">
-          Fakemon: {{game.fakemon?.name || 'N/A'}}
-        </div>
-      </div>
-      <p-divider></p-divider>
-      <div class="grid">
-        <div class="col">
-          Built-in nuzlocke:
-          <i *ngIf="game.builtInNuzlocke == true" class="pi pi-check"></i>
-          <i *ngIf="game.builtInNuzlocke == false" class="pi pi-times"></i>
-          <span *ngIf="game.builtInNuzlocke == null">N/A</span>
-        </div>
-        <div class="col">
-          Built-in randomizer:
-          <i *ngIf="game.builtInRandomizer == true" class="pi pi-check"></i>
-          <i *ngIf="game.builtInRandomizer == false" class="pi pi-times"></i>
-          <span *ngIf="game.builtInRandomizer == null">N/A</span>
-        </div>
-      </div>
-      <p-divider></p-divider>
-      <div class="grid">
-        <div class="col">
-          New graphics: {{game.newGraphics || 'N/A'}}
-        </div>
-        <div class="col">
-          Difficulty: {{game.difficulty?.name || 'N/A'}}
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col">
-          <p-fieldset *ngIf="game.description" legend="Description / Features">
-            <div [innerHTML]="game.description"></div>
-          </p-fieldset>
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="col">
-          <h3>Images</h3>
-          <p-galleria [value]="images" [(visible)]="displayCustom" [(activeIndex)]="activeIndex" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1440px'}" [numVisible]="7"
-                      [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false" [baseZIndex]="100000">
-            <ng-template pTemplate="item" let-item>
-              <img [src]="item" style="width: 100%; display: block;"/>
-            </ng-template>
-            <ng-template pTemplate="thumbnail" let-item>
-              <div class="grid grid-nogutter text-center">
-                <img [src]="item" style="display: block;"/>
+        <div class="grid">
+          <div class="col">
+            <h3>Images</h3>
+            <p-galleria [value]="images" [(visible)]="displayCustom" [(activeIndex)]="activeIndex" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1440px'}" [numVisible]="7"
+              [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false" [baseZIndex]="100000">
+              <ng-template pTemplate="item" let-item>
+                <img [src]="item" style="width: 100%; display: block;"/>
+              </ng-template>
+              <ng-template pTemplate="thumbnail" let-item>
+                <div class="grid grid-nogutter text-center">
+                  <img [src]="item" style="display: block;"/>
+                </div>
+              </ng-template>
+            </p-galleria>
+            @if (images && images.length > 0) {
+              <div class="grid">
+                @for (image of images; track image; let index = $index) {
+                  <div class="col-3" key="index">
+                    <img [src]="image" [alt]="image" style="cursor: pointer; width: 90%; height: auto;" (click)="imageClick(index)"/>
+                  </div>
+                }
               </div>
-            </ng-template>
-          </p-galleria>
-          <div *ngIf="images && images.length > 0; else noImages" class="grid">
-            <div *ngFor="let image of images; let index = index;" class="col-3" key="index">
-              <img [src]="image" [alt]="image" style="cursor: pointer; width: 90%; height: auto;" (click)="imageClick(index)"/>
-            </div>
+            } @else {
+              <div class="grid">
+                <div class="col">No images yet.</div>
+              </div>
+            }
           </div>
-          <ng-template #noImages>
-            <div class="grid">
-              <div class="col">No images yet.</div>
-            </div>
-          </ng-template>
         </div>
-      </div>
-
-      <div class="grid">
-        <div class="col">
-          <h3>Comments</h3>
-          <p-editor *ngIf="(auth.isAuthenticated$ | async) && (userService.currentUser | async)?.displayName; else loginInfo" [(ngModel)]="rootCommentBox">
-            <p-header class="flex justify-content-between">
-              <span class="ql-formats">
-                  <button type="button" class="ql-bold" aria-label="Bold"></button>
-                  <button type="button" class="ql-italic" aria-label="Italic"></button>
-                  <button type="button" class="ql-underline" aria-label="Underline"></button>
-              </span>
-              <button pButton class="p-button-sm p-button-secondary p-button-rounded p-button-outlined" style="width: auto;" type="button" (click)="saveRootComment()" label="Comment"></button>
-            </p-header>
-          </p-editor>
-          <ng-template #loginInfo>
-            <button *ngIf="(auth.isAuthenticated$ | async); else displayName" pRipple pButton label="Choose a displayname" [routerLink]="'/user'"></button>
-            <ng-template #displayName>
-              <button pRipple pButton label="Login to comment" (click)="auth.loginWithRedirect()"></button>
-            </ng-template>
-          </ng-template>
-          <div *ngIf="comments && comments.length > 0; else noComments" class="p-mt-2">
-            <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
+        <div class="grid">
+          <div class="col">
+            <h3>Comments</h3>
+            @if ((auth.isAuthenticated$ | async) && (userService.currentUser | async)?.displayName) {
+              <p-editor [(ngModel)]="rootCommentBox">
+                <p-header class="flex justify-content-between">
+                  <span class="ql-formats">
+                    <button type="button" class="ql-bold" aria-label="Bold"></button>
+                    <button type="button" class="ql-italic" aria-label="Italic"></button>
+                    <button type="button" class="ql-underline" aria-label="Underline"></button>
+                  </span>
+                  <button pButton class="p-button-sm p-button-secondary p-button-rounded p-button-outlined" style="width: auto;" type="button" (click)="saveRootComment()" label="Comment"></button>
+                </p-header>
+              </p-editor>
+            } @else {
+              @if ((auth.isAuthenticated$ | async)) {
+                <button pRipple pButton label="Choose a displayname" [routerLink]="'/user'"></button>
+              } @else {
+                <button pRipple pButton label="Login to comment" (click)="auth.loginWithRedirect()"></button>
+              }
+              <ng-template #displayName>
+                <button pRipple pButton label="Login to comment" (click)="auth.loginWithRedirect()"></button>
+              </ng-template>
+            }
+            @if (comments && comments.length > 0) {
+              <div class="p-mt-2">
+                @for (comment of comments; track comment) {
+                  <app-comment [comment]="comment"></app-comment>
+                }
+              </div>
+            } @else {
+              There are no comments for this hack.
+            }
           </div>
-          <ng-template #noComments>
-            There are no comments for this hack.
-          </ng-template>
         </div>
-      </div>
-    </p-card>
+      </p-card>
+    }
   </div>
 </div>
