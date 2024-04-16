@@ -81,18 +81,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pkhax:build"
+            "buildTarget": "pkhax:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "pkhax:build:production"
+              "buildTarget": "pkhax:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pkhax:build"
+            "buildTarget": "pkhax:build"
           }
         },
         "test": {
@@ -136,8 +136,17 @@
       }
     }
   },
-  "defaultProject": "pkhax",
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
+  },
+  "schematics": {
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
+    }
   }
 }
