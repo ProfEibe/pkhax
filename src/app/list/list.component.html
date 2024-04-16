@@ -1,15 +1,16 @@
-<div class="card col-12 md:col-10 md:col-offset-1 mt-2">
-  <div style="height: calc(100vh - 126px)">
+<div class="card col-12">
+  <div style="height: calc(100vh - 220px)">
     <p-table [columns]="selectedColumns" #dt [value]="games" [scrollable]="true" scrollHeight="flex"
-             styleClass="p-datatable-sm p-datatable-gridlines" responsiveLayout="stack"
+             styleClass="p-datatable-sm p-datatable-gridlines"
              selectionMode="single" [(selection)]="selectedGame" (onRowSelect)="onRowSelect($event)" dataKey="id"
              stateStorage="session" stateKey="pkhax-filter-session" [loading]="loading"
-             [contextMenu]="cm" contextMenuSelectionMode="joint">
+             [contextMenu]="cm" contextMenuSelectionMode="joint" sortField="rating" [sortOrder]="-1"
+             (sortFunction)="customSort($event)" [customSort]="true">
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th *ngFor="let col of columns" class="p-fluid"
-              [pSortableColumn]="['catchable','avgRating', 'title'].includes(col.field) ? col.field : null">
-            <p-sortIcon *ngIf="['catchable','avgRating', 'title'].includes(col.field)" [field]="col.field"></p-sortIcon>
+          <th *ngFor="let col of columns" class="p-fluid" style="min-width: 200px;"
+              [pSortableColumn]="['catchable','rating', 'title'].includes(col.field) ? col.field : null">
+            <p-sortIcon *ngIf="['catchable','rating', 'title'].includes(col.field)" [field]="col.field"></p-sortIcon>
             <span *ngIf="!['base', 'story', 'status', 'difficulty', 'fakemon'].includes(col.field)">{{col.header}}&nbsp;</span>
             <p-triStateCheckbox
               *ngIf="['newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
@@ -61,7 +62,7 @@
           </div>
           <div class="col-12" *ngIf="mobileFilter" style="max-height: 30vh; overflow-y: scroll;">
             <div *ngFor="let col of columns">
-              <div class="align-items-center" style="padding: 0 0.5rem;" *ngIf="!['creator', 'version', 'avgRating', 'catchable'].includes(col.field)">
+              <div class="align-items-center" style="padding: 0 0.5rem;" *ngIf="!['creator', 'version', 'rating', 'catchable'].includes(col.field)">
             <span class="col-fixed"
                   style="padding: .4rem; min-width: 30%; display: inline-block; margin: -.4em 1em -.4em -.4rem; font-weight: bold; color: #495057;">{{col.header}}</span>
                 <div style="display: inline-block" class="col">
@@ -114,7 +115,7 @@
       </ng-template>
       <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
-          <td *ngFor="let col of columns">
+          <td *ngFor="let col of columns"  style="min-width: 200px;">
             <span class="p-column-title">{{col.header}}</span>
             <div *ngIf="['title'].includes(col.field)">{{rowData[col.field]}}</div>
             <div *ngIf="['creator', 'catchable'].includes(col.field)" class="text-center">
@@ -122,15 +123,17 @@
               <span *ngIf="!rowData[col.field]" style="color: lightgray;">N/A</span>
             </div>
             <div *ngIf="col.field == 'base'" class="baserom-cell text-center">
-          <span *ngFor="let base of rowData[col.field]" [style.background-color]="base.color"
+              <span *ngFor="let base of rowData[col.field]" [style.background-color]="base.color"
                 [style.color]="base.fontColor"
                 class="baserom">{{base.short_name}}</span>
             </div>
             <div *ngIf="['status', 'story', 'difficulty', 'fakemon'].includes(col.field)"
                  class="text-center">{{rowData[col.field]?.name}}</div>
-            <p-rating *ngIf="col.field == 'avgRating'" [ngModel]="rowData[col.field] - 0.49" [readonly]="true"
-                      class="text-center"
-                      [cancel]="false"></p-rating>
+            <div *ngIf="col.field == 'rating'">
+              <p-rating [ngModel]="rowData['avgRating'] - 0.49" [readonly]="true"
+                        class="text-center" [pTooltip]="(rowData['avgRating'] | number) ?? '0'"
+                        [cancel]="false"></p-rating> ({{rowData['rating'].length}})
+            </div>
             <div
               *ngIf="['original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)"
               style="text-align: center;">

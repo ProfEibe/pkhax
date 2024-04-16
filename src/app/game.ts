@@ -53,6 +53,9 @@ export class Game {
   public story: Choice;
   public rating: Rating[];
 
+
+  public ranking = 0;
+
   public get avgRating(): number {
     if (this.rating?.length === 0) {
       return 0;

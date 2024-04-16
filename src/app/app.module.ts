@@ -19,7 +19,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DropdownModule} from 'primeng/dropdown';
 import {CheckboxModule} from 'primeng/checkbox';
 import {InputNumberModule} from 'primeng/inputnumber';
-import {TopbarComponent} from './topbar/topbar.component';
 import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
 import {FieldsetModule} from 'primeng/fieldset';
 import {ToastModule} from 'primeng/toast';
@@ -40,6 +39,17 @@ import {GalleriaModule} from 'primeng/galleria';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule} from 'ngx-google-analytics';
 import {NgcCookieConsentConfig, NgcCookieConsentModule} from 'ngx-cookieconsent';
+import {AppTopBarComponent} from './app.topbar.component';
+import {AppMainComponent} from './app.main.component';
+import {AppFooterComponent} from './app.footer.component';
+import {AppMenuComponent} from './app.menu.component';
+import {AppMenuitemComponent} from './app.menuitem.component';
+import {InputSwitchModule} from 'primeng/inputswitch';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {ConfigService} from './service/app.config.service';
+import {MenuService} from './service/app.menu.service';
+import { NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
+import { NgxMatomoRouterModule } from '@ngx-matomo/router';
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -71,17 +81,6 @@ const cookieConfig: NgcCookieConsentConfig = {
 };
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ListComponent,
-    DetailComponent,
-    EditorComponent,
-    TopbarComponent,
-    AuthButtonComponent,
-    RatingComponent,
-    CommentComponent,
-    UserComponent
-  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -175,9 +174,29 @@ const cookieConfig: NgcCookieConsentConfig = {
         ]
       }
     }),
+    InputSwitchModule,
+    RadioButtonModule,
+    NgxMatomoTrackerModule.forRoot({ trackerUrl: 'https://jakos.uber.space/matomo', siteId: '4' }),
+    NgxMatomoRouterModule,
+  ],
+  declarations: [
+    AppComponent,
+    AppMainComponent,
+    AppTopBarComponent,
+    AppFooterComponent,
+    AppMenuComponent,
+    AppMenuitemComponent,
+    ListComponent,
+    DetailComponent,
+    EditorComponent,
+    AuthButtonComponent,
+    RatingComponent,
+    CommentComponent,
+    UserComponent
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true},
+    ConfigService, MenuService
   ],
   bootstrap: [AppComponent]
 })

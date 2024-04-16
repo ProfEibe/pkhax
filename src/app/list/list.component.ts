@@ -6,7 +6,7 @@ import {GlobalFilterService} from '../global-filter.service';
 import {Baserom, Choice, Difficulty, Game} from '../game';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {FilterService} from 'primeng/api';
+import {FilterService, SortEvent} from 'primeng/api';
 
 @Component({
   selector: 'app-list',
@@ -105,7 +105,7 @@ export class ListComponent implements OnInit {
       {field: 'builtInNuzlocke', header: 'built-in Nuzlocke'},
       {field: 'status', header: 'Status'},
       {field: 'difficulty', header: 'Difficulty'},
-      {field: 'avgRating', header: 'Rating'},
+      {field: 'rating', header: 'Rating'},
     ];
 
     this.innerWidth = window.innerWidth;
@@ -154,5 +154,50 @@ export class ListComponent implements OnInit {
 
   toggleFilter(): void {
     this.mobileFilter = !this.mobileFilter;
+  }
+
+  customSort(event: SortEvent) {
+    if (!event.data) return;
+    if (event.field === 'rating') {
+      let avgs = 0;
+      let count = 0;
+
+      for (let game of event.data as Game[]) {
+        if (game.rating.length === 0) continue;
+        avgs += game.avgRating;
+        count++;
+      }
+
+      avgs /= count;
+
+      let m = 5;
+
+      for (let game of event.data as Game[]) {
+        if (game.rating.length === 0) continue;
+        game.ranking = (game.avgRating * game.rating.length + avgs * m) / (game.rating.length + m);
+      }
+
+      event.field = 'ranking';
+
+    }
+    event.data.sort((data1, data2) => {
+      if (!event.field || !event.order) return 0;
+      let value1 = data1[event.field];
+      let value2 = data2[event.field];
+      let result = null;
+
+      if (value1 == null && value2 != null)
+        result = -1;
+      else if (value1 != null && value2 == null)
+        result = 1;
+      else if (value1 == null && value2 == null)
+        result = 0;
+      else if (typeof value1 === 'string' && typeof value2 === 'string')
+        result = value1.localeCompare(value2);
+      else
+        result = (value1 < value2) ? -1 : (value1 > value2) ? 1 : 0;
+
+      return (event.order * result);
+    });
   }
 }
