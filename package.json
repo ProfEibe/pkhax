@@ -23,7 +23,7 @@
     "@auth0/auth0-angular": "^2.2.3",
     "cookieconsent": "^3.1.1",
     "ngx-cookieconsent": "^6.0.0",
-    "ngx-google-analytics": "^11.2.0",
+    "ngx-matomo-client": "^6.0.2",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
     "primeng": "^17.13.0",

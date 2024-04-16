@@ -15,6 +15,8 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {MessageModule} from "primeng/message";
 import {CardModule} from "primeng/card";
 import {ToastModule} from "primeng/toast";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {InputTextModule} from "primeng/inputtext";
 
 @Component({
   selector: 'app-editor',
@@ -32,7 +34,9 @@ import {ToastModule} from "primeng/toast";
     MessageModule,
     RouterLink,
     CardModule,
-    ToastModule
+    ToastModule,
+    InputTextareaModule,
+    InputTextModule
   ],
   standalone: true
 })
