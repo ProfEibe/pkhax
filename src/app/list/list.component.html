@@ -30,9 +30,6 @@
                 : null
             "
           >
-            @if (['catchable', 'rating', 'title'].includes(col.field)) {
-              <p-sortIcon [field]="col.field"></p-sortIcon>
-            }
             @if (
               !['base', 'story', 'status', 'difficulty', 'fakemon'].includes(
                 col.field
@@ -156,6 +153,9 @@
                   </p-dropdown>
                 </ng-template>
               </p-columnFilter>
+            }
+            @if (['catchable', 'rating', 'title'].includes(col.field)) {
+              <p-sortIcon [field]="col.field"></p-sortIcon>
             }
           </th>
         }

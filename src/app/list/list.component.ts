@@ -84,8 +84,7 @@ export class ListComponent implements OnInit {
     private http: HttpClient,
   ) {}
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
-  _selectedColumns: any[] = [];
+  private _selectedColumns: any[] = [];
 
   @Input() get selectedColumns(): any[] {
     return this._selectedColumns;
@@ -145,7 +144,7 @@ export class ListComponent implements OnInit {
       { field: 'newGraphics', header: 'new Graphics' },
       { field: 'catchable', header: 'Catchable' },
       { field: 'fakemon', header: 'Fakemon' },
-      { field: 'physicalSpecialSplit', header: 'physical/special-Split' },
+      { field: 'physicalSpecialSplit', header: 'p/s-Split' },
       { field: 'builtInRandomizer', header: 'built-in Randomizer' },
       { field: 'builtInNuzlocke', header: 'built-in Nuzlocke' },
       { field: 'status', header: 'Status' },

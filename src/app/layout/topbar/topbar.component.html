@@ -8,6 +8,18 @@
       <h1 class="title ml-2">PkHax</h1>
     </div>
     <div class="flex align-items-center">
+      <p-button
+        icon="pi pi-home"
+        [rounded]="true"
+        [text]="true"
+        [routerLink]="['/']"
+      ></p-button>
+      <p-button
+        icon="pi pi-list"
+        [rounded]="true"
+        [text]="true"
+        [routerLink]="['/list']"
+      ></p-button>
       @if (isLoggedIn() | async) {
         <p-button
           icon="pi pi-user"

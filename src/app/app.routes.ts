@@ -12,6 +12,10 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'list',
+    component: ListComponent,
+  },
+  {
     path: 'editor',
     redirectTo: 'editor/',
     pathMatch: 'full',
