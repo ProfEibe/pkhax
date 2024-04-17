@@ -30,7 +30,7 @@ export class RatingComponent implements OnInit {
     if (this.hover || this.set) {
       return this.ownValue;
     } else {
-      return this.avgValue - 0.49;
+      return this.avgValue;
     }
   }
 

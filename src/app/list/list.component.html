@@ -373,7 +373,7 @@
             @if (col.field === 'rating') {
               <div>
                 <p-rating
-                  [ngModel]="rowData['avgRating'] - 0.49"
+                  [ngModel]="rowData['avgRating']"
                   [readonly]="true"
                   class="text-center"
                   [pTooltip]="(rowData['avgRating'] | number) ?? '0'"
