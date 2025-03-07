@@ -21,21 +21,16 @@
               "base": "dist/pkhax"
             },
             "index": "src/index.html",
-            "polyfills": [
-              "src/polyfills.ts"
-            ],
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "node_modules/cookieconsent/build/cookieconsent.min.css",
               "node_modules/quill/dist/quill.core.css",
               "node_modules/quill/dist/quill.snow.css",
-              "src/styles.css"
+              "src/styles.scss"
             ],
-            "scripts": [
-              "node_modules/cookieconsent/build/cookieconsent.min.js",
-              "node_modules/quill/dist/quill.js"
-            ],
+            "scripts": ["node_modules/cookieconsent/build/cookieconsent.min.js", "node_modules/quill/dist/quill.js"],
             "extractLicenses": false,
             "sourceMap": true,
             "optimization": false,
@@ -96,7 +91,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         },
