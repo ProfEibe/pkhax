@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
 import { LayoutService } from '../service/layout.service';
+import { AuthButtonComponent } from '../../auth-button/auth-button.component';
+import { Avatar } from 'primeng/avatar';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [RouterModule, CommonModule, StyleClassModule],
+  imports: [RouterModule, CommonModule, StyleClassModule, AuthButtonComponent, Avatar],
   template: ` <div class="layout-topbar">
     <div class="layout-topbar-logo-container">
       <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
@@ -43,7 +46,7 @@ import { LayoutService } from '../service/layout.service';
             />
           </g>
         </svg>
-        <span>SAKAI</span>
+        <span>PkHax</span>
       </a>
     </div>
 
@@ -84,18 +87,14 @@ import { LayoutService } from '../service/layout.service';
 
       <div class="layout-topbar-menu hidden lg:block">
         <div class="layout-topbar-menu-content">
-          <button type="button" class="layout-topbar-action">
-            <i class="pi pi-calendar"></i>
-            <span>Calendar</span>
+          <button [routerLink]="['editor']" type="button" class="layout-topbar-action">
+            <i class="pi pi-plus"></i>
+            <span>New Entry</span>
           </button>
-          <button type="button" class="layout-topbar-action">
-            <i class="pi pi-inbox"></i>
-            <span>Messages</span>
-          </button>
-          <button type="button" class="layout-topbar-action">
-            <i class="pi pi-user"></i>
-            <span>Profile</span>
-          </button>
+          <app-auth-button></app-auth-button>
+          @if (auth.user$ | async; as user) {
+            <p-avatar [image]="imageSrc" styleClass="ml-2 cursor" shape="circle" [routerLink]="['user']"></p-avatar>
+          }
         </div>
       </div>
     </div>
@@ -103,8 +102,15 @@ import { LayoutService } from '../service/layout.service';
 })
 export class AppTopbar {
   items!: MenuItem[];
+  protected auth = inject(AuthService);
 
-  constructor(public layoutService: LayoutService) {}
+  protected imageSrc = '';
+
+  constructor(public layoutService: LayoutService) {
+    this.auth.user$.subscribe((user) => {
+      this.imageSrc = user?.picture ?? '';
+    });
+  }
 
   toggleDarkMode() {
     this.layoutService.layoutConfig.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
