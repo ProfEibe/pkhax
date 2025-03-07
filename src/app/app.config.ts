@@ -7,6 +7,7 @@ import { provideMatomo, withRouter } from 'ngx-matomo-client';
 import { AuthHttpInterceptor, AuthModule, HttpMethod } from '@auth0/auth0-angular';
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
+import Aura from '@primeng/themes/aura';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,7 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideAnimationsAsync(),
     providePrimeNG({
-      //theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } },
+      theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } },
     }),
     provideMatomo({ trackerUrl: 'https://jakos.uber.space/matomo', siteId: '4' }, withRouter()),
     importProvidersFrom(
