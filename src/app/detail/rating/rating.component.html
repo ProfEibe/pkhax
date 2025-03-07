@@ -3,9 +3,10 @@
     [(ngModel)]="value"
     (mouseenter)="hover = true"
     (mouseleave)="hover = false"
-    [cancel]="false"
     [readonly]="readOnly"
   ></p-rating>
+  <!--fixme
+    [cancel]="false"-->
   ({{ game.rating.length }})
   @if (!readOnly) {
     <button

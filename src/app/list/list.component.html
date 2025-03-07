@@ -45,9 +45,9 @@
                 'builtInRandomizer'
               ].includes(col.field)
             ) {
-              <p-triStateCheckbox
+              <!--fixme <p-triStateCheckbox
                 (onChange)="dt.filter($event.value, col.field, 'equals')"
-              ></p-triStateCheckbox>
+              ></p-triStateCheckbox>-->
             }
             @if (col.field === 'base') {
               <p-multiSelect
@@ -69,7 +69,7 @@
                   let-value
                   let-filter="filterCallback"
                 >
-                  <p-dropdown
+                  <p-select
                     [ngModel]="value"
                     [options]="stories"
                     optionLabel="name"
@@ -78,7 +78,7 @@
                     placeholder="Story"
                     [showClear]="true"
                   >
-                  </p-dropdown>
+                  </p-select>
                 </ng-template>
               </p-columnFilter>
             }
@@ -93,7 +93,7 @@
                   let-value
                   let-filter="filterCallback"
                 >
-                  <p-dropdown
+                  <p-select
                     [ngModel]="value"
                     [options]="status"
                     optionLabel="name"
@@ -102,7 +102,7 @@
                     placeholder="Status"
                     [showClear]="true"
                   >
-                  </p-dropdown>
+                  </p-select>
                 </ng-template>
               </p-columnFilter>
             }
@@ -117,7 +117,7 @@
                   let-value
                   let-filter="filterCallback"
                 >
-                  <p-dropdown
+                  <p-select
                     [ngModel]="value"
                     [options]="difficulties"
                     optionLabel="name"
@@ -126,7 +126,7 @@
                     placeholder="Difficulty"
                     [showClear]="true"
                   >
-                  </p-dropdown>
+                  </p-select>
                 </ng-template>
               </p-columnFilter>
             }
@@ -141,7 +141,7 @@
                   let-value
                   let-filter="filterCallback"
                 >
-                  <p-dropdown
+                  <p-select
                     [ngModel]="value"
                     [options]="fakemon"
                     optionLabel="name"
@@ -150,7 +150,7 @@
                     placeholder="Fakemon"
                     [showClear]="true"
                   >
-                  </p-dropdown>
+                  </p-select>
                 </ng-template>
               </p-columnFilter>
             }
@@ -227,7 +227,7 @@
                             let-value
                             let-filter="filterCallback"
                           >
-                            <p-dropdown
+                            <p-select
                               [ngModel]="value"
                               [options]="status"
                               optionLabel="name"
@@ -236,7 +236,7 @@
                               placeholder="Status"
                               [showClear]="true"
                             >
-                            </p-dropdown>
+                            </p-select>
                           </ng-template>
                         </p-columnFilter>
                       }
@@ -251,7 +251,7 @@
                             let-value
                             let-filter="filterCallback"
                           >
-                            <p-dropdown
+                            <p-select
                               [ngModel]="value"
                               [options]="stories"
                               optionLabel="name"
@@ -260,7 +260,7 @@
                               placeholder="Story"
                               [showClear]="true"
                             >
-                            </p-dropdown>
+                            </p-select>
                           </ng-template>
                         </p-columnFilter>
                       }
@@ -275,7 +275,7 @@
                             let-value
                             let-filter="filterCallback"
                           >
-                            <p-dropdown
+                            <p-select
                               [ngModel]="value"
                               [options]="difficulties"
                               optionLabel="name"
@@ -284,7 +284,7 @@
                               placeholder="Difficulty"
                               [showClear]="true"
                             >
-                            </p-dropdown>
+                            </p-select>
                           </ng-template>
                         </p-columnFilter>
                       }
@@ -299,7 +299,7 @@
                             let-value
                             let-filter="filterCallback"
                           >
-                            <p-dropdown
+                            <p-select
                               [ngModel]="value"
                               [options]="fakemon"
                               optionLabel="name"
@@ -308,7 +308,7 @@
                               placeholder="Fakemon"
                               [showClear]="true"
                             >
-                            </p-dropdown>
+                            </p-select>
                           </ng-template>
                         </p-columnFilter>
                       }
@@ -320,11 +320,12 @@
                           'builtInRandomizer'
                         ].includes(col.field)
                       ) {
+                        <!--fixme
                         <p-triStateCheckbox
                           (onChange)="
                             dt.filter($event.value, col.field, 'equals')
                           "
-                        ></p-triStateCheckbox>
+                        ></p-triStateCheckbox>-->
                       }
                     </div>
                   </div>
@@ -376,9 +377,10 @@
                   [ngModel]="rowData['avgRating']"
                   [readonly]="true"
                   class="text-center"
-                  [pTooltip]="(rowData['avgRating'] | number) ?? '0'"
-                  [cancel]="false"
                 ></p-rating>
+                <!--fixme
+                  [pTooltip]="(rowData['avgRating'] | number) ?? '0'"
+                  [cancel]="false"-->
                 ({{ rowData['rating'].length }})
               </div>
             }

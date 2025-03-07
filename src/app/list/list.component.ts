@@ -13,16 +13,14 @@ import { Baserom, Choice, Difficulty, Game } from '../game';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { FilterService, SortEvent } from 'primeng/api';
-import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelect } from 'primeng/multiselect';
+import { Select } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { RatingModule } from 'primeng/rating';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { InputTextModule } from 'primeng/inputtext';
-import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-list',
@@ -30,18 +28,15 @@ import { DecimalPipe } from '@angular/common';
   styleUrls: ['./list.component.scss'],
   imports: [
     TableModule,
-    TriStateCheckboxModule,
-    MultiSelectModule,
-    DropdownModule,
+    MultiSelect,
+    Select,
     FormsModule,
     ButtonModule,
     RippleModule,
     RatingModule,
     ContextMenuModule,
     InputTextModule,
-    DecimalPipe,
   ],
-  standalone: true,
 })
 export class ListComponent implements OnInit {
   cols: any[] = [];

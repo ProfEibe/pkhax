@@ -18,23 +18,22 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 
 @Component({
-  selector: 'app-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css'],
-  imports: [
-    CommentComponent,
-    RouterLink,
-    AsyncPipe,
-    EditorModule,
-    FormsModule,
-    GalleriaModule,
-    FieldsetModule,
-    DividerModule,
-    RatingComponent,
-    ButtonModule,
-    CardModule,
-  ],
-  standalone: true,
+    selector: 'app-detail',
+    templateUrl: './detail.component.html',
+    styleUrls: ['./detail.component.css'],
+    imports: [
+        CommentComponent,
+        RouterLink,
+        AsyncPipe,
+        EditorModule,
+        FormsModule,
+        GalleriaModule,
+        FieldsetModule,
+        DividerModule,
+        RatingComponent,
+        ButtonModule,
+        CardModule,
+    ]
 })
 export class DetailComponent implements OnInit, AfterViewChecked {
   game: Game;

@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  ConfirmationService,
-  MessageService,
-  PrimeNGConfig,
-} from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import {
   NgcCookieConsentConfig,
   NgcCookieConsentService,
@@ -26,7 +22,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ToastModule,
     ConfirmDialogModule,
   ],
-  standalone: true,
   providers: [
     NgcCookieConsentService,
     WindowService,
@@ -35,13 +30,4 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ConfirmationService,
   ],
 })
-export class AppComponent {
-  menuMode = 'overlay';
-
-  constructor(private primengConfig: PrimeNGConfig) {}
-
-  ngOnInit() {
-    this.primengConfig.ripple = true;
-    document.documentElement.style.fontSize = '14px';
-  }
-}
+export class AppComponent {}

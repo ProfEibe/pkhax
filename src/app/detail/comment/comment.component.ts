@@ -11,19 +11,18 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-comment',
-  templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.css'],
-  imports: [
-    EditorModule,
-    ButtonModule,
-    RippleModule,
-    AsyncPipe,
-    FormsModule,
-    DatePipe,
-    RouterLink,
-  ],
-  standalone: true,
+    selector: 'app-comment',
+    templateUrl: './comment.component.html',
+    styleUrls: ['./comment.component.css'],
+    imports: [
+        EditorModule,
+        ButtonModule,
+        RippleModule,
+        AsyncPipe,
+        FormsModule,
+        DatePipe,
+        RouterLink,
+    ]
 })
 export class CommentComponent implements OnInit, AfterViewChecked {
   @Input() comment: Comment;

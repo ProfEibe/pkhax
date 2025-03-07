@@ -10,12 +10,10 @@ import { FormsModule } from '@angular/forms';
 import { EditorModule } from 'primeng/editor';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { MessageModule } from 'primeng/message';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
@@ -29,16 +27,13 @@ import { InputTextModule } from 'primeng/inputtext';
     EditorModule,
     DropdownModule,
     MultiSelectModule,
-    TriStateCheckboxModule,
     InputNumberModule,
     MessageModule,
     RouterLink,
     CardModule,
     ToastModule,
-    InputTextareaModule,
     InputTextModule,
   ],
-  standalone: true,
 })
 export class EditorComponent implements OnInit {
   game: Game | undefined;

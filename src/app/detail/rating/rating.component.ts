@@ -9,11 +9,10 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 
 @Component({
-  standalone: true,
-  selector: 'app-rating',
-  templateUrl: './rating.component.html',
-  styleUrls: ['./rating.component.css'],
-  imports: [RatingModule, FormsModule, ButtonModule, RippleModule],
+    selector: 'app-rating',
+    templateUrl: './rating.component.html',
+    styleUrls: ['./rating.component.css'],
+    imports: [RatingModule, FormsModule, ButtonModule, RippleModule]
 })
 export class RatingComponent implements OnInit {
   @Input() game: Game;

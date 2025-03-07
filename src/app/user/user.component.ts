@@ -8,12 +8,11 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css'],
-  providers: [MessageService],
-  imports: [ToastModule, CardModule, ButtonModule, FormsModule],
-  standalone: true,
+    selector: 'app-user',
+    templateUrl: './user.component.html',
+    styleUrls: ['./user.component.css'],
+    providers: [MessageService],
+    imports: [ToastModule, CardModule, ButtonModule, FormsModule]
 })
 export class UserComponent implements OnInit {
   user: User;

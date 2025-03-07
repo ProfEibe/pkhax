@@ -6,11 +6,10 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
-  selector: 'app-topbar',
-  standalone: true,
-  imports: [ButtonModule, NgClass, RippleModule, RouterLink, AsyncPipe],
-  templateUrl: './topbar.component.html',
-  styleUrl: './topbar.component.css',
+    selector: 'app-topbar',
+    imports: [ButtonModule, NgClass, RippleModule, RouterLink, AsyncPipe],
+    templateUrl: './topbar.component.html',
+    styleUrl: './topbar.component.css'
 })
 export class TopbarComponent {
   private authService = inject(AuthService);
