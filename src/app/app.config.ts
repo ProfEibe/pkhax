@@ -1,24 +1,17 @@
 import { HTTP_INTERCEPTORS, provideHttpClient, withFetch } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import { provideMatomo, withRouter } from 'ngx-matomo-client';
-import { AuthHttpInterceptor, AuthModule, HttpMethod, provideAuth0 } from '@auth0/auth0-angular';
+import { AuthHttpInterceptor, HttpMethod, provideAuth0 } from '@auth0/auth0-angular';
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
 import Aura from '@primeng/themes/aura';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(
-      routes,
-      withInMemoryScrolling({
-        anchorScrolling: 'enabled',
-        scrollPositionRestoration: 'enabled',
-      }),
-      withEnabledBlockingInitialNavigation(),
-    ),
+    provideRouter(routes),
     provideHttpClient(withFetch()),
     provideAnimationsAsync(),
     providePrimeNG({

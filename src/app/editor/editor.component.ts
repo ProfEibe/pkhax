@@ -8,7 +8,7 @@ import { Baserom, Choice, Difficulty, Game } from '../game';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { EditorModule } from 'primeng/editor';
-import { DropdownModule } from 'primeng/dropdown';
+import { Select } from 'primeng/select';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { MessageModule } from 'primeng/message';
@@ -25,7 +25,7 @@ import { InputTextModule } from 'primeng/inputtext';
     ButtonModule,
     FormsModule,
     EditorModule,
-    DropdownModule,
+    Select,
     MultiSelectModule,
     InputNumberModule,
     MessageModule,
@@ -56,21 +56,11 @@ export class EditorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.http
-      .get<Baserom[]>(this.baseUrl + '/baseroms/')
-      .subscribe((baseroms) => (this.baseroms = baseroms));
-    this.http
-      .get<Choice[]>(this.baseUrl + '/consoles/')
-      .subscribe((consoles) => (this.consoles = consoles));
-    this.http
-      .get<Choice[]>(this.baseUrl + '/status/')
-      .subscribe((status) => (this.status = status));
-    this.http
-      .get<Choice[]>(this.baseUrl + '/stories/')
-      .subscribe((stories) => (this.stories = stories));
-    this.http
-      .get<Choice[]>(this.baseUrl + '/fakemon/')
-      .subscribe((fakemon) => (this.fakemon = fakemon));
+    this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe((baseroms) => (this.baseroms = baseroms));
+    this.http.get<Choice[]>(this.baseUrl + '/consoles/').subscribe((consoles) => (this.consoles = consoles));
+    this.http.get<Choice[]>(this.baseUrl + '/status/').subscribe((status) => (this.status = status));
+    this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe((stories) => (this.stories = stories));
+    this.http.get<Choice[]>(this.baseUrl + '/fakemon/').subscribe((fakemon) => (this.fakemon = fakemon));
     this.http
       .get<Difficulty[]>(this.baseUrl + '/difficulties/')
       .subscribe((difficulties) => (this.difficulties = difficulties));

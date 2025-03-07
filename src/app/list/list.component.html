@@ -1,9 +1,12 @@
-<div class="card">
+<div class="card" style="height: calc(100vh - 170px)">
   <p-table
     [columns]="selectedColumns"
     #dt
     [value]="games"
-    styleClass="p-datatable-sm p-datatable-gridlines"
+    [scrollable]="true"
+    scrollHeight="flex"
+    showGridlines
+    size="small"
     selectionMode="single"
     [(selection)]="selectedGame"
     (onRowSelect)="onRowSelect($event)"
@@ -24,27 +27,12 @@
           <th
             class="p-fluid"
             style="min-width: 200px"
-            [pSortableColumn]="
-              ['catchable', 'rating', 'title'].includes(col.field)
-                ? col.field
-                : null
-            "
+            [pSortableColumn]="['catchable', 'rating', 'title'].includes(col.field) ? col.field : null"
           >
-            @if (
-              !['base', 'story', 'status', 'difficulty', 'fakemon'].includes(
-                col.field
-              )
-            ) {
+            @if (!['base', 'story', 'status', 'difficulty', 'fakemon'].includes(col.field)) {
               <span>{{ col.header }}&nbsp;</span>
             }
-            @if (
-              [
-                'newGraphics',
-                'physicalSpecialSplit',
-                'builtInNuzlocke',
-                'builtInRandomizer'
-              ].includes(col.field)
-            ) {
+            @if (['newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(col.field)) {
               <!--fixme <p-triStateCheckbox
                 (onChange)="dt.filter($event.value, col.field, 'equals')"
               ></p-triStateCheckbox>-->
@@ -59,16 +47,8 @@
               ></p-multiSelect>
             }
             @if (col.field === 'story') {
-              <p-columnFilter
-                field="story"
-                matchMode="isChoice"
-                [showMenu]="false"
-              >
-                <ng-template
-                  pTemplate="filter"
-                  let-value
-                  let-filter="filterCallback"
-                >
+              <p-columnFilter field="story" matchMode="isChoice" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                   <p-select
                     [ngModel]="value"
                     [options]="stories"
@@ -83,16 +63,8 @@
               </p-columnFilter>
             }
             @if (col.field === 'status') {
-              <p-columnFilter
-                field="status"
-                matchMode="isChoice"
-                [showMenu]="false"
-              >
-                <ng-template
-                  pTemplate="filter"
-                  let-value
-                  let-filter="filterCallback"
-                >
+              <p-columnFilter field="status" matchMode="isChoice" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                   <p-select
                     [ngModel]="value"
                     [options]="status"
@@ -107,16 +79,8 @@
               </p-columnFilter>
             }
             @if (col.field === 'difficulty') {
-              <p-columnFilter
-                field="difficulty"
-                matchMode="isChoice"
-                [showMenu]="false"
-              >
-                <ng-template
-                  pTemplate="filter"
-                  let-value
-                  let-filter="filterCallback"
-                >
+              <p-columnFilter field="difficulty" matchMode="isChoice" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                   <p-select
                     [ngModel]="value"
                     [options]="difficulties"
@@ -131,16 +95,8 @@
               </p-columnFilter>
             }
             @if (col.field === 'fakemon') {
-              <p-columnFilter
-                field="fakemon"
-                matchMode="isChoice"
-                [showMenu]="false"
-              >
-                <ng-template
-                  pTemplate="filter"
-                  let-value
-                  let-filter="filterCallback"
-                >
+              <p-columnFilter field="fakemon" matchMode="isChoice" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                   <p-select
                     [ngModel]="value"
                     [options]="fakemon"
@@ -161,8 +117,8 @@
         }
       </tr>
       <!-- Mobile filter -->
-      <div class="grid md:hidden">
-        <div class="col-12" style="margin: 0.5rem 0 0 0.5rem">
+      <div class="grid grid-cols-12 gap-4 md:hidden">
+        <div class="col-span-12" style="margin: 0.5rem 0 0 0.5rem">
           <button
             pButton
             pRipple
@@ -174,15 +130,11 @@
           ></button>
         </div>
         @if (mobileFilter) {
-          <div class="col-12" style="max-height: 30vh; overflow-y: scroll">
+          <div class="col-span-12" style="max-height: 30vh; overflow-y: scroll">
             @for (col of columns; track col) {
               <div>
-                @if (
-                  !['creator', 'version', 'rating', 'catchable'].includes(
-                    col.field
-                  )
-                ) {
-                  <div class="align-items-center" style="padding: 0 0.5rem">
+                @if (!['creator', 'version', 'rating', 'catchable'].includes(col.field)) {
+                  <div class="items-center" style="padding: 0 0.5rem">
                     <span
                       class="col-fixed"
                       style="
@@ -209,24 +161,14 @@
                         <p-multiSelect
                           [options]="baseroms"
                           optionLabel="name"
-                          (onChange)="
-                            dt.filter($event.value, col.field, 'isInBaserom')
-                          "
+                          (onChange)="dt.filter($event.value, col.field, 'isInBaserom')"
                           appendTo="body"
                           placeholder="Baserom"
                         ></p-multiSelect>
                       }
                       @if (col.field === 'status') {
-                        <p-columnFilter
-                          field="status"
-                          matchMode="isChoice"
-                          [showMenu]="false"
-                        >
-                          <ng-template
-                            pTemplate="filter"
-                            let-value
-                            let-filter="filterCallback"
-                          >
+                        <p-columnFilter field="status" matchMode="isChoice" [showMenu]="false">
+                          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                             <p-select
                               [ngModel]="value"
                               [options]="status"
@@ -241,16 +183,8 @@
                         </p-columnFilter>
                       }
                       @if (col.field === 'story') {
-                        <p-columnFilter
-                          field="story"
-                          matchMode="isChoice"
-                          [showMenu]="false"
-                        >
-                          <ng-template
-                            pTemplate="filter"
-                            let-value
-                            let-filter="filterCallback"
-                          >
+                        <p-columnFilter field="story" matchMode="isChoice" [showMenu]="false">
+                          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                             <p-select
                               [ngModel]="value"
                               [options]="stories"
@@ -265,16 +199,8 @@
                         </p-columnFilter>
                       }
                       @if (col.field === 'difficulty') {
-                        <p-columnFilter
-                          field="difficulty"
-                          matchMode="isChoice"
-                          [showMenu]="false"
-                        >
-                          <ng-template
-                            pTemplate="filter"
-                            let-value
-                            let-filter="filterCallback"
-                          >
+                        <p-columnFilter field="difficulty" matchMode="isChoice" [showMenu]="false">
+                          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                             <p-select
                               [ngModel]="value"
                               [options]="difficulties"
@@ -289,16 +215,8 @@
                         </p-columnFilter>
                       }
                       @if (col.field === 'fakemon') {
-                        <p-columnFilter
-                          field="fakemon"
-                          matchMode="isChoice"
-                          [showMenu]="false"
-                        >
-                          <ng-template
-                            pTemplate="filter"
-                            let-value
-                            let-filter="filterCallback"
-                          >
+                        <p-columnFilter field="fakemon" matchMode="isChoice" [showMenu]="false">
+                          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                             <p-select
                               [ngModel]="value"
                               [options]="fakemon"
@@ -313,12 +231,9 @@
                         </p-columnFilter>
                       }
                       @if (
-                        [
-                          'newGraphics',
-                          'physicalSpecialSplit',
-                          'builtInNuzlocke',
-                          'builtInRandomizer'
-                        ].includes(col.field)
+                        ['newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(
+                          col.field
+                        )
                       ) {
                         <!--fixme
                         <p-triStateCheckbox
@@ -340,7 +255,6 @@
       <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
         @for (col of columns; track col) {
           <td style="min-width: 200px">
-            <span class="p-column-title">{{ col.header }}</span>
             @if (['title'].includes(col.field)) {
               <div>{{ rowData[col.field] }}</div>
             }
@@ -357,27 +271,18 @@
             @if (col.field === 'base') {
               <div class="baserom-cell text-center">
                 @for (base of rowData[col.field]; track base) {
-                  <span
-                    [style.background-color]="base.color"
-                    [style.color]="base.fontColor"
-                    class="baserom"
-                    >{{ base.short_name }}</span
-                  >
+                  <span [style.background-color]="base.color" [style.color]="base.fontColor" class="baserom">{{
+                    base.short_name
+                  }}</span>
                 }
               </div>
             }
-            @if (
-              ['status', 'story', 'difficulty', 'fakemon'].includes(col.field)
-            ) {
+            @if (['status', 'story', 'difficulty', 'fakemon'].includes(col.field)) {
               <div class="text-center">{{ rowData[col.field]?.name }}</div>
             }
             @if (col.field === 'rating') {
               <div>
-                <p-rating
-                  [ngModel]="rowData['avgRating']"
-                  [readonly]="true"
-                  class="text-center"
-                ></p-rating>
+                <p-rating [ngModel]="rowData['avgRating']" [readonly]="true" class="text-center"></p-rating>
                 <!--fixme
                   [pTooltip]="(rowData['avgRating'] | number) ?? '0'"
                   [cancel]="false"-->
@@ -385,13 +290,9 @@
               </div>
             }
             @if (
-              [
-                'original',
-                'newGraphics',
-                'physicalSpecialSplit',
-                'builtInNuzlocke',
-                'builtInRandomizer'
-              ].includes(col.field)
+              ['original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(
+                col.field
+              )
             ) {
               <div style="text-align: center">
                 @if (rowData[col.field] === true) {
@@ -407,7 +308,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="summary">
-      <div class="flex align-items-center justify-content-between flex-wrap">
+      <div class="flex items-center justify-between flex-wrap">
         <p-multiSelect
           [options]="cols"
           [(ngModel)]="selectedColumns"
@@ -417,16 +318,10 @@
           placeholder="Choose Columns"
         ></p-multiSelect>
         @if (games && games.length > 0) {
-          <div class="hidden md:block">
-            In total there are {{ games.length }} games.
-          </div>
+          <div class="hidden md:block">In total there are {{ games.length }} games.</div>
         }
-        <div class="flex align-items-center">
-          <a
-            href="https://www.buymeacoffee.com/jakobschade"
-            target="_blank"
-            class="mr-1"
-          >
+        <div class="flex items-center">
+          <a href="https://www.buymeacoffee.com/jakobschade" target="_blank" class="mr-1">
             <img
               src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
               alt="Buy Me A Coffee"
