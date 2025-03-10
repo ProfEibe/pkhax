@@ -26,14 +26,10 @@
     "cookieconsent": "^3.1.1",
     "ngx-cookieconsent": "^8.0.0",
     "ngx-matomo-client": "^7.0.1",
-    "postcss": "^8.5.3",
-    "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.9",
     "quill": "^2.0.3",
     "rxjs": "~7.8.2",
-    "tailwindcss": "^4.0.11",
-    "tailwindcss-primeui": "^0.5.1",
     "tslib": "^2.0.0",
     "zone.js": "~0.15.0"
   },
@@ -59,9 +55,12 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "postcss": "^8.5.3",
     "prettier": "3.2.5",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
+    "tailwindcss": "^4.0.11",
+    "tailwindcss-primeui": "^0.5.1",
     "typescript": "~5.8.2"
   }
 }
