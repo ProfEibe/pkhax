@@ -1,6 +1,6 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, DOCUMENT } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { AsyncPipe, DOCUMENT } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-auth-button',
