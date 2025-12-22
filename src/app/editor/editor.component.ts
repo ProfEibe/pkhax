@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GameService } from '../game.service';
 import { HttpClient } from '@angular/common/http';
@@ -15,6 +15,8 @@ import { MessageModule } from 'primeng/message';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
+import { TextareaModule } from 'primeng/textarea';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-editor',
@@ -32,7 +34,10 @@ import { InputTextModule } from 'primeng/inputtext';
     RouterLink,
     CardModule,
     ToastModule,
+    ToastModule,
     InputTextModule,
+    TextareaModule,
+    CheckboxModule,
   ],
 })
 export class EditorComponent implements OnInit {
@@ -47,13 +52,13 @@ export class EditorComponent implements OnInit {
   baseUrl = environment.baseUrl;
   linkExists = false;
 
-  constructor(
-    private route: ActivatedRoute,
-    private gameService: GameService,
-    private router: Router,
-    private http: HttpClient,
-    private messageService: MessageService,
-  ) {}
+  private route = inject(ActivatedRoute);
+  private gameService = inject(GameService);
+  private router = inject(Router);
+  private http = inject(HttpClient);
+  private messageService = inject(MessageService);
+
+  constructor() { }
 
   ngOnInit(): void {
     this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe((baseroms) => (this.baseroms = baseroms));

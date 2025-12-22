@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, input, OnInit } from '@angular/core';
 import { Comment } from '../../comment';
 import { CommentService } from '../../comment.service';
 import { AuthService } from '@auth0/auth0-angular';
@@ -11,21 +11,21 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-comment',
-    templateUrl: './comment.component.html',
-    styleUrls: ['./comment.component.css'],
-    imports: [
-        EditorModule,
-        ButtonModule,
-        RippleModule,
-        AsyncPipe,
-        FormsModule,
-        DatePipe,
-        RouterLink,
-    ]
+  selector: 'app-comment',
+  templateUrl: './comment.component.html',
+  styleUrls: ['./comment.component.css'],
+  imports: [
+    EditorModule,
+    ButtonModule,
+    RippleModule,
+    AsyncPipe,
+    FormsModule,
+    DatePipe,
+    RouterLink,
+  ]
 })
 export class CommentComponent implements OnInit, AfterViewChecked {
-  @Input() comment: Comment;
+  comment = input.required<Comment>();
   showReply = false;
   reply: string;
   private newComment: number;
@@ -34,14 +34,14 @@ export class CommentComponent implements OnInit, AfterViewChecked {
     private service: CommentService,
     public auth: AuthService,
     public userService: UserService,
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   diffCreateModified(): boolean {
     return (
-      new Date(this.comment.created_at).getMilliseconds() !==
-      new Date(this.comment.modified_at).getMilliseconds()
+      new Date(this.comment().created_at).getMilliseconds() !==
+      new Date(this.comment().modified_at).getMilliseconds()
     );
   }
 
@@ -52,11 +52,11 @@ export class CommentComponent implements OnInit, AfterViewChecked {
   createReply(): void {
     const child = new Comment();
     child.content = this.reply;
-    child.gameId = this.comment.gameId;
+    child.gameId = this.comment().gameId;
     this.service
-      .createChildComment(child, this.comment.id)
+      .createChildComment(child, this.comment().id)
       .subscribe((saved) => {
-        this.comment.children.push(saved);
+        this.comment().children.push(saved);
         this.reply = '';
 
         this.newComment = saved.id;

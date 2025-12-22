@@ -4,6 +4,8 @@ import {
   Input,
   OnInit,
   ViewChild,
+  inject,
+  signal,
 } from '@angular/core';
 import { GameService } from '../game.service';
 import { Router } from '@angular/router';
@@ -71,26 +73,15 @@ export class ListComponent implements OnInit {
     this.innerWidth = event.target.innerWidth;
   }
 
-  constructor(
-    private gameService: GameService,
-    private router: Router,
-    private globalFilterService: GlobalFilterService,
-    private filterService: FilterService,
-    private http: HttpClient,
-  ) {}
+  private gameService = inject(GameService);
+  private router = inject(Router);
+  private globalFilterService = inject(GlobalFilterService);
+  private filterService = inject(FilterService);
+  private http = inject(HttpClient);
 
-  private _selectedColumns: any[] = [];
+  constructor() { }
 
-  @Input() get selectedColumns(): any[] {
-    return this._selectedColumns;
-  }
-
-  set selectedColumns(val: any[]) {
-    // restore original order
-    const asdf = this.cols.filter((col) => val.includes(col));
-    console.log(asdf);
-    this._selectedColumns = asdf;
-  }
+  selectedColumns = signal<any[]>([]);
 
   ngOnInit(): void {
     this.loading = true;
@@ -149,7 +140,7 @@ export class ListComponent implements OnInit {
 
     this.innerWidth = window.innerWidth;
     if (this.innerWidth > 640) {
-      this.selectedColumns = [
+      this.selectedColumns.set([
         this.cols[0],
         this.cols[1],
         this.cols[4],
@@ -159,9 +150,9 @@ export class ListComponent implements OnInit {
         this.cols[11],
         this.cols[12],
         this.cols[13],
-      ];
+      ]);
     } else {
-      this.selectedColumns = [this.cols[0], this.cols[1], this.cols[11]];
+      this.selectedColumns.set([this.cols[0], this.cols[1], this.cols[11]]);
     }
 
     this.http
@@ -245,5 +236,11 @@ export class ListComponent implements OnInit {
 
       return event.order * result;
     });
+  }
+
+  updateSelectedColumns(val: any[]) {
+    // restore original order
+    const sorted = this.cols.filter((col) => val.includes(col));
+    this.selectedColumns.set(sorted);
   }
 }

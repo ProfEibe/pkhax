@@ -1,4 +1,4 @@
-import { Component, Inject, DOCUMENT } from '@angular/core';
+import { Component, Inject, DOCUMENT, inject } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { AsyncPipe } from '@angular/common';
 
@@ -26,8 +26,6 @@ import { AsyncPipe } from '@angular/common';
   imports: [AsyncPipe],
 })
 export class AuthButtonComponent {
-  constructor(
-    @Inject(DOCUMENT) public document: Document,
-    public auth: AuthService,
-  ) {}
+  public document = inject(DOCUMENT);
+  public auth = inject(AuthService);
 }

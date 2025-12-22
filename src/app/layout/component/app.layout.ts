@@ -1,4 +1,4 @@
-import { Component, Renderer2, ViewChild } from '@angular/core';
+import { Component, Renderer2, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
@@ -23,7 +23,7 @@ import { LayoutService } from '../service/layout.service';
     <div class="layout-mask animate-fadein"></div>
   </div> `,
 })
-export class AppLayout {
+export class AppLayout implements OnDestroy {
   overlayMenuOpenSubscription: Subscription;
 
   menuOutsideClickListener: any;
