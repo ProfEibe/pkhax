@@ -1,0 +1,8 @@
+{
+    "/api": {
+        "target": "https://pkhax.com",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug"
+    }
+}

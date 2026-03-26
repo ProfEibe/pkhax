@@ -17,6 +17,8 @@ import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { CheckboxModule } from 'primeng/checkbox';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'app-editor',
@@ -34,10 +36,11 @@ import { CheckboxModule } from 'primeng/checkbox';
     RouterLink,
     CardModule,
     ToastModule,
-    ToastModule,
     InputTextModule,
     TextareaModule,
     CheckboxModule,
+    InputGroupModule,
+    InputGroupAddonModule,
   ],
 })
 export class EditorComponent implements OnInit {

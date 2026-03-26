@@ -12,7 +12,7 @@ import { AuthService } from '@auth0/auth0-angular';
   selector: 'app-topbar',
   standalone: true,
   imports: [RouterModule, CommonModule, StyleClassModule, AuthButtonComponent, Avatar],
-  template: ` <div class="layout-topbar">
+  template: ` <div class="layout-topbar bg-surface-card">
     <div class="layout-topbar-logo-container">
       <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
         <i class="pi pi-bars"></i>
@@ -52,25 +52,11 @@ import { AuthService } from '@auth0/auth0-angular';
 
     <div class="layout-topbar-actions">
       <div class="layout-config-menu">
-        <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
+      <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
           <i
             [ngClass]="{ 'pi ': true, 'pi-moon': layoutService.isDarkTheme(), 'pi-sun': !layoutService.isDarkTheme() }"
           ></i>
         </button>
-        <div class="relative">
-          <button
-            class="layout-topbar-action layout-topbar-action-highlight"
-            pStyleClass="@next"
-            enterFromClass="hidden"
-            enterActiveClass="animate-scalein"
-            leaveToClass="hidden"
-            leaveActiveClass="animate-fadeout"
-            [hideOnOutsideClick]="true"
-          >
-            <i class="pi pi-palette"></i>
-          </button>
-          <!--          <app-configurator />-->
-        </div>
       </div>
 
       <button

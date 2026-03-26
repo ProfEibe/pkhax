@@ -28,9 +28,9 @@ interface MenuChangeEvent {
 export class LayoutService {
   _config: layoutConfig = {
     preset: 'Aura',
-    primary: 'emerald',
+    primary: 'noir', /* Using noir or a neutral here as we override with CSS */
     surface: null,
-    darkTheme: false,
+    darkTheme: typeof localStorage !== 'undefined' ? localStorage.getItem('theme') === 'dark' : false,
     menuMode: 'overlay',
   };
 
@@ -79,6 +79,11 @@ export class LayoutService {
   private initialized = false;
 
   constructor() {
+    // Apply initial theme immediately
+    if (this.layoutConfig().darkTheme) {
+      document.documentElement.classList.add('app-dark', 'dark');
+    }
+
     effect(() => {
       const config = this.layoutConfig();
       if (config) {
@@ -116,15 +121,17 @@ export class LayoutService {
       .then(() => {
         this.onTransitionEnd();
       })
-      .catch(() => {});
+      .catch(() => { });
   }
 
   toggleDarkMode(config?: layoutConfig): void {
     const _config = config || this.layoutConfig();
     if (_config.darkTheme) {
-      document.documentElement.classList.add('app-dark');
+      document.documentElement.classList.add('app-dark', 'dark');
+      localStorage.setItem('theme', 'dark');
     } else {
-      document.documentElement.classList.remove('app-dark');
+      document.documentElement.classList.remove('app-dark', 'dark');
+      localStorage.setItem('theme', 'light');
     }
   }
 

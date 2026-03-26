@@ -1,154 +1,207 @@
 @if (game) {
-  <div class="grid grid-cols-2">
-    <h1>{{ game.title }}</h1>
-    <div class="text-right">
+<!-- Hero Section -->
+<div class="relative rounded-xl overflow-hidden mb-6 text-white shadow-lg bg-gray-900">
+  <div class="absolute inset-0 opacity-20 bg-cover bg-center"
+    style="background: radial-gradient(circle at top right, var(--color-primary-500), transparent 70%)"></div>
+  <div class="relative p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+    <div>
+      <h1 class="font-heading text-4xl md:text-5xl font-bold mb-2 !text-white">{{ game.title }}</h1>
+      <div class="flex items-center gap-3 text-white/80">
+        <span class="inline-flex items-center gap-1">
+          <i class="pi pi-user"></i>
+          {{ game.creator || 'Unknown Creator' }}
+        </span>
+        <span>•</span>
+        <span class="inline-flex items-center gap-1">
+          <i class="pi pi-tag"></i>
+          {{ game.version || 'v1.0' }}
+        </span>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-2">
       @if (game.link) {
-        <a [href]="game.link" target="_blank" class="p-button ml-1"><i class="pi pi-external-link"></i> Source</a>
+      <a [href]="game.link" target="_blank" pButton icon="pi pi-external-link" label="Download"
+        class="p-button-rounded p-button-danger font-bold"></a>
       }
       @if (game.discord) {
-        <a [href]="game.discord" target="_blank" class="p-button ml-1"><i class="pi pi-external-link"></i> Discord</a>
+      <a [href]="game.discord" target="_blank" pButton icon="pi pi-discord" label="Discord"
+        class="p-button-rounded p-button-secondary p-button-outlined text-white hover:bg-white/10 border-white/30"></a>
       }
-      <p-button label="Editor" [routerLink]="'/editor/' + game.id" class="ml-1"></p-button>
+      <p-button icon="pi pi-pencil" label="Edit" [routerLink]="'/editor/' + game.id"
+        styleClass="p-button-rounded p-button-text text-white/70 hover:text-white"></p-button>
     </div>
   </div>
-  <hr />
-  <div class="flex flex-col lg:flex-row-reverse lg:items-start gap-4 mb-4">
-    <div class="card">
-      <h3>Summary</h3>
-      <div class="summary grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-1 lg:w-2xs">
-        <div>
-          Baserom:
-          <span class="baserom-cell">
-            @for (base of game.base; track base) {
-              <span [style.background-color]="base.color" [style.color]="base.fontColor" class="baserom">{{
-                base.name
-              }}</span>
-            }
-          </span>
-        </div>
-        <div>
-          Rating:
-          <app-rating [game]="game"></app-rating>
-        </div>
-        <div>Creator: {{ game.creator || 'N/A' }}</div>
-        <div>Version: {{ game.version || 'N/A' }}</div>
+</div>
 
-        <div>Story: {{ game.story?.name || 'N/A' }}</div>
-        <div>
-          Physical / Special-Split:
-          @if (game.physicalSpecialSplit) {
-            <i class="pi pi-check"></i>
-          }
-          @if (!game.physicalSpecialSplit) {
-            <i class="pi pi-times"></i>
-          }
-          @if (game.physicalSpecialSplit === null) {
-            <span>N/A</span>
-          }
-        </div>
-        <div>Catchable: {{ game.catchable }}</div>
-        <div>Fakemon: {{ game.fakemon?.name || 'N/A' }}</div>
-        <div>
-          Built-in nuzlocke:
-          @if (game.builtInNuzlocke) {
-            <i class="pi pi-check"></i>
-          } @else if (!game.builtInNuzlocke) {
-            <i class="pi pi-times"></i>
-          } @else {
-            <span>N/A</span>
-          }
-        </div>
-        <div>
-          Built-in randomizer:
-          @if (game.builtInRandomizer) {
-            <i class="pi pi-check"></i>
-          } @else if (!game.builtInRandomizer) {
-            <i class="pi pi-times"></i>
-          } @else {
-            <span>N/A</span>
-          }
-        </div>
-        <div>New graphics: {{ game.newGraphics || 'N/A' }}</div>
-        <div>Difficulty: {{ game.difficulty?.name || 'N/A' }}</div>
-      </div>
-    </div>
-    <!-- Description -->
-    <div class="card" [innerHTML]="game.description"></div>
-  </div>
-  <div class="card">
-    <h3>Images</h3>
-    <div class="flex justify-center mt-4">
-      @if (images && images.length > 0) {
-        <div class="grid grid-cols-12 gap-4" style="max-width: 800px">
-          @for (image of images; track image; let index = $index) {
-            <div class="col-span-4" key="index">
-              <img [src]="image" [alt]="image.alt" style="cursor: pointer" (click)="imageClick(index)" />
-            </div>
-          }
-        </div>
-      }
-      <p-galleria
-        [value]="images"
-        [(visible)]="displayCustom"
-        [(activeIndex)]="activeIndex"
-        [responsiveOptions]="responsiveOptions"
-        [containerStyle]="{ 'max-width': '850px' }"
-        [numVisible]="7"
-        [circular]="true"
-        [fullScreen]="true"
-        [showItemNavigators]="true"
-        [showThumbnails]="false"
-      >
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+  <!-- Left Column: Media & Description (Main Content) -->
+  <div class="lg:col-span-8 flex flex-col gap-6">
+    <!-- Media Gallery (Promoted to Top) -->
+    @if (images && images.length > 0) {
+    <div class="card overflow-hidden p-0 border-none shadow-sm bg-surface-card">
+      <p-galleria [value]="images" [(visible)]="displayCustom" [(activeIndex)]="activeIndex"
+        [responsiveOptions]="responsiveOptions" [numVisible]="4" [circular]="true" [fullScreen]="true"
+        [showItemNavigators]="true" [showThumbnails]="false">
         <ng-template #item let-item>
-          <img [src]="item" style="width: 100%; display: block" />
+          <img [src]="item" class="w-full h-auto object-cover" />
         </ng-template>
       </p-galleria>
-    </div>
-  </div>
-  <div class="card">
-    <h3>Comments</h3>
-    @if ((auth.isAuthenticated$ | async) && (userService.currentUser | async)?.displayName) {
-      <p-editor [(ngModel)]="rootCommentBox">
-        <p-header class="flex justify-content-between">
-          <span class="ql-formats">
-            <button type="button" class="ql-bold" aria-label="Bold"></button>
-            <button type="button" class="ql-italic" aria-label="Italic"></button>
-            <button type="button" class="ql-underline" aria-label="Underline"></button>
-          </span>
-          <button
-            pButton
-            class="p-button-sm p-button-secondary p-button-rounded p-button-outlined"
-            style="width: auto"
-            type="button"
-            (click)="saveRootComment()"
-            label="Comment"
-          ></button>
-        </p-header>
-      </p-editor>
-    } @else {
-      @if (auth.isAuthenticated$ | async) {
-        <p-button label="Choose a displayname" [routerLink]="'/user'"></p-button>
-      } @else {
-        <p-button label="Login to comment" (onClick)="auth.loginWithRedirect()"></p-button>
-      }
-      <ng-template #displayName>
-        <p-button label="Login to comment" (onClick)="auth.loginWithRedirect()"></p-button>
-      </ng-template>
-    }
-    @if (comments && comments.length > 0) {
-      <div class="mt-2">
-        @for (comment of comments; track comment) {
-          <app-comment [comment]="comment"></app-comment>
+
+      <!-- Preview Grid -->
+      <div class="grid grid-cols-4 gap-2 p-2 bg-surface-ground">
+        @for (image of images; track image; let index = $index) {
+        <div
+          class="aspect-video cursor-pointer rounded-md overflow-hidden hover:opacity-80 transition-opacity border-2 border-transparent hover:border-primary-500"
+          (click)="imageClick(index)">
+          <img [src]="image" [alt]="image.alt" class="w-full h-full object-cover" />
+        </div>
         }
       </div>
-    } @else {
-      <div class="mt-2">There are no comments for this hack.</div>
+    </div>
     }
+
+    <!-- Description -->
+    <div class="card shadow-sm bg-surface-card">
+      <h3 class="font-heading text-2xl font-bold mb-4 text-surface-900">About this Hack</h3>
+      <div class="prose max-w-none text-lg leading-relaxed text-surface-700" [innerHTML]="game.description"></div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="card shadow-sm bg-surface-card">
+      <h3 class="font-heading text-2xl font-bold mb-4 text-surface-900">Comments</h3>
+      @if (auth.isLoading$ | async) {
+      <div class="flex justify-center p-6"><i class="pi pi-spin pi-spinner text-2xl text-primary-500"></i></div>
+      } @else {
+      @if (auth.isAuthenticated$ | async) {
+      @if ((userService.currentUser | async)?.displayName) {
+      <div class="mb-6">
+        <p-editor [(ngModel)]="rootCommentBox" [style]="{ height: '120px' }">
+          <p-header>
+            <span class="ql-formats">
+              <button type="button" class="ql-bold" aria-label="Bold"></button>
+              <button type="button" class="ql-italic" aria-label="Italic"></button>
+              <button type="button" class="ql-underline" aria-label="Underline"></button>
+            </span>
+          </p-header>
+        </p-editor>
+        <div class="text-right mt-2">
+          <p-button label="Post Comment" icon="pi pi-send" (onClick)="saveRootComment()"
+            [disabled]="!rootCommentBox"></p-button>
+        </div>
+      </div>
+      } @else {
+      <div
+        class="bg-surface-100 dark:bg-surface-800 rounded-lg p-6 text-center mb-6 border border-surface-200 dark:border-surface-700">
+        <p class="mb-4 text-surface-900 font-bold">Please set a Display Name to comment.</p>
+        <p-button label="Go to Profile" icon="pi pi-user" [routerLink]="'/user'" severity="secondary"></p-button>
+      </div>
+      }
+      } @else {
+      <div
+        class="bg-surface-100 dark:bg-surface-800 rounded-lg p-6 text-center mb-6 border border-surface-200 dark:border-surface-700">
+        <p class="mb-4 text-surface-900 font-bold">Join the discussion by logging in.</p>
+        <p-button label="Log In / Sign Up" (onClick)="auth.loginWithRedirect()" severity="primary"></p-button>
+      </div>
+      }
+      }
+
+      <div class="flex flex-col gap-4">
+        @if (comments && comments.length > 0) {
+        @for (comment of comments; track comment) {
+        <app-comment [comment]="comment"></app-comment>
+        }
+        } @else {
+        <div class="text-center text-gray-500 py-8">No comments yet. Be the first!</div>
+        }
+      </div>
+    </div>
   </div>
+
+  <!-- Right Column: "Pokedex" Sidebar (Stats & Details) -->
+  <div class="lg:col-span-4 flex flex-col gap-6">
+    <div class="card bg-surface-card shadow-md border-t-4 border-primary-500 sticky top-28">
+      <h3 class="font-heading text-xl font-bold mb-4 flex items-center gap-2">
+        <i class="pi pi-info-circle text-primary-500"></i>
+        Hack Data
+      </h3>
+
+      <div class="flex flex-col divide-y divide-gray-100">
+        <div class="py-3 flex justify-between items-center">
+          <span class="text-gray-500 font-medium">Community Rating</span>
+          <div class="text-right">
+            <app-rating [game]="game"></app-rating>
+            <div class="text-xs text-gray-400 mt-1">{{ game.rating.length || 0 }} votes</div>
+          </div>
+        </div>
+
+        <div class="py-3 flex justify-between items-center">
+          <span class="text-gray-500 font-medium">Baserom</span>
+          <div class="flex gap-1">
+            @for (base of game.base; track base) {
+            <span class="px-2 py-1 rounded text-xs font-bold" [style.background-color]="base.color"
+              [style.color]="base.fontColor">
+              {{ base.name }}
+            </span>
+            }
+          </div>
+        </div>
+
+        <div class="py-3 flex justify-between">
+          <span class="text-gray-500 font-medium">Difficulty</span>
+          <span class="font-bold text-surface-900">{{ game.difficulty?.name || 'Standard' }}</span>
+        </div>
+
+        <div class="py-3 flex justify-between">
+          <span class="text-gray-500 font-medium">Status</span>
+          <span class="font-bold text-surface-900">{{ game.status?.name || 'Unknown' }}</span>
+        </div>
+
+        <div class="py-3 flex justify-between">
+          <span class="text-gray-500 font-medium">Story</span>
+          <span class="font-bold text-surface-900">{{ game.story?.name || 'Default' }}</span>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h4 class="font-bold text-sm text-gray-400 uppercase tracking-wider mb-2">Features</h4>
+        <div class="flex flex-wrap gap-2">
+          @if (game.physicalSpecialSplit) {
+          <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full flex items-center gap-1">
+            <i class="pi pi-check"></i> Phys/Spec Split
+          </span>
+          }
+          @if (game.builtInNuzlocke) {
+          <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full flex items-center gap-1">
+            <i class="pi pi-shield"></i> Nuzlocke Mode
+          </span>
+          }
+          @if (game.builtInRandomizer) {
+          <span class="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full flex items-center gap-1">
+            <i class="pi pi-bolt"></i> Randomizer
+          </span>
+          }
+          @if (game.newGraphics) {
+          <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full flex items-center gap-1">
+            <i class="pi pi-image"></i> New Graphics
+          </span>
+          }
+          @if (game.catchable) {
+          <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full flex items-center gap-1">
+            <i class="pi pi-stop-circle"></i> {{ game.catchable }}
+          </span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 } @else {
-  <!--fixme should not show while loading-->
-  <div class="card p-text-center">
-    <h1>Game not found</h1>
-    <p>Sorry, the game you are looking for does not exist.</p>
+<div class="flex flex-col items-center justify-center min-h-[50vh] text-center">
+  <div class="text-6xl text-gray-300 mb-4">
+    <i class="pi pi-search"></i>
   </div>
+  <h1 class="font-heading text-3xl font-bold text-surface-900 mb-2">Game not found</h1>
+  <p class="text-gray-500 mb-6">The romhack you are looking for seems to be missing.</p>
+  <p-button label="Back to Library" routerLink="/" icon="pi pi-arrow-left"></p-button>
+</div>
 }

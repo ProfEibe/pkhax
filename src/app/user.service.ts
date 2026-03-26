@@ -3,6 +3,7 @@ import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from './user';
+import { shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -10,14 +11,19 @@ import { User } from './user';
 export class UserService {
   baseUrl = environment.baseUrl;
 
-  currentUser: Observable<User>;
+  private currentUser$: Observable<User> | undefined;
 
-  constructor(private http: HttpClient) {
-    this.currentUser = this.http.get<User>(this.baseUrl + '/user');
+  constructor(private http: HttpClient) { }
+
+  get currentUser(): Observable<User> {
+    if (!this.currentUser$) {
+      this.currentUser$ = this.getCurrentUser().pipe(shareReplay(1));
+    }
+    return this.currentUser$;
   }
 
   getCurrentUser(): Observable<User> {
-    return this.currentUser;
+    return this.http.get<User>(this.baseUrl + '/user');
   }
 
   updateUserName(user: User): Observable<User> {

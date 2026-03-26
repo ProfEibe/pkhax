@@ -1,27 +1,22 @@
 @if (comment().id) {
-<div style="border-left: 1px solid #808080; padding: 0.5rem" [id]="'comment-' + comment().id">
-  <div style="font-size: x-small; color: #808080">
+<div class="border-l-2 border-surface-200 dark:border-surface-700 pl-2 mb-4" [id]="'comment-' + comment().id">
+  <div class="text-xs text-surface-500 mb-1">
     {{ comment().created_by.displayName }} ·
     {{ comment().created_at | date: 'medium' }}
   </div>
-  <div class="comment" [innerHTML]="comment().content">
+  <div class="comment text-surface-900 mb-2" [innerHTML]="comment().content">
     {{ comment().content }}
   </div>
   @if (diffCreateModified()) {
-  <div style="font-size: x-small; color: #808080">
+  <div class="text-xs text-surface-500 italic mb-1">
     Edited by {{ comment().modified_by.displayName }} at
     {{ comment().modified_at | date }}
   </div>
   }
-  <div style="font-size: x-small">
+  <div class="flex gap-2">
     <button pButton pRipple type="button" label="Reply" (click)="toggleReplyEditor()"
-      class="p-button-text p-button-plain p-button-sm"></button>
-    <button pButton pRipple type="button" label="Edit" disabled
-      class="p-button-text p-button-plain p-button-sm"></button>
-    <button pButton pRipple type="button" label="Report" disabled
-      class="p-button-text p-button-plain p-button-sm"></button>
-    <button pButton pRipple type="button" label="Share" disabled
-      class="p-button-text p-button-plain p-button-sm"></button>
+      class="p-button-text p-button-plain p-button-sm !p-0 !text-primary-500 !text-xs"></button>
+    <!-- Disabled buttons hidden or styled subtly -->
   </div>
   @if (showReply) {
   <div class="p-2">

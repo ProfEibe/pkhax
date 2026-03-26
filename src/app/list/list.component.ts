@@ -7,6 +7,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { GameService } from '../game.service';
 import { Router } from '@angular/router';
 import { Table, TableModule } from 'primeng/table';
@@ -23,6 +24,11 @@ import { RippleModule } from 'primeng/ripple';
 import { RatingModule } from 'primeng/rating';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { InputTextModule } from 'primeng/inputtext';
+import { TagModule } from 'primeng/tag';
+import { ToolbarModule } from 'primeng/toolbar';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-list',
@@ -38,6 +44,12 @@ import { InputTextModule } from 'primeng/inputtext';
     RatingModule,
     ContextMenuModule,
     InputTextModule,
+    TagModule,
+    ToolbarModule,
+    IconFieldModule,
+    InputIconModule,
+    SkeletonModule,
+    DecimalPipe,
   ],
 })
 export class ListComponent implements OnInit {

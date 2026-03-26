@@ -3,6 +3,62 @@
 @use './assets/layout/layout.scss';
 @use 'primeicons/primeicons.css';
 
+:root {
+  --font-family: 'Inter', system-ui, sans-serif;
+  color: var(--p-text-color);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--p-surface-50);
+  /* Light Mode Ground */
+  color: var(--p-text-color);
+}
+
+.app-dark body {
+  background-color: var(--p-surface-900);
+  /* Dark Mode Ground (Slate 900) */
+}
+
+/* Helper Classes for Surface Colors mapped to PrimeNG Design Tokens */
+.text-surface-900 {
+  color: var(--p-text-color) !important;
+}
+
+.text-surface-700 {
+  color: var(--p-text-muted-color) !important;
+}
+
+.text-surface-500 {
+  color: var(--p-surface-500) !important;
+}
+
+.bg-surface-card {
+  background-color: var(--p-content-background) !important;
+  /* Slate 800 in Dark via Preset */
+}
+
+.bg-surface-ground {
+  background-color: var(--p-surface-50) !important;
+}
+
+.app-dark .bg-surface-ground {
+  background-color: var(--p-surface-900) !important;
+}
+
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.025em;
+  /* Tighter spacing for modern headings */
+}
+
 /*@import "tailwindcss";
 @import "tailwindcss-primeui";*/
 
@@ -11,12 +67,12 @@
   padding: 0.3em;
 }
 
-.baserom-cell > .baserom:first-child {
+.baserom-cell>.baserom:first-child {
   border-top-left-radius: 0.5em;
   border-bottom-left-radius: 0.5em;
 }
 
-.baserom-cell > .baserom:last-child {
+.baserom-cell>.baserom:last-child {
   border-top-right-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
 }
