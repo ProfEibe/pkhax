@@ -107,10 +107,18 @@ export class ListComponent implements OnInit {
   selectedColumns = signal<any[]>([]);
 
   ngOnInit(): void {
+    console.log('ListComponent: Initializing...');
     this.loading.set(true);
-    this.gameService.getGames().subscribe((games) => {
-      this.games.set(games);
-      this.loading.set(false);
+    this.gameService.getGames().subscribe({
+      next: (games) => {
+        console.log('ListComponent: Successfully loaded', games.length, 'games');
+        this.games.set(games);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('ListComponent: Error loading games', err);
+        this.loading.set(false);
+      }
     });
 
     this.filterService.register(

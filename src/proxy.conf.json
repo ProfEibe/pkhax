@@ -1,8 +1,11 @@
 {
-    "/api": {
-        "target": "https://pkhax.com",
-        "secure": false,
-        "changeOrigin": true,
-        "logLevel": "debug"
+  "/api": {
+    "target": "https://pkhax.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api": "/api"
     }
+  }
 }

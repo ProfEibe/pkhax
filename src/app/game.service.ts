@@ -15,9 +15,15 @@ export class GameService {
   baseUrl = environment.baseUrl;
 
   getGames(): Observable<Game[]> {
+    console.log('GameService: Fetching games from', this.baseUrl + '/games/');
     return this.http
       .get<Game[]>(this.baseUrl + '/games/')
-      .pipe(map((list) => list.map((game) => this.adapter.adapt(game))));
+      .pipe(
+        map((list) => {
+          console.log('GameService: Received', list.length, 'games');
+          return list.map((game) => this.adapter.adapt(game));
+        })
+      );
   }
 
   getGame(id: number): Observable<Game> {
