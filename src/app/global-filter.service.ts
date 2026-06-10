@@ -1,17 +1,12 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GlobalFilterService {
-  private filter: Subject<string> = new BehaviorSubject('');
-
-  get filter$(): Observable<string> {
-    return this.filter.asObservable();
-  }
+  filter = signal<string>('');
 
   addFilter(data: string): void {
-    this.filter.next(data);
+    this.filter.set(data);
   }
 }

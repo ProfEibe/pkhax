@@ -1,26 +1,19 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from './user';
-import { shareReplay } from 'rxjs/operators';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private http = inject(HttpClient);
+
   baseUrl = environment.baseUrl;
 
-  private currentUser$: Observable<User> | undefined;
-
-  constructor(private http: HttpClient) { }
-
-  get currentUser(): Observable<User> {
-    if (!this.currentUser$) {
-      this.currentUser$ = this.getCurrentUser().pipe(shareReplay(1));
-    }
-    return this.currentUser$;
-  }
+  currentUser = toSignal(this.getCurrentUser());
 
   getCurrentUser(): Observable<User> {
     return this.http.get<User>(this.baseUrl + '/user');

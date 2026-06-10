@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Comment, CommentAdapter } from './comment';
 import { Observable } from 'rxjs';
@@ -9,12 +9,10 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CommentService {
-  baseUrl = environment.baseUrl;
+  private http = inject(HttpClient);
+  private adapter = inject(CommentAdapter);
 
-  constructor(
-    private http: HttpClient,
-    private adapter: CommentAdapter,
-  ) {}
+  baseUrl = environment.baseUrl;
 
   public getCommentsByGame(id: number): Observable<Comment[]> {
     return this.http
@@ -28,15 +26,9 @@ export class CommentService {
       .pipe(map((item: any) => this.adapter.adapt(item)));
   }
 
-  public createChildComment(
-    comment: Comment,
-    parentId: number,
-  ): Observable<Comment> {
+  public createChildComment(comment: Comment, parentId: number): Observable<Comment> {
     return this.http
-      .post(
-        this.baseUrl + '/games/' + comment.gameId + '/comments/' + parentId,
-        comment,
-      )
+      .post(this.baseUrl + '/games/' + comment.gameId + '/comments/' + parentId, comment)
       .pipe(map((item: any) => this.adapter.adapt(item)));
   }
 }

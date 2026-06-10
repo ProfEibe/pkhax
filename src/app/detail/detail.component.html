@@ -1,4 +1,4 @@
-@if (game) {
+@if (game(); as game) {
 <!-- Hero Section -->
 <div class="relative rounded-xl overflow-hidden mb-6 text-white shadow-lg bg-gray-900">
   <div class="absolute inset-0 opacity-20 bg-cover bg-center"
@@ -73,7 +73,7 @@
       <div class="flex justify-center p-6"><i class="pi pi-spin pi-spinner text-2xl text-primary-500"></i></div>
       } @else {
       @if (auth.isAuthenticated$ | async) {
-      @if ((userService.currentUser | async)?.displayName) {
+      @if (userService.currentUser()?.displayName) {
       <div class="mb-6">
         <p-editor [(ngModel)]="rootCommentBox" [style]="{ height: '120px' }">
           <p-header>
@@ -106,8 +106,8 @@
       }
 
       <div class="flex flex-col gap-4">
-        @if (comments && comments.length > 0) {
-        @for (comment of comments; track comment) {
+        @if (comments() && comments().length > 0) {
+        @for (comment of comments(); track comment) {
         <app-comment [comment]="comment"></app-comment>
         }
         } @else {
@@ -153,7 +153,7 @@
 
         <div class="py-3 flex justify-between">
           <span class="text-gray-500 font-medium">Status</span>
-          <span class="font-bold text-surface-900">{{ game.status?.name || 'Unknown' }}</span>
+          <span class="font-bold text-surface-900">{{ game.status.name || 'Unknown' }}</span>
         </div>
 
         <div class="py-3 flex justify-between">

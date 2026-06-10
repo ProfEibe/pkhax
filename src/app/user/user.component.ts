@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UserService } from '../user.service';
 import { User } from '../user';
 import { MessageService } from 'primeng/api';
@@ -19,15 +19,13 @@ import { CommonModule } from '@angular/common';
   imports: [ToastModule, CardModule, ButtonModule, FormsModule, InputTextModule, CommonModule],
 })
 export class UserComponent implements OnInit {
+  private userService = inject(UserService);
+  private messageService = inject(MessageService);
+  auth = inject(AuthService);
+
   user: User | undefined;
   isLoading = true;
   error: string | null = null;
-
-  constructor(
-    private userService: UserService,
-    private messageService: MessageService,
-    public auth: AuthService
-  ) { }
 
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe({
@@ -39,7 +37,7 @@ export class UserComponent implements OnInit {
         this.error = 'Failed to load user data';
         this.isLoading = false;
         console.error('User load error:', err);
-      }
+      },
     });
   }
 

@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, input, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, input, OnInit, inject } from '@angular/core';
 import { Comment } from '../../comment';
 import { CommentService } from '../../comment.service';
 import { AuthService } from '@auth0/auth0-angular';
@@ -14,34 +14,23 @@ import { RouterLink } from '@angular/router';
   selector: 'app-comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.css'],
-  imports: [
-    EditorModule,
-    ButtonModule,
-    RippleModule,
-    AsyncPipe,
-    FormsModule,
-    DatePipe,
-    RouterLink,
-  ]
+  imports: [EditorModule, ButtonModule, RippleModule, AsyncPipe, FormsModule, DatePipe, RouterLink],
 })
-export class CommentComponent implements OnInit, AfterViewChecked {
+export class CommentComponent implements AfterViewChecked {
+  private service = inject(CommentService);
+  auth = inject(AuthService);
+  userService = inject(UserService);
+
   comment = input.required<Comment>();
   showReply = false;
   reply: string;
   private newComment: number;
 
-  constructor(
-    private service: CommentService,
-    public auth: AuthService,
-    public userService: UserService,
-  ) { }
 
-  ngOnInit(): void { }
 
   diffCreateModified(): boolean {
     return (
-      new Date(this.comment().created_at).getMilliseconds() !==
-      new Date(this.comment().modified_at).getMilliseconds()
+      new Date(this.comment().created_at).getMilliseconds() !== new Date(this.comment().modified_at).getMilliseconds()
     );
   }
 
@@ -53,30 +42,22 @@ export class CommentComponent implements OnInit, AfterViewChecked {
     const child = new Comment();
     child.content = this.reply;
     child.gameId = this.comment().gameId;
-    this.service
-      .createChildComment(child, this.comment().id)
-      .subscribe((saved) => {
-        this.comment().children.push(saved);
-        this.reply = '';
+    this.service.createChildComment(child, this.comment().id).subscribe((saved) => {
+      this.comment().children.push(saved);
+      this.reply = '';
 
-        this.newComment = saved.id;
-      });
+      this.newComment = saved.id;
+    });
     this.showReply = false;
   }
 
   ngAfterViewChecked(): void {
     if (this.newComment !== null) {
-      const itemToScrollTo = document.getElementById(
-        'comment-' + this.newComment,
-      );
+      const itemToScrollTo = document.getElementById('comment-' + this.newComment);
       if (itemToScrollTo) {
         itemToScrollTo.scrollIntoView({ block: 'center', behavior: 'auto' });
         setTimeout(
-          () =>
-            itemToScrollTo.animate(
-              [{ backgroundColor: '#c1d4ff' }, { backgroundColor: '#FFFFFF' }],
-              500,
-            ),
+          () => itemToScrollTo.animate([{ backgroundColor: '#c1d4ff' }, { backgroundColor: '#FFFFFF' }], 500),
           200,
         );
       }

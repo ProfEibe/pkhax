@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, input, OnInit, inject } from '@angular/core';
 import { Game, Rating } from '../../game';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -12,9 +12,12 @@ import { RippleModule } from 'primeng/ripple';
   selector: 'app-rating',
   templateUrl: './rating.component.html',
   styleUrls: ['./rating.component.css'],
-  imports: [RatingModule, FormsModule, ButtonModule, RippleModule]
+  imports: [RatingModule, FormsModule, ButtonModule, RippleModule],
 })
 export class RatingComponent implements OnInit {
+  private http = inject(HttpClient);
+  private auth = inject(AuthService);
+
   game = input.required<Game>();
   private set: boolean;
   readOnly = true;
@@ -39,19 +42,12 @@ export class RatingComponent implements OnInit {
     this.ownValue = value;
   }
 
-  constructor(
-    private http: HttpClient,
-    private auth: AuthService,
-  ) { }
-
   ngOnInit(): void {
     this.loadAvg();
 
     this.auth.user$.subscribe((user) => {
       if (!user) return;
-      const ratings1 = this.game().rating.filter(
-        (rating) => rating.created_by?.auth0Id === user.sub,
-      );
+      const ratings1 = this.game().rating.filter((rating) => rating.created_by?.auth0Id === user.sub);
       if (ratings1.length > 0) {
         this.ownValue = ratings1[0].value;
         this.readOnly = true;

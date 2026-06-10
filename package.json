@@ -6,16 +6,15 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^21.2.16",
-    "@angular/cdk": "^21.2.14",
+    "@angular/cdk": "^22.0.0",
     "@angular/common": "^21.2.16",
     "@angular/compiler": "^21.2.16",
-    "@angular/core": "^21.2.16",
+    "@angular/core": "^22.0.0",
     "@angular/forms": "^21.2.16",
     "@angular/platform-browser": "^21.2.16",
     "@angular/platform-browser-dynamic": "^21.2.16",
@@ -40,7 +39,7 @@
     "@angular-eslint/eslint-plugin-template": "21.4.0",
     "@angular-eslint/schematics": "21.4.0",
     "@angular-eslint/template-parser": "21.4.0",
-    "@angular/cli": "^21.2.14",
+    "@angular/cli": "^22.0.0",
     "@angular/compiler-cli": "^21.2.16",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
@@ -57,10 +56,10 @@
     "karma-jasmine-html-reporter": "^1.5.0",
     "postcss": "^8.5.6",
     "prettier": "3.6.2",
-    "protractor": "~7.0.0",
-    "ts-node": "~8.3.0",
+    "puppeteer": "^25.1.0",
     "tailwindcss": "^4.1.13",
     "tailwindcss-primeui": "^0.6.1",
+    "ts-node": "~8.3.0",
     "typescript": "~5.9.3"
   }
 }

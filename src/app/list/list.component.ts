@@ -6,6 +6,8 @@ import {
   ViewChild,
   inject,
   signal,
+  viewChild,
+  effect,
 } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { GameService } from '../game.service';
@@ -54,18 +56,18 @@ import { SkeletonModule } from 'primeng/skeleton';
 })
 export class ListComponent implements OnInit {
   cols: any[] = [];
-  games: Game[] = [];
+  games = signal<Game[]>([]);
   selectedGame: Game;
-  baseroms: Baserom[];
-  stories: Choice[];
-  fakemon: Choice[];
-  status: Choice[];
-  difficulties: Difficulty[];
+  baseroms = signal<Baserom[]>([]);
+  stories = signal<Choice[]>([]);
+  fakemon = signal<Choice[]>([]);
+  status = signal<Choice[]>([]);
+  difficulties = signal<Difficulty[]>([]);
   baseUrl = environment.baseUrl;
   innerWidth = 0;
-  @ViewChild('dt', { static: false }) private dt: Table | undefined;
+  dt = viewChild<Table>('dt');
   mobileFilter = false;
-  loading = false;
+  loading = signal<boolean>(false);
 
   contextMenuItems = [
     {
@@ -91,20 +93,23 @@ export class ListComponent implements OnInit {
   private filterService = inject(FilterService);
   private http = inject(HttpClient);
 
-  constructor() { }
+  constructor() {
+    effect(() => {
+      const filterValue = this.globalFilterService.filter();
+      const table = this.dt();
+      if (table) {
+        table.filterGlobal(filterValue, 'contains');
+      }
+    });
+  }
 
   selectedColumns = signal<any[]>([]);
 
   ngOnInit(): void {
-    this.loading = true;
+    this.loading.set(true);
     this.gameService.getGames().subscribe((games) => {
-      this.games = games;
-      this.loading = false;
-    });
-    this.globalFilterService.filter$.subscribe((filter) => {
-      if (this.dt) {
-        this.dt.filterGlobal(filter, 'contains');
-      }
+      this.games.set(games);
+      this.loading.set(false);
     });
 
     this.filterService.register(
@@ -169,19 +174,19 @@ export class ListComponent implements OnInit {
 
     this.http
       .get<Baserom[]>(this.baseUrl + '/baseroms/')
-      .subscribe((baseroms) => (this.baseroms = baseroms));
+      .subscribe((baseroms) => (this.baseroms.set(baseroms)));
     this.http
       .get<Choice[]>(this.baseUrl + '/stories/')
-      .subscribe((stories) => (this.stories = stories));
+      .subscribe((stories) => (this.stories.set(stories)));
     this.http
       .get<Choice[]>(this.baseUrl + '/status/')
-      .subscribe((status) => (this.status = status));
+      .subscribe((status) => (this.status.set(status)));
     this.http
       .get<Choice[]>(this.baseUrl + '/fakemon/')
-      .subscribe((fakemon) => (this.fakemon = fakemon));
+      .subscribe((fakemon) => (this.fakemon.set(fakemon)));
     this.http
       .get<Difficulty[]>(this.baseUrl + '/difficulties/')
-      .subscribe((difficulties) => (this.difficulties = difficulties));
+      .subscribe((difficulties) => (this.difficulties.set(difficulties)));
   }
 
   onRowSelect($event: any): void {
@@ -195,8 +200,9 @@ export class ListComponent implements OnInit {
   }
 
   inputFilter($event: Event, field: string, matchMode: string): void {
-    if (this.dt) {
-      this.dt.filter(
+    const table = this.dt();
+    if (table) {
+      table.filter(
         ($event.target as HTMLInputElement).value,
         field,
         matchMode,

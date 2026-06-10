@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
@@ -9,12 +9,10 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class GameService {
-  baseUrl = environment.baseUrl;
+  private http = inject(HttpClient);
+  private adapter = inject(GameAdapter);
 
-  constructor(
-    private http: HttpClient,
-    private adapter: GameAdapter,
-  ) {}
+  baseUrl = environment.baseUrl;
 
   getGames(): Observable<Game[]> {
     return this.http
@@ -23,9 +21,7 @@ export class GameService {
   }
 
   getGame(id: number): Observable<Game> {
-    return this.http
-      .get<Game>(this.baseUrl + '/games/' + id)
-      .pipe(map((item: any) => this.adapter.adapt(item)));
+    return this.http.get<Game>(this.baseUrl + '/games/' + id).pipe(map((item: any) => this.adapter.adapt(item)));
   }
 
   createGame(game: any): Observable<Game> {

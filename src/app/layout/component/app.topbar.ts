@@ -52,7 +52,7 @@ import { AuthService } from '@auth0/auth0-angular';
 
     <div class="layout-topbar-actions">
       <div class="layout-config-menu">
-      <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
+        <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
           <i
             [ngClass]="{ 'pi ': true, 'pi-moon': layoutService.isDarkTheme(), 'pi-sun': !layoutService.isDarkTheme() }"
           ></i>
@@ -87,12 +87,14 @@ import { AuthService } from '@auth0/auth0-angular';
   </div>`,
 })
 export class AppTopbar {
+  layoutService = inject(LayoutService);
+
   items!: MenuItem[];
   protected auth = inject(AuthService);
 
   protected imageSrc = '';
 
-  constructor(public layoutService: LayoutService) {
+  constructor() {
     this.auth.user$.subscribe((user) => {
       this.imageSrc = user?.picture ?? '';
     });

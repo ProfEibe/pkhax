@@ -22,7 +22,7 @@
   <div class="p-2">
     @if (
     (auth.isAuthenticated$ | async) &&
-    (userService.currentUser | async)?.displayName
+    userService.currentUser()?.displayName
     ) {
     <p-editor [(ngModel)]="reply">
       <p-header class="flex justify-content-between">

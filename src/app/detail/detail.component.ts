@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { GameService } from '../game.service';
 import { Game } from '../game';
@@ -18,26 +18,32 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 
 @Component({
-    selector: 'app-detail',
-    templateUrl: './detail.component.html',
-    styleUrls: ['./detail.component.css'],
-    imports: [
-        CommentComponent,
-        RouterLink,
-        AsyncPipe,
-        EditorModule,
-        FormsModule,
-        GalleriaModule,
-        FieldsetModule,
-        DividerModule,
-        RatingComponent,
-        ButtonModule,
-        CardModule,
-    ]
+  selector: 'app-detail',
+  templateUrl: './detail.component.html',
+  styleUrls: ['./detail.component.css'],
+  imports: [
+    CommentComponent,
+    RouterLink,
+    AsyncPipe,
+    EditorModule,
+    FormsModule,
+    GalleriaModule,
+    FieldsetModule,
+    DividerModule,
+    RatingComponent,
+    ButtonModule,
+    CardModule,
+  ],
 })
 export class DetailComponent implements OnInit, AfterViewChecked {
-  game: Game;
-  comments: Comment[] = [];
+  private route = inject(ActivatedRoute);
+  private gameService = inject(GameService);
+  private commentService = inject(CommentService);
+  userService = inject(UserService);
+  auth = inject(AuthService);
+
+  game = signal<Game | undefined>(undefined);
+  comments = signal<Comment[]>([]);
   selectedComment: number;
   rootCommentBox: string;
 
@@ -62,26 +68,16 @@ export class DetailComponent implements OnInit, AfterViewChecked {
   displayCustom: boolean;
   images: any[];
 
-  constructor(
-    private route: ActivatedRoute,
-    private gameService: GameService,
-    private commentService: CommentService,
-    public userService: UserService,
-    public auth: AuthService,
-  ) {}
-
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       if (params.has('id')) {
         // @ts-ignore
         this.gameService.getGame(+params.get('id')).subscribe(
           (game) => {
-            this.game = game;
-            this.commentService
-              .getCommentsByGame(game.id)
-              .subscribe((comments) => {
-                this.comments = comments;
-              });
+            this.game.set(game);
+            this.commentService.getCommentsByGame(game.id).subscribe((comments) => {
+              this.comments.set(comments);
+            });
             if (game.images && game.images !== '') {
               this.images = game.images.split('\n');
             }
@@ -99,16 +95,18 @@ export class DetailComponent implements OnInit, AfterViewChecked {
   }
 
   saveComment(): void {
-    const comment = this.comments[this.selectedComment];
+    const comment = this.comments()[this.selectedComment];
     console.log(comment);
   }
 
   saveRootComment(): void {
     const comment = new Comment();
-    comment.gameId = this.game.id;
+    const game = this.game();
+    if (!game) return;
+    comment.gameId = game.id;
     comment.content = this.rootCommentBox;
     this.commentService.createComment(comment).subscribe((saved) => {
-      this.comments.push(saved);
+      this.comments.update(prev => [...prev, saved]);
       this.rootCommentBox = '';
 
       this.newComment = saved.id;
@@ -117,17 +115,11 @@ export class DetailComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {
     if (this.newComment !== null) {
-      const itemToScrollTo = document.getElementById(
-        'comment-' + this.newComment,
-      );
+      const itemToScrollTo = document.getElementById('comment-' + this.newComment);
       if (itemToScrollTo) {
         itemToScrollTo.scrollIntoView({ block: 'center', behavior: 'auto' });
         setTimeout(
-          () =>
-            itemToScrollTo.animate(
-              [{ backgroundColor: '#c1d4ff' }, { backgroundColor: '#FFFFFF' }],
-              500,
-            ),
+          () => itemToScrollTo.animate([{ backgroundColor: '#c1d4ff' }, { backgroundColor: '#FFFFFF' }], 500),
           200,
         );
       }
