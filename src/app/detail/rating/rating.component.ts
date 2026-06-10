@@ -43,9 +43,7 @@ export class RatingComponent implements OnInit {
     this.ownValue = value;
   }
 
-  ngOnInit(): void {
-    this.loadAvg();
-
+  constructor() {
     this.auth.user$.pipe(takeUntilDestroyed()).subscribe((user) => {
       if (!user) return;
       const ratings1 = this.game().rating.filter((rating) => rating.created_by?.auth0Id === user.sub);
@@ -56,6 +54,10 @@ export class RatingComponent implements OnInit {
         this.readOnly = false;
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.loadAvg();
   }
 
   saveRating(): void {
