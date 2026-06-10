@@ -34,15 +34,34 @@ export const appConfig: ApplicationConfig = {
       httpInterceptor: {
         allowedList: [
           {
-            // Match any request starting with /api
             uri: '/api/*',
+            httpMethod: HttpMethod.Post,
             tokenOptions: {
               authorizationParams: {
                 audience: 'https://pkhax.eu.auth0.com/api/v2/',
                 scope: 'read:current_user',
               },
             },
-            // Apply to all methods
+          },
+          {
+            uri: '/api/*',
+            httpMethod: HttpMethod.Put,
+            tokenOptions: {
+              authorizationParams: {
+                audience: 'https://pkhax.eu.auth0.com/api/v2/',
+                scope: 'read:current_user',
+              },
+            },
+          },
+          {
+            uri: '/api/*',
+            httpMethod: HttpMethod.Delete,
+            tokenOptions: {
+              authorizationParams: {
+                audience: 'https://pkhax.eu.auth0.com/api/v2/',
+                scope: 'read:current_user',
+              },
+            },
           },
         ],
       },

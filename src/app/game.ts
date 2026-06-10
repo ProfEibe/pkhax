@@ -72,7 +72,15 @@ export class Game {
 export class GameAdapter implements Adapter<Game> {
   adapt(item: any): Game {
     const game = Object.assign(new Game(), item);
-    game.lastUpdate = new Date(item.lastUpdate);
+    if (item.lastUpdate) {
+      game.lastUpdate = new Date(item.lastUpdate);
+    }
+    if (!game.rating) {
+      game.rating = [];
+    }
+    if (!game.base) {
+      game.base = [];
+    }
     return game;
   }
 }
