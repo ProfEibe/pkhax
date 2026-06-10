@@ -24,7 +24,7 @@ export class CommentComponent implements AfterViewChecked {
   comment = input.required<Comment>();
   showReply = false;
   reply: string;
-  private newComment: number;
+  private newComment: number | null = null;
 
 
 
@@ -62,7 +62,6 @@ export class CommentComponent implements AfterViewChecked {
         );
       }
 
-      // @ts-ignore
       this.newComment = null;
     }
   }

@@ -85,6 +85,7 @@ export class ListComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
     this.innerWidth = event.target.innerWidth;
+    this.setColumns();
   }
 
   private gameService = inject(GameService);
@@ -156,21 +157,7 @@ export class ListComponent implements OnInit {
     ];
 
     this.innerWidth = window.innerWidth;
-    if (this.innerWidth > 640) {
-      this.selectedColumns.set([
-        this.cols[0],
-        this.cols[1],
-        this.cols[4],
-        this.cols[6],
-        this.cols[7],
-        this.cols[8],
-        this.cols[11],
-        this.cols[12],
-        this.cols[13],
-      ]);
-    } else {
-      this.selectedColumns.set([this.cols[0], this.cols[1], this.cols[11]]);
-    }
+    this.setColumns();
 
     this.http
       .get<Baserom[]>(this.baseUrl + '/baseroms/')
@@ -197,6 +184,24 @@ export class ListComponent implements OnInit {
     $event.preventDefault();
     console.log($event);
     window.open('/' + this.selectedGame.id, '_blank');
+  }
+
+  private setColumns(): void {
+    if (this.innerWidth > 640) {
+      this.selectedColumns.set([
+        this.cols[0],
+        this.cols[1],
+        this.cols[4],
+        this.cols[6],
+        this.cols[7],
+        this.cols[8],
+        this.cols[11],
+        this.cols[12],
+        this.cols[13],
+      ]);
+    } else {
+      this.selectedColumns.set([this.cols[0], this.cols[1], this.cols[11]]);
+    }
   }
 
   inputFilter($event: Event, field: string, matchMode: string): void {

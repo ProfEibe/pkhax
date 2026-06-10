@@ -1,4 +1,5 @@
 import { Component, input, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Game, Rating } from '../../game';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -45,7 +46,7 @@ export class RatingComponent implements OnInit {
   ngOnInit(): void {
     this.loadAvg();
 
-    this.auth.user$.subscribe((user) => {
+    this.auth.user$.pipe(takeUntilDestroyed()).subscribe((user) => {
       if (!user) return;
       const ratings1 = this.game().rating.filter((rating) => rating.created_by?.auth0Id === user.sub);
       if (ratings1.length > 0) {

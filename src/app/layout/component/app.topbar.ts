@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MenuItem } from 'primeng/api';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -95,7 +96,7 @@ export class AppTopbar {
   protected imageSrc = '';
 
   constructor() {
-    this.auth.user$.subscribe((user) => {
+    this.auth.user$.pipe(takeUntilDestroyed()).subscribe((user) => {
       this.imageSrc = user?.picture ?? '';
     });
   }

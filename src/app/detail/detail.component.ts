@@ -47,7 +47,7 @@ export class DetailComponent implements OnInit, AfterViewChecked {
   selectedComment: number;
   rootCommentBox: string;
 
-  private newComment: number;
+  private newComment: number | null = null;
 
   responsiveOptions: any[] = [
     {
@@ -88,10 +88,6 @@ export class DetailComponent implements OnInit, AfterViewChecked {
         );
       }
     });
-
-    this.auth.user$.subscribe((auth0User) => {
-      this.userService.getCurrentUser().subscribe();
-    });
   }
 
   saveComment(): void {
@@ -124,7 +120,6 @@ export class DetailComponent implements OnInit, AfterViewChecked {
         );
       }
 
-      // @ts-ignore
       this.newComment = null;
     }
   }

@@ -1,4 +1,5 @@
 import { Component, input, OnInit, OnDestroy, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
@@ -135,7 +136,10 @@ export class AppMenuitem implements OnInit, OnDestroy {
       this.active = false;
     });
 
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((params) => {
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      takeUntilDestroyed()
+    ).subscribe((params) => {
       if (this.item().routerLink) {
         this.updateActiveStateFromRoute();
       }
