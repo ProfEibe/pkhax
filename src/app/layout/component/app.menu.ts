@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
@@ -6,6 +6,7 @@ import { AppMenuitem } from './app.menuitem';
 
 @Component({
   selector: 'app-menu',
+  standalone: true,
   imports: [AppMenuitem, RouterModule],
   template: `<ul class="layout-menu">
       @for (item of model; track item; let i = $index) {
@@ -21,8 +22,17 @@ import { AppMenuitem } from './app.menuitem';
 export class AppMenu {
   model: MenuItem[] = [
     {
-      label: 'Home',
-      items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }],
+      label: 'Main',
+      items: [
+          { label: 'Romhack List', icon: 'pi pi-fw pi-list', routerLink: ['/'] },
+          { label: 'Add New Hack', icon: 'pi pi-fw pi-plus', routerLink: ['/editor'] }
+      ],
     },
+    {
+        label: 'Account',
+        items: [
+            { label: 'My Profile', icon: 'pi pi-fw pi-user', routerLink: ['/user'] }
+        ]
+    }
   ];
 }

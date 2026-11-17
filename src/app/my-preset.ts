@@ -4,16 +4,16 @@ import Aura from '@primeng/themes/aura';
 export const MyPreset = definePreset(Aura, {
     semantic: {
         primary: {
-            50: '#fef2f2',
-            100: '#fee2e2',
-            200: '#fecaca',
-            300: '#fca5a5',
-            400: '#f87171',
-            500: '#ef4444',
-            600: '#dc2626',
-            700: '#b91c1c',
-            800: '#991b1b',
-            900: '#7f1d1d',
+            50: '#fff1f1',
+            100: '#ffdfdf',
+            200: '#ffc5c5',
+            300: '#ff9d9d',
+            400: '#ff6464',
+            500: '#ff5f5f', // PkHax Brand Red
+            600: '#ed2121',
+            700: '#c81010',
+            800: '#a50f0f',
+            900: '#881414',
             950: '#450a0a'
         },
         colorScheme: {
@@ -31,11 +31,6 @@ export const MyPreset = definePreset(Aura, {
                     800: '#1e293b',
                     900: '#0f172a',
                     950: '#020617'
-                },
-                content: {
-                    background: '{surface.0}', // Cards/Components are white in light
-                    borderColor: '{surface.200}',
-                    color: '{surface.700}'
                 }
             },
             dark: {
@@ -52,40 +47,6 @@ export const MyPreset = definePreset(Aura, {
                     800: '#1e293b',
                     900: '#0f172a',
                     950: '#020617'
-                },
-                content: {
-                    background: '{surface.800}', // Cards/Components are Slate 800 in dark
-                    borderColor: '{surface.700}',
-                    color: '{surface.0}'
-                }
-            }
-        }
-    },
-    components: {
-        datatable: {
-            colorScheme: {
-                dark: {
-                    root: {
-                        borderColor: '{surface.700}'
-                    },
-                    header: {
-                        background: '{surface.800}',
-                        borderColor: '{surface.700}'
-                    },
-                    row: {
-                        background: '{surface.800}',
-                        stripedBackground: '{surface.900}',
-                        color: '{surface.0}'
-                    }
-                }
-            }
-        },
-        card: {
-            colorScheme: {
-                dark: {
-                    root: {
-                        background: '{surface.800}'
-                    }
                 }
             }
         }
