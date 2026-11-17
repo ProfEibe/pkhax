@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import 'tailwindcss-primeui';
+@import '@openng/optimus-ui-tailwindcss';
 
 /* dark: utilities follow the app theme toggle (.app-dark on <html>), not the OS setting */
 @custom-variant dark (&:where(.app-dark, .app-dark *));

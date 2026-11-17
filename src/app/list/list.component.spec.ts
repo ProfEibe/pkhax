@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
-import { FilterService } from 'primeng/api';
+import { FilterService } from '@openng/optimus-ui/api';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import { ListComponent } from './list.component';

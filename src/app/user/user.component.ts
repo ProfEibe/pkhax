@@ -1,11 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { UserService } from '../user.service';
 import { User } from '../user';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
+import { MessageService } from '@openng/optimus-ui/api';
+import { ToastModule } from '@openng/optimus-ui/toast';
+import { CardModule } from '@openng/optimus-ui/card';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
 import { FormsModule } from '@angular/forms';
 
 import { AuthService } from '@auth0/auth0-angular';

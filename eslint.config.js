@@ -28,7 +28,7 @@ module.exports = tseslint.config(
     files: ['**/*.html'],
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility, prettier],
     rules: {
-      // PrimeNG buttons render their text from the `label` input
+      // Optimus UI (PrimeNG) buttons render their text from the `label` input
       '@angular-eslint/template/elements-content': ['error', { allowList: ['label', 'aria-label', 'title'] }],
     },
   },

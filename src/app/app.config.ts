@@ -2,7 +2,7 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { ApplicationConfig, inject, provideAppInitializer } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NavigationError, provideRouter, withNavigationErrorHandler } from '@angular/router';
-import { providePrimeNG } from 'primeng/config';
+import { provideOptimus } from '@openng/optimus-ui/config';
 import { MatomoTracker, provideMatomo, withRouter } from 'ngx-matomo-client';
 import { authHttpInterceptorFn, HttpInterceptorRouteConfig, HttpMethod, provideAuth0 } from '@auth0/auth0-angular';
 import { environment } from '../environments/environment';
@@ -59,12 +59,12 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withNavigationErrorHandler(reloadOnMissingChunk)),
     provideHttpClient(withFetch(), withInterceptors([...devInterceptors, authHttpInterceptorFn])),
     provideAnimationsAsync(),
-    providePrimeNG({
+    provideOptimus({
       theme: {
         preset: MyPreset,
-        // PrimeNG styles go into a CSS layer below Tailwind utilities, so classes like
-        // `md:hidden` or `fixed` on PrimeNG components are not overridden by the theme.
-        options: { darkModeSelector: '.app-dark', cssLayer: { name: 'primeng', order: 'theme, base, primeng' } },
+        // Optimus UI styles go into a CSS layer below Tailwind utilities, so classes like
+        // `md:hidden` or `fixed` on Optimus components are not overridden by the theme.
+        options: { darkModeSelector: '.app-dark', cssLayer: { name: 'optimus', order: 'theme, base, optimus' } },
       },
     }),
     provideMatomo(

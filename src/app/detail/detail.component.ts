@@ -10,15 +10,15 @@ import { AuthService } from '@auth0/auth0-angular';
 import { UserService } from '../user.service';
 import { CommentComponent } from './comment/comment.component';
 import { AsyncPipe } from '@angular/common';
-import { EditorModule } from 'primeng/editor';
+import { EditorModule } from '@openng/optimus-ui/editor';
 import { FormsModule } from '@angular/forms';
-import { GalleriaModule } from 'primeng/galleria';
-import { GalleriaResponsiveOptions } from 'primeng/types/galleria';
-import { FieldsetModule } from 'primeng/fieldset';
-import { DividerModule } from 'primeng/divider';
+import { GalleriaModule } from '@openng/optimus-ui/galleria';
+import { GalleriaResponsiveOptions } from '@openng/optimus-ui/types/galleria';
+import { FieldsetModule } from '@openng/optimus-ui/fieldset';
+import { DividerModule } from '@openng/optimus-ui/divider';
 import { RatingComponent } from './rating/rating.component';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { CardModule } from '@openng/optimus-ui/card';
 
 @Component({
   selector: 'app-detail',

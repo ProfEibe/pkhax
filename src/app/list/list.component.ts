@@ -2,24 +2,24 @@ import { Component, HostListener, OnInit, inject, signal, viewChild } from '@ang
 import { DecimalPipe } from '@angular/common';
 import { GameService } from '../game.service';
 import { Router } from '@angular/router';
-import { Table, TableModule } from 'primeng/table';
+import { Table, TableModule } from '@openng/optimus-ui/table';
 import { Baserom, Choice, Difficulty, Game } from '../game';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { FilterService, SortEvent } from 'primeng/api';
-import { MultiSelect } from 'primeng/multiselect';
-import { Select } from 'primeng/select';
+import { FilterService, SortEvent } from '@openng/optimus-ui/api';
+import { MultiSelect } from '@openng/optimus-ui/multiselect';
+import { Select } from '@openng/optimus-ui/select';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { RippleModule } from 'primeng/ripple';
-import { RatingModule } from 'primeng/rating';
-import { ContextMenuModule } from 'primeng/contextmenu';
-import { InputTextModule } from 'primeng/inputtext';
-import { TagModule } from 'primeng/tag';
-import { ToolbarModule } from 'primeng/toolbar';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { SkeletonModule } from 'primeng/skeleton';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { RippleModule } from '@openng/optimus-ui/ripple';
+import { RatingModule } from '@openng/optimus-ui/rating';
+import { ContextMenuModule } from '@openng/optimus-ui/contextmenu';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
+import { TagModule } from '@openng/optimus-ui/tag';
+import { ToolbarModule } from '@openng/optimus-ui/toolbar';
+import { IconFieldModule } from '@openng/optimus-ui/iconfield';
+import { InputIconModule } from '@openng/optimus-ui/inputicon';
+import { SkeletonModule } from '@openng/optimus-ui/skeleton';
 
 interface Column {
   field: keyof Game & string;

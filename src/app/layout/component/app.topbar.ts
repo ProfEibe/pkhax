@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MenuItem } from 'primeng/api';
+import { MenuItem } from '@openng/optimus-ui/api';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { StyleClassModule } from 'primeng/styleclass';
+import { StyleClassModule } from '@openng/optimus-ui/styleclass';
 import { LayoutService } from '../service/layout.service';
 import { AuthButtonComponent } from '../../auth-button/auth-button.component';
-import { Avatar } from 'primeng/avatar';
+import { Avatar } from '@openng/optimus-ui/avatar';
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({

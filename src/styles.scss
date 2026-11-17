@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use './tailwind.css';
 @use './assets/layout/layout.scss';
-@use 'primeicons/primeicons.css';
+@use '@openng/icons/openng-icons.css';
 
 :root {
   --font-family: 'Inter', system-ui, sans-serif;
@@ -20,7 +20,7 @@ body {
   /* Dark Mode Ground (Slate 900) */
 }
 
-/* Helper Classes for Surface Colors mapped to PrimeNG Design Tokens */
+/* Helper Classes for Surface Colors mapped to Optimus UI design tokens */
 .text-surface-900 {
   color: var(--p-text-color) !important;
 }
@@ -58,7 +58,7 @@ h6 {
 }
 
 /*@import "tailwindcss";
-@import "tailwindcss-primeui";*/
+@import "@openng/optimus-ui-tailwindcss";*/
 
 .baserom {
   font-weight: bold;

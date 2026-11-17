@@ -4,10 +4,10 @@ import { Game, Rating } from '../../game';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '@auth0/auth0-angular';
-import { RatingModule } from 'primeng/rating';
+import { RatingModule } from '@openng/optimus-ui/rating';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { RippleModule } from 'primeng/ripple';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { RippleModule } from '@openng/optimus-ui/ripple';
 
 @Component({
   selector: 'app-rating',

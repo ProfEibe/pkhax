@@ -1,4 +1,4 @@
-// jsdom does not implement matchMedia, which PrimeNG overlays (ContextMenu, Select, …) use.
+// jsdom does not implement matchMedia, which Optimus UI overlays (ContextMenu, Select, …) use.
 if (!window.matchMedia) {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,

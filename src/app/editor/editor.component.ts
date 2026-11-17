@@ -3,23 +3,23 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GameService } from '../game.service';
 import { HttpClient } from '@angular/common/http';
-import { MessageService } from 'primeng/api';
+import { MessageService } from '@openng/optimus-ui/api';
 import { environment } from '../../environments/environment';
 import { Baserom, Choice, Difficulty, Game } from '../game';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from '@openng/optimus-ui/button';
 import { FormsModule } from '@angular/forms';
-import { EditorModule } from 'primeng/editor';
-import { Select } from 'primeng/select';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { MessageModule } from 'primeng/message';
-import { CardModule } from 'primeng/card';
-import { ToastModule } from 'primeng/toast';
-import { InputTextModule } from 'primeng/inputtext';
-import { TextareaModule } from 'primeng/textarea';
-import { CheckboxModule } from 'primeng/checkbox';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { EditorModule } from '@openng/optimus-ui/editor';
+import { Select } from '@openng/optimus-ui/select';
+import { MultiSelectModule } from '@openng/optimus-ui/multiselect';
+import { InputNumberModule } from '@openng/optimus-ui/inputnumber';
+import { MessageModule } from '@openng/optimus-ui/message';
+import { CardModule } from '@openng/optimus-ui/card';
+import { ToastModule } from '@openng/optimus-ui/toast';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
+import { TextareaModule } from '@openng/optimus-ui/textarea';
+import { CheckboxModule } from '@openng/optimus-ui/checkbox';
+import { InputGroupModule } from '@openng/optimus-ui/inputgroup';
+import { InputGroupAddonModule } from '@openng/optimus-ui/inputgroupaddon';
 
 @Component({
   selector: 'app-editor',
