@@ -45,23 +45,19 @@ export class UserComponent implements OnInit {
     if (!this.user) {
       return;
     }
-    this.userService.updateUserName(this.user).subscribe(
-      (user) => {
+    this.userService.updateUserName(this.user).subscribe({
+      next: (user) => {
         this.user = user;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Saved',
-          detail: 'User updated',
-        });
+        this.messageService.add({ severity: 'success', summary: 'Saved', detail: 'User updated' });
       },
-      (error) => {
+      error: (error) => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: error.error.message,
+          detail: error?.error?.message ?? 'User could not be saved',
         });
-        console.log(error);
+        console.error(error);
       },
-    );
+    });
   }
 }

@@ -1,134 +1,201 @@
 <div class="card bg-surface-card flex flex-col gap-4 h-[calc(100vh-6rem)] relative">
   <!-- Top Toolbar -->
-  <p-toolbar styleClass="mb-2 p-2 border-round-xl bg-surface-card shadow-sm border-none">
+  <p-toolbar styleClass="mb-2 p-2 rounded-xl bg-surface-card shadow-sm border-none">
     <div class="p-toolbar-group-start gap-2">
-      <span class="block mt-2 md:mt-0 p-input-icon-left">
+      <span class="block mt-2 md:mt-0">
         <p-iconField iconPosition="left">
           <p-inputIcon styleClass="pi pi-search" />
-          <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-            placeholder="Global Search..." class="w-full md:w-64" />
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+            placeholder="Global Search..."
+            class="w-full md:w-64"
+          />
         </p-iconField>
       </span>
     </div>
     <div class="p-toolbar-group-end gap-2">
-      <p-multiSelect [options]="cols" [ngModel]="selectedColumns()" (ngModelChange)="updateSelectedColumns($event)"
-        optionLabel="header" selectedItemsLabel="{0} cols" [style]="{ minWidth: '150px' }" placeholder="Columns"
-        display="chip"></p-multiSelect>
-      <p-button icon="pi pi-refresh" (onClick)="dt.reset()" pTooltip="Reset Table"
-        styleClass="p-button-outlined p-button-secondary"></p-button>
+      <p-multiSelect
+        [options]="cols"
+        [ngModel]="selectedColumns()"
+        (ngModelChange)="updateSelectedColumns($event)"
+        optionLabel="header"
+        selectedItemsLabel="{0} cols"
+        [style]="{ minWidth: '150px' }"
+        placeholder="Columns"
+        display="chip"
+      ></p-multiSelect>
+      <p-button
+        icon="pi pi-refresh"
+        (onClick)="dt.reset()"
+        pTooltip="Reset Table"
+        styleClass="p-button-outlined p-button-secondary"
+      ></p-button>
     </div>
   </p-toolbar>
 
   <!-- Data Table -->
-  <p-table [columns]="selectedColumns()" #dt [value]="games()" [scrollable]="true" scrollHeight="flex" showGridlines
-    size="small" selectionMode="single" [(selection)]="selectedGame" (onRowSelect)="onRowSelect($event)" dataKey="id"
-    stateStorage="session" stateKey="pkhax-filter-session" [loading]="loading()" [contextMenu]="cm"
-    contextMenuSelectionMode="joint" sortField="rating" [sortOrder]="-1" (sortFunction)="customSort($event)"
-    [customSort]="true" [globalFilterFields]="['title', 'creator', 'base.name', 'status.name', 'story.name']"
-    styleClass="p-datatable-striped">
+  <p-table
+    [columns]="selectedColumns()"
+    #dt
+    [value]="games()"
+    [scrollable]="true"
+    scrollHeight="flex"
+    showGridlines
+    size="small"
+    selectionMode="single"
+    [(selection)]="selectedGame"
+    (onRowSelect)="onRowSelect()"
+    dataKey="id"
+    stateStorage="session"
+    stateKey="pkhax-filter-session"
+    [loading]="loading()"
+    [contextMenu]="cm"
+    contextMenuSelectionMode="joint"
+    sortField="rating"
+    [sortOrder]="-1"
+    (sortFunction)="customSort($event)"
+    [customSort]="true"
+    [globalFilterFields]="['title', 'creator', 'base.name', 'status.name', 'story.name']"
+    styleClass="p-datatable-striped"
+  >
     <ng-template pTemplate="header" let-columns>
       <tr>
         @for (col of columns; track col) {
-        <th style="min-width: 180px"
-          [pSortableColumn]="['catchable', 'rating', 'title'].includes(col.field) ? col.field : null"
-          class="whitespace-nowrap">
-          <div class="flex items-center gap-2">
-            <!-- Header Content -->
-            @if (!['base', 'story', 'status', 'difficulty', 'fakemon'].includes(col.field)) {
-            <span class="font-bold text-surface-900">{{ col.header }}</span>
-            }
+          <th
+            style="min-width: 180px"
+            [pSortableColumn]="['catchable', 'rating', 'title'].includes(col.field) ? col.field : null"
+            class="whitespace-nowrap"
+          >
+            <div class="flex items-center gap-2">
+              <!-- Header Content -->
+              @if (!['base', 'story', 'status', 'difficulty', 'fakemon'].includes(col.field)) {
+                <span class="font-bold text-surface-900">{{ col.header }}</span>
+              }
 
-            <!-- Column Specific Filters -->
-            @if (col.field === 'base') {
-            <p-multiSelect [options]="baseroms()" optionLabel="name"
-              (onChange)="dt.filter($event.value, col.field, 'isInBaserom')" appendTo="body" placeholder="Baserom"
-              styleClass="w-full" display="chip"></p-multiSelect>
-            }
-            @if (['story', 'status', 'difficulty', 'fakemon'].includes(col.field)) {
-            <p-columnFilter [field]="col.field" matchMode="isChoice" [showMenu]="false">
-              <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                <p-select [ngModel]="value"
-                  [options]="col.field === 'story' ? stories() : col.field === 'status' ? status() : col.field === 'difficulty' ? difficulties() : fakemon()"
-                  optionLabel="name" appendTo="body" (onChange)="filter($event.value)" [placeholder]="col.header"
-                  [showClear]="true" styleClass="w-full"></p-select>
-              </ng-template>
-            </p-columnFilter>
-            }
+              <!-- Column Specific Filters -->
+              @if (col.field === 'base') {
+                <p-multiSelect
+                  [options]="baseroms()"
+                  optionLabel="name"
+                  (onChange)="dt.filter($event.value, col.field, 'isInBaserom')"
+                  appendTo="body"
+                  placeholder="Baserom"
+                  styleClass="w-full"
+                  display="chip"
+                ></p-multiSelect>
+              }
+              @if (['story', 'status', 'difficulty', 'fakemon'].includes(col.field)) {
+                <p-columnFilter [field]="col.field" matchMode="isChoice" [showMenu]="false">
+                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                    <p-select
+                      [ngModel]="value"
+                      [options]="
+                        col.field === 'story'
+                          ? stories()
+                          : col.field === 'status'
+                            ? status()
+                            : col.field === 'difficulty'
+                              ? difficulties()
+                              : fakemon()
+                      "
+                      optionLabel="name"
+                      appendTo="body"
+                      (onChange)="filter($event.value)"
+                      [placeholder]="col.header"
+                      [showClear]="true"
+                      styleClass="w-full"
+                    ></p-select>
+                  </ng-template>
+                </p-columnFilter>
+              }
 
-            @if (['catchable', 'rating', 'title'].includes(col.field)) {
-            <p-sortIcon [field]="col.field"></p-sortIcon>
-            }
-          </div>
-        </th>
+              @if (['catchable', 'rating', 'title'].includes(col.field)) {
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              }
+            </div>
+          </th>
         }
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-rowData let-columns="columns">
-      <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData"
-        class="cursor-pointer hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors group">
+      <tr
+        [pSelectableRow]="rowData"
+        [pContextMenuRow]="rowData"
+        class="cursor-pointer hover:bg-surface-100 dark:hover:bg-surface-800 transition-colors group"
+      >
         @for (col of columns; track col) {
-        <td>
-          <!-- Title -->
-          @if (col.field === 'title') {
-          <div class="font-bold text-surface-900 group-hover:text-primary-500 transition-colors">{{ rowData[col.field]
-            }}</div>
-          }
-
-          <!-- Text Fields -->
-          @if (['creator', 'catchable', 'version'].includes(col.field)) {
-          <div class="text-center text-sm text-surface-700">
-            {{ rowData[col.field] || 'N/A' }}
-          </div>
-          }
-
-          <!-- Baserom Pills -->
-          @if (col.field === 'base') {
-          <div class="flex flex-wrap gap-1 justify-center">
-            @for (base of rowData[col.field]; track base) {
-            <span
-              class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider shadow-sm border border-black/10"
-              [style.background-color]="base.color" [style.color]="base.fontColor">
-              {{ base.short_name }}
-            </span>
+          <td>
+            <!-- Title -->
+            @if (col.field === 'title') {
+              <div class="font-bold text-surface-900 group-hover:text-primary-500 transition-colors">
+                {{ rowData[col.field] }}
+              </div>
             }
-          </div>
-          }
 
-          <!-- Tags (Status, Difficulty, Story) -->
-          @if (['status', 'story', 'difficulty', 'fakemon'].includes(col.field)) {
-          <div class="text-center">
-            @if (rowData[col.field]) {
-            <p-tag [value]="rowData[col.field].name"
-              [severity]="col.field === 'status' && rowData[col.field].name === 'Complete' ? 'success' : 'info'"
-              styleClass="text-xs"></p-tag>
-            } @else {
-            <span class="text-surface-300">-</span>
+            <!-- Text Fields -->
+            @if (['creator', 'catchable', 'version'].includes(col.field)) {
+              <div class="text-center text-sm text-surface-700">
+                {{ rowData[col.field] || 'N/A' }}
+              </div>
             }
-          </div>
-          }
 
-          <!-- Rating -->
-          @if (col.field === 'rating') {
-          <div class="flex items-center justify-center gap-2">
-            <span class="font-bold text-surface-900">{{ rowData['avgRating'] | number:'1.1-1' }}</span>
-            <i class="pi pi-star-fill text-yellow-500 text-xs"></i>
-            <span class="text-xs text-surface-500">({{ rowData['rating'].length }})</span>
-          </div>
-          }
-
-          <!-- Boolean Checks -->
-          @if (['original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke',
-          'builtInRandomizer'].includes(col.field)) {
-          <div class="text-center">
-            @if (rowData[col.field]) {
-            <i class="pi pi-check-circle text-green-500 font-bold"></i>
-            } @else if (rowData[col.field] === false) {
-            <i class="pi pi-times text-surface-300 text-xs"></i>
+            <!-- Baserom Pills -->
+            @if (col.field === 'base') {
+              <div class="flex flex-wrap gap-1 justify-center">
+                @for (base of rowData[col.field]; track base) {
+                  <span
+                    class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider shadow-sm border border-black/10"
+                    [style.background-color]="base.color"
+                    [style.color]="base.fontColor"
+                  >
+                    {{ base.short_name }}
+                  </span>
+                }
+              </div>
             }
-          </div>
-          }
-        </td>
+
+            <!-- Tags (Status, Difficulty, Story) -->
+            @if (['status', 'story', 'difficulty', 'fakemon'].includes(col.field)) {
+              <div class="text-center">
+                @if (rowData[col.field]) {
+                  <p-tag
+                    [value]="rowData[col.field].name"
+                    [severity]="col.field === 'status' && rowData[col.field].name === 'Complete' ? 'success' : 'info'"
+                    styleClass="text-xs"
+                  ></p-tag>
+                } @else {
+                  <span class="text-surface-300">-</span>
+                }
+              </div>
+            }
+
+            <!-- Rating -->
+            @if (col.field === 'rating') {
+              <div class="flex items-center justify-center gap-2">
+                <span class="font-bold text-surface-900">{{ rowData['avgRating'] | number: '1.1-1' }}</span>
+                <i class="pi pi-star-fill text-yellow-500 text-xs"></i>
+                <span class="text-xs text-surface-500">({{ rowData['rating'].length }})</span>
+              </div>
+            }
+
+            <!-- Boolean Checks -->
+            @if (
+              ['original', 'newGraphics', 'physicalSpecialSplit', 'builtInNuzlocke', 'builtInRandomizer'].includes(
+                col.field
+              )
+            ) {
+              <div class="text-center">
+                @if (rowData[col.field]) {
+                  <i class="pi pi-check-circle text-green-500 font-bold"></i>
+                } @else if (rowData[col.field] === false) {
+                  <i class="pi pi-times text-surface-300 text-xs"></i>
+                }
+              </div>
+            }
+          </td>
         }
       </tr>
     </ng-template>
@@ -136,9 +203,9 @@
     <ng-template pTemplate="loadingbody" let-columns="columns">
       <tr style="height: 34px">
         @for (col of columns; track col) {
-        <td>
-          <p-skeleton></p-skeleton>
-        </td>
+          <td>
+            <p-skeleton></p-skeleton>
+          </td>
         }
       </tr>
     </ng-template>
@@ -146,13 +213,20 @@
     <ng-template pTemplate="summary">
       <div class="flex items-center justify-between text-xs text-gray-500">
         <div>
-          @if (games()) { Total: {{ games().length }} Romhacks }
+          @if (games()) {
+            Total: {{ games().length }} Romhacks
+          }
         </div>
         <div class="flex gap-4">
-          <a href="https://github.com/ProfEibe/pkhax" target="_blank"
-            class="hover:text-primary-500 transition-colors">GitHub</a>
-          <a href="https://www.buymeacoffee.com/jakobschade" target="_blank"
-            class="hover:text-primary-500 transition-colors">Donate</a>
+          <a href="https://github.com/ProfEibe/pkhax" target="_blank" class="hover:text-primary-500 transition-colors"
+            >GitHub</a
+          >
+          <a
+            href="https://www.buymeacoffee.com/jakobschade"
+            target="_blank"
+            class="hover:text-primary-500 transition-colors"
+            >Donate</a
+          >
         </div>
       </div>
     </ng-template>
@@ -160,7 +234,11 @@
   <p-contextMenu #cm [model]="contextMenuItems"></p-contextMenu>
 
   <!-- Mobile Filter Toggle (Floating Action Button) -->
-  <button pButton icon="pi pi-filter"
+  <button
+    pButton
+    icon="pi pi-filter"
+    aria-label="Toggle filters"
     class="md:hidden fixed bottom-6 right-6 p-button-rounded p-button-lg shadow-xl z-50 p-button-primary"
-    (click)="toggleFilter()"></button>
+    (click)="toggleFilter()"
+  ></button>
 </div>

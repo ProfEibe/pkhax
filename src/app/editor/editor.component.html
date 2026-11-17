@@ -1,149 +1,231 @@
 <p-toast></p-toast>
 <div class="max-w-5xl mx-auto p-4 md:p-8">
   @if (game) {
-  <!-- Hero Header -->
-  <div class="mb-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
-    <div>
-      <h1 class="font-heading text-4xl font-bold text-surface-900 mb-2">
-        {{ game.id ? 'Edit Romhack' : 'Submit New Romhack' }}
-      </h1>
-      <p class="text-gray-500 text-lg">
-        {{ game.id ? 'Update details for ' + game.title : 'Share a new discovery with the community.' }}
-      </p>
+    <!-- Hero Header -->
+    <div class="mb-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>
+        <h1 class="font-heading text-4xl font-bold text-surface-900 mb-2">
+          {{ game.id ? 'Edit Romhack' : 'Submit New Romhack' }}
+        </h1>
+        <p class="text-gray-500 text-lg">
+          {{ game.id ? 'Update details for ' + game.title : 'Share a new discovery with the community.' }}
+        </p>
+      </div>
+      <p-button
+        icon="pi pi-arrow-left"
+        label="Back to Game"
+        [routerLink]="game.id ? '/' + game.id : '/'"
+        styleClass="p-button-outlined p-button-secondary"
+      ></p-button>
     </div>
-    <p-button icon="pi pi-arrow-left" label="Back to Game" [routerLink]="game.id ? '/' + game.id : '/'"
-      styleClass="p-button-outlined p-button-secondary"></p-button>
-  </div>
 
-  <!-- Main Form Card -->
-  <div class="card bg-surface-card rounded-xl shadow-lg p-6 md:p-8 border border-surface-200 dark:border-surface-700">
-    <!-- Core Info Section -->
-    <h3 class="font-heading text-xl font-bold text-surface-900 mb-6 border-b border-surface-200 pb-2">Core Information
-    </h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-      <div class="flex flex-col gap-2">
-        <label for="title" class="font-bold text-surface-900">Title <span class="text-red-500">*</span></label>
-        <input id="title" pInputText [(ngModel)]="game.title" placeholder="e.g. Pokémon Radical Red" class="w-full" />
-      </div>
+    <!-- Main Form Card -->
+    <div class="card bg-surface-card rounded-xl shadow-lg p-6 md:p-8 border border-surface-200 dark:border-surface-700">
+      <!-- Core Info Section -->
+      <h3 class="font-heading text-xl font-bold text-surface-900 mb-6 border-b border-surface-200 pb-2">
+        Core Information
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="flex flex-col gap-2">
+          <label for="title" class="font-bold text-surface-900">Title <span class="text-red-500">*</span></label>
+          <input id="title" pInputText [(ngModel)]="game.title" placeholder="e.g. Pokémon Radical Red" class="w-full" />
+        </div>
 
-      <div class="flex flex-col gap-2">
-        <label for="link" class="font-bold text-surface-900">Download/Source Link <span
-            class="text-red-500">*</span></label>
-        <input id="link" pInputText required [(ngModel)]="game.link" (blur)="checkLink()" placeholder="https://..."
-          class="w-full" />
-        @if (linkExists) {
-        <small class="text-red-500">Link already exists!</small>
-        }
-      </div>
+        <div class="flex flex-col gap-2">
+          <label for="link" class="font-bold text-surface-900"
+            >Download/Source Link <span class="text-red-500">*</span></label
+          >
+          <input
+            id="link"
+            pInputText
+            required
+            [(ngModel)]="game.link"
+            (blur)="checkLink()"
+            placeholder="https://..."
+            class="w-full"
+          />
+          @if (linkExists) {
+            <small class="text-red-500">Link already exists!</small>
+          }
+        </div>
 
-      <div class="flex flex-col gap-2">
-        <label for="creator" class="font-bold text-surface-900">Creator</label>
-        <input id="creator" pInputText [(ngModel)]="game.creator" class="w-full" />
-      </div>
+        <div class="flex flex-col gap-2">
+          <label for="creator" class="font-bold text-surface-900">Creator</label>
+          <input id="creator" pInputText [(ngModel)]="game.creator" class="w-full" />
+        </div>
 
-      <div class="flex flex-col gap-2">
-        <label for="version" class="font-bold text-surface-900">Version</label>
-        <input id="version" pInputText [(ngModel)]="game.version" class="w-full" />
-      </div>
+        <div class="flex flex-col gap-2">
+          <label for="version" class="font-bold text-surface-900">Version</label>
+          <input id="version" pInputText [(ngModel)]="game.version" class="w-full" />
+        </div>
 
-      <div class="flex flex-col gap-2">
-        <label for="discord" class="font-bold text-surface-900">Discord Invite</label>
-        <div class="p-inputgroup">
-          <span class="p-inputgroup-addon"><i class="pi pi-discord"></i></span>
-          <input id="discord" pInputText [(ngModel)]="game.discord" placeholder="Discord URL" class="w-full" />
+        <div class="flex flex-col gap-2">
+          <label for="discord" class="font-bold text-surface-900">Discord Invite</label>
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-discord"></i></span>
+            <input id="discord" pInputText [(ngModel)]="game.discord" placeholder="Discord URL" class="w-full" />
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="baserom" class="font-bold text-surface-900">Baserom</label>
+          <p-multiSelect
+            [options]="baseroms"
+            [(ngModel)]="game.base"
+            optionLabel="name"
+            placeholder="Select Baseroms"
+            display="chip"
+            styleClass="w-full"
+          ></p-multiSelect>
         </div>
       </div>
 
-      <div class="flex flex-col gap-2">
-        <label for="baserom" class="font-bold text-surface-900">Baserom</label>
-        <p-multiSelect [options]="baseroms" [(ngModel)]="game.base" optionLabel="name" placeholder="Select Baseroms"
-          display="chip" styleClass="w-full"></p-multiSelect>
+      <!-- Classifications -->
+      <h3 class="font-heading text-xl font-bold text-surface-900 mb-6 border-b border-surface-200 pb-2 pt-4">
+        Classification
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="flex flex-col gap-2">
+          <label for="status" class="font-bold text-surface-900">Status</label>
+          <p-select
+            inputId="status"
+            [options]="status"
+            [showClear]="true"
+            [(ngModel)]="game.status"
+            placeholder="Select Status"
+            optionLabel="name"
+            styleClass="w-full"
+          ></p-select>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="difficulty" class="font-bold text-surface-900">Difficulty</label>
+          <p-select
+            inputId="difficulty"
+            [options]="difficulties"
+            [showClear]="true"
+            [(ngModel)]="game.difficulty"
+            placeholder="Select Difficulty"
+            optionLabel="name"
+            styleClass="w-full"
+          ></p-select>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="story" class="font-bold text-surface-900">Story Type</label>
+          <p-select
+            inputId="story"
+            [options]="stories"
+            [showClear]="true"
+            [(ngModel)]="game.story"
+            placeholder="Select Story"
+            optionLabel="name"
+            styleClass="w-full"
+          ></p-select>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="fakemon" class="font-bold text-surface-900">Fakemon</label>
+          <p-select
+            inputId="fakemon"
+            [options]="fakemon"
+            [showClear]="true"
+            [(ngModel)]="game.fakemon"
+            placeholder="Fakemon?"
+            optionLabel="name"
+            styleClass="w-full"
+          ></p-select>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="catchable" class="font-bold text-surface-900">Availability</label>
+          <p-inputNumber
+            inputId="catchable"
+            [(ngModel)]="game.catchable"
+            placeholder="Catchable Count"
+            styleClass="w-full"
+          ></p-inputNumber>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="console" class="font-bold text-surface-900">Console</label>
+          <p-select
+            inputId="console"
+            [options]="consoles"
+            [showClear]="true"
+            [(ngModel)]="game.console"
+            placeholder="Platform"
+            optionLabel="name"
+            styleClass="w-full"
+          ></p-select>
+        </div>
+      </div>
+
+      <!-- Features (Checkboxes) -->
+      <h3 class="font-heading text-xl font-bold text-surface-900 mb-6 border-b border-surface-200 pb-2 pt-4">
+        Features
+      </h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="flex items-center gap-2 p-3 bg-surface-ground rounded-lg border border-surface-200">
+          <p-checkbox [binary]="true" [(ngModel)]="game.newGraphics" inputId="graphics"></p-checkbox>
+          <label for="graphics" class="cursor-pointer select-none">New Graphics</label>
+        </div>
+        <div class="flex items-center gap-2 p-3 bg-surface-ground rounded-lg border border-surface-200">
+          <p-checkbox [binary]="true" [(ngModel)]="game.physicalSpecialSplit" inputId="split"></p-checkbox>
+          <label for="split" class="cursor-pointer select-none">Phys/Spec Split</label>
+        </div>
+        <div class="flex items-center gap-2 p-3 bg-surface-ground rounded-lg border border-surface-200">
+          <p-checkbox [binary]="true" [(ngModel)]="game.builtInRandomizer" inputId="randomizer"></p-checkbox>
+          <label for="randomizer" class="cursor-pointer select-none">Randomizer</label>
+        </div>
+        <div class="flex items-center gap-2 p-3 bg-surface-ground rounded-lg border border-surface-200">
+          <p-checkbox [binary]="true" [(ngModel)]="game.builtInNuzlocke" inputId="nuzlocke"></p-checkbox>
+          <label for="nuzlocke" class="cursor-pointer select-none">Built-in Nuzlocke</label>
+        </div>
+      </div>
+
+      <!-- Images & Description -->
+      <div class="flex flex-col gap-6">
+        <div class="flex flex-col gap-2">
+          <span class="font-bold text-surface-900">Description</span>
+          <p-editor [(ngModel)]="game.description" [style]="{ height: '300px' }"></p-editor>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="images" class="font-bold text-surface-900">Images (One URL per line)</label>
+          <textarea
+            id="images"
+            pTextarea
+            [(ngModel)]="game.images"
+            rows="5"
+            class="w-full font-mono text-sm"
+            placeholder="https://imgur.com/..."
+          ></textarea>
+          <small class="text-gray-500">We recommend using Imgur for hosting screenshots.</small>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-end gap-4 mt-8 pt-4 border-t border-surface-200">
+        <p-button
+          label="Cancel"
+          icon="pi pi-times"
+          [routerLink]="game.id ? '/' + game.id : '/'"
+          styleClass="p-button-text p-button-secondary"
+        ></p-button>
+        @if (game.id) {
+          <p-button
+            (onClick)="updateGame()"
+            [disabled]="!game.link || game.link === ''"
+            label="Save Changes"
+            icon="pi pi-check"
+            severity="danger"
+          ></p-button>
+        } @else {
+          <p-button
+            (onClick)="createGame()"
+            [disabled]="!game.link || game.link === ''"
+            label="Submit Application"
+            icon="pi pi-send"
+            severity="danger"
+          ></p-button>
+        }
       </div>
     </div>
-
-    <!-- Classifications -->
-    <h3 class="font-heading text-xl font-bold text-surface-900 mb-6 border-b border-surface-200 pb-2 pt-4">
-      Classification</h3>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <div class="flex flex-col gap-2">
-        <label class="font-bold text-surface-900">Status</label>
-        <p-select [options]="status" [showClear]="true" [(ngModel)]="game.status" placeholder="Select Status"
-          optionLabel="name" styleClass="w-full"></p-select>
-      </div>
-      <div class="flex flex-col gap-2">
-        <label class="font-bold text-surface-900">Difficulty</label>
-        <p-select [options]="difficulties" [showClear]="true" [(ngModel)]="game.difficulty"
-          placeholder="Select Difficulty" optionLabel="name" styleClass="w-full"></p-select>
-      </div>
-      <div class="flex flex-col gap-2">
-        <label class="font-bold text-surface-900">Story Type</label>
-        <p-select [options]="stories" [showClear]="true" [(ngModel)]="game.story" placeholder="Select Story"
-          optionLabel="name" styleClass="w-full"></p-select>
-      </div>
-      <div class="flex flex-col gap-2">
-        <label class="font-bold text-surface-900">Fakemon</label>
-        <p-select [options]="fakemon" [showClear]="true" [(ngModel)]="game.fakemon" placeholder="Fakemon?"
-          optionLabel="name" styleClass="w-full"></p-select>
-      </div>
-      <div class="flex flex-col gap-2">
-        <label class="font-bold text-surface-900">Availability</label>
-        <p-inputNumber [(ngModel)]="game.catchable" placeholder="Catchable Count" styleClass="w-full"></p-inputNumber>
-      </div>
-      <div class="flex flex-col gap-2">
-        <label class="font-bold text-surface-900">Console</label>
-        <p-select [options]="consoles" [showClear]="true" [(ngModel)]="game.console" placeholder="Platform"
-          optionLabel="name" styleClass="w-full"></p-select>
-      </div>
-    </div>
-
-    <!-- Features (Checkboxes) -->
-    <h3 class="font-heading text-xl font-bold text-surface-900 mb-6 border-b border-surface-200 pb-2 pt-4">Features</h3>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-      <div class="flex items-center gap-2 p-3 bg-surface-ground rounded-lg border border-surface-200">
-        <p-checkbox [binary]="true" [(ngModel)]="game.newGraphics" inputId="graphics"></p-checkbox>
-        <label for="graphics" class="cursor-pointer select-none">New Graphics</label>
-      </div>
-      <div class="flex items-center gap-2 p-3 bg-surface-ground rounded-lg border border-surface-200">
-        <p-checkbox [binary]="true" [(ngModel)]="game.physicalSpecialSplit" inputId="split"></p-checkbox>
-        <label for="split" class="cursor-pointer select-none">Phys/Spec Split</label>
-      </div>
-      <div class="flex items-center gap-2 p-3 bg-surface-ground rounded-lg border border-surface-200">
-        <p-checkbox [binary]="true" [(ngModel)]="game.builtInRandomizer" inputId="randomizer"></p-checkbox>
-        <label for="randomizer" class="cursor-pointer select-none">Randomizer</label>
-      </div>
-      <div class="flex items-center gap-2 p-3 bg-surface-ground rounded-lg border border-surface-200">
-        <p-checkbox [binary]="true" [(ngModel)]="game.builtInNuzlocke" inputId="nuzlocke"></p-checkbox>
-        <label for="nuzlocke" class="cursor-pointer select-none">Built-in Nuzlocke</label>
-      </div>
-    </div>
-
-    <!-- Images & Description -->
-    <div class="flex flex-col gap-6">
-      <div class="flex flex-col gap-2">
-        <label class="font-bold text-surface-900">Description</label>
-        <p-editor [(ngModel)]="game.description" [style]="{ height: '300px' }"></p-editor>
-      </div>
-
-      <div class="flex flex-col gap-2">
-        <label class="font-bold text-surface-900">Images (One URL per line)</label>
-        <textarea pInputTextarea [(ngModel)]="game.images" rows="5" class="w-full font-mono text-sm"
-          placeholder="https://imgur.com/..."></textarea>
-        <small class="text-gray-500">We recommend using Imgur for hosting screenshots.</small>
-      </div>
-    </div>
-
-    <!-- Actions -->
-    <div class="flex justify-end gap-4 mt-8 pt-4 border-t border-surface-200">
-      <p-button label="Cancel" icon="pi pi-times" [routerLink]="game.id ? '/' + game.id : '/'"
-        styleClass="p-button-text p-button-secondary"></p-button>
-      @if (game.id) {
-      <p-button (onClick)="updateGame()" [disabled]="!game.link || game.link === ''" label="Save Changes"
-        icon="pi pi-check" severity="danger"></p-button>
-      } @else {
-      <p-button (onClick)="createGame()" [disabled]="!game.link || game.link === ''" label="Submit Application"
-        icon="pi pi-send" severity="danger"></p-button>
-      }
-    </div>
-  </div>
   }
 </div>

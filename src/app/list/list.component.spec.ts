@@ -5,7 +5,6 @@ import { provideRouter } from '@angular/router';
 import { FilterService } from 'primeng/api';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-
 import { ListComponent } from './list.component';
 
 describe('ListComponent', () => {

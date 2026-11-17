@@ -4,9 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint"
+    "build": "ng build --configuration production",
+    "test": "ng test --watch=false",
+    "lint": "ng lint",
+    "format": "prettier --write \"src/**/*.{ts,html,scss,css}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,html,scss,css}\""
   },
   "private": true,
   "dependencies": {
@@ -31,33 +33,23 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^21.2.30",
     "@angular-eslint/builder": "21.4.0",
-    "@angular-eslint/eslint-plugin": "21.4.0",
-    "@angular-eslint/eslint-plugin-template": "21.4.0",
     "@angular-eslint/schematics": "21.4.0",
-    "@angular-eslint/template-parser": "21.4.0",
+    "@angular/build": "^21.2.30",
     "@angular/cli": "^21.2.30",
     "@angular/compiler-cli": "^21.2.26",
-    "@types/jasmine": "~3.10.0",
-    "@types/node": "^12.11.1",
-    "@typescript-eslint/eslint-plugin": "^8.43.0",
-    "@typescript-eslint/parser": "^8.43.0",
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^22.0.0",
+    "angular-eslint": "^21.4.0",
     "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.8",
-    "jasmine-core": "~3.99.1",
-    "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.0.3",
-    "karma-jasmine": "~4.0.0",
-    "karma-jasmine-html-reporter": "^1.5.0",
+    "jsdom": "^27.0.0",
     "postcss": "^8.5.6",
     "prettier": "3.6.2",
-    "puppeteer": "^25.1.0",
     "tailwindcss": "^4.1.13",
     "tailwindcss-primeui": "^0.6.1",
-    "ts-node": "~8.3.0",
-    "typescript": "~5.9.3"
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.73.0",
+    "vitest": "4.0.18"
   }
 }

@@ -70,7 +70,7 @@ export class Game {
   providedIn: 'root',
 })
 export class GameAdapter implements Adapter<Game> {
-  adapt(item: any): Game {
+  adapt(item: Partial<Game>): Game {
     const game = Object.assign(new Game(), item);
     if (item.lastUpdate) {
       game.lastUpdate = new Date(item.lastUpdate);

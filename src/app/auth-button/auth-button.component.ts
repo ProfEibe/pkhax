@@ -1,4 +1,4 @@
-import { Component, Inject, DOCUMENT, inject } from '@angular/core';
+import { Component, DOCUMENT, inject } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { AsyncPipe } from '@angular/common';
 

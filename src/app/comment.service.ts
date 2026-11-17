@@ -22,13 +22,13 @@ export class CommentService {
 
   public createComment(comment: Comment): Observable<Comment> {
     return this.http
-      .post(this.baseUrl + '/games/' + comment.gameId + '/comments', comment)
-      .pipe(map((item: any) => this.adapter.adapt(item)));
+      .post<Comment>(this.baseUrl + '/games/' + comment.gameId + '/comments', comment)
+      .pipe(map((item) => this.adapter.adapt(item)));
   }
 
   public createChildComment(comment: Comment, parentId: number): Observable<Comment> {
     return this.http
-      .post(this.baseUrl + '/games/' + comment.gameId + '/comments/' + parentId, comment)
-      .pipe(map((item: any) => this.adapter.adapt(item)));
+      .post<Comment>(this.baseUrl + '/games/' + comment.gameId + '/comments/' + parentId, comment)
+      .pipe(map((item) => this.adapter.adapt(item)));
   }
 }

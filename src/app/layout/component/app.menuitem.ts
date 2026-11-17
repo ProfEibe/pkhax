@@ -117,7 +117,7 @@ export class AppMenuitem implements OnInit, OnDestroy {
 
   menuResetSubscription: Subscription;
 
-  key: string = '';
+  key = '';
 
   constructor() {
     this.menuSourceSubscription = this.layoutService.menuSource$.subscribe((value) => {
@@ -136,14 +136,16 @@ export class AppMenuitem implements OnInit, OnDestroy {
       this.active = false;
     });
 
-    this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      takeUntilDestroyed()
-    ).subscribe((params) => {
-      if (this.item().routerLink) {
-        this.updateActiveStateFromRoute();
-      }
-    });
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => {
+        if (this.item().routerLink) {
+          this.updateActiveStateFromRoute();
+        }
+      });
   }
 
   ngOnInit() {
@@ -155,7 +157,7 @@ export class AppMenuitem implements OnInit, OnDestroy {
   }
 
   updateActiveStateFromRoute() {
-    let activeRoute = this.router.isActive(this.item().routerLink[0], {
+    const activeRoute = this.router.isActive(this.item().routerLink[0], {
       paths: 'exact',
       queryParams: 'ignored',
       matrixParams: 'ignored',

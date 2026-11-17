@@ -13,7 +13,9 @@ import { environment } from '../../../environments/environment';
 describe('RatingComponent', () => {
   let component: RatingComponent;
   let fixture: ComponentFixture<RatingComponent>;
-  let user$: BehaviorSubject<{ sub: string } | null>;
+  let user$: BehaviorSubject<{
+    sub: string;
+  } | null>;
 
   function rating(value: number, auth0Id?: string): Rating {
     return { id: value, game: 1, value, created_by: auth0Id ? { id: 1, auth0Id, displayName: '' } : null } as Rating;
@@ -32,7 +34,9 @@ describe('RatingComponent', () => {
 
   beforeEach(async () => {
     // BehaviorSubject emits synchronously on subscribe – the case that used to throw NG0950
-    user$ = new BehaviorSubject<{ sub: string } | null>({ sub: 'auth0|me' });
+    user$ = new BehaviorSubject<{
+      sub: string;
+    } | null>({ sub: 'auth0|me' });
     await TestBed.configureTestingModule({
       imports: [RatingComponent],
       providers: [
@@ -48,19 +52,19 @@ describe('RatingComponent', () => {
     createWith([]);
     expect(component).toBeTruthy();
     expect(component.avgValue()).toBe(0);
-    expect(component.readOnly()).toBeFalse();
+    expect(component.readOnly()).toBe(false);
   });
 
   it('is read-only for anonymous visitors', () => {
     user$.next(null);
     createWith([rating(4)]);
-    expect(component.readOnly()).toBeTrue();
+    expect(component.readOnly()).toBe(true);
   });
 
   it('shows the average and is read-only when the user already rated', () => {
     createWith([rating(2), rating(4, 'auth0|me')]);
     expect(component.avgValue()).toBe(3);
-    expect(component.readOnly()).toBeTrue();
+    expect(component.readOnly()).toBe(true);
     expect(component.ownValue()).toBe(4);
   });
 
@@ -74,7 +78,7 @@ describe('RatingComponent', () => {
     expect(req.request.body).toEqual({ game: 1, value: 4 });
     req.flush(rating(4));
 
-    expect(component.readOnly()).toBeTrue();
+    expect(component.readOnly()).toBe(true);
     expect(component.ratings().length).toBe(2);
     expect(game.rating.length).toBe(2);
     expect(component.avgValue()).toBe(3);

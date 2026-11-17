@@ -1,3 +1,3 @@
 export interface Adapter<T> {
-  adapt(item: any): T;
+  adapt(item: Partial<T>): T;
 }

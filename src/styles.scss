@@ -46,8 +46,6 @@ body {
   background-color: var(--p-surface-900) !important;
 }
 
-
-
 h1,
 h2,
 h3,
@@ -67,12 +65,12 @@ h6 {
   padding: 0.3em;
 }
 
-.baserom-cell>.baserom:first-child {
+.baserom-cell > .baserom:first-child {
   border-top-left-radius: 0.5em;
   border-bottom-left-radius: 0.5em;
 }
 
-.baserom-cell>.baserom:last-child {
+.baserom-cell > .baserom:last-child {
   border-top-right-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GameService } from '../game.service';
 import { HttpClient } from '@angular/common/http';
@@ -60,8 +61,7 @@ export class EditorComponent implements OnInit {
   private router = inject(Router);
   private http = inject(HttpClient);
   private messageService = inject(MessageService);
-
-  constructor() { }
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe((baseroms) => (this.baseroms = baseroms));
@@ -73,20 +73,13 @@ export class EditorComponent implements OnInit {
       .get<Difficulty[]>(this.baseUrl + '/difficulties/')
       .subscribe((difficulties) => (this.difficulties = difficulties));
 
-    this.route.paramMap.subscribe((params) => {
-      console.log(params);
-      // @ts-ignore
-      if (params.has('id') && params.get('id')?.length > 0) {
-        // @ts-ignore
-        this.gameService.getGame(+params.get('id')).subscribe(
-          (game) => {
-            this.game = game;
-            console.log(this.game);
-          },
-          (error) => {
-            // stop Loading, show Error
-          },
-        );
+    this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      const id = Number(params.get('id'));
+      if (id) {
+        this.gameService.getGame(id).subscribe({
+          next: (game) => (this.game = game),
+          error: () => this.showError('Game could not be loaded'),
+        });
       } else {
         this.game = new Game();
       }
@@ -94,69 +87,44 @@ export class EditorComponent implements OnInit {
   }
 
   updateGame(): void {
-    console.log(this.game);
-    this.gameService.updateGame(this.game).subscribe(
-      (game) => {
+    if (!this.game) {
+      return;
+    }
+    this.gameService.updateGame(this.game).subscribe({
+      next: (game) => {
         this.game = game;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Saved',
-          detail: 'Game updated',
-        });
+        this.messageService.add({ severity: 'success', summary: 'Saved', detail: 'Game updated' });
       },
-      (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'An error occured',
-        });
-        console.log(error);
-      },
-    );
-  }
-
-  createGame(): void {
-    this.gameService.createGame(this.game).subscribe(
-      (game) => {
-        this.game = game;
-        this.router.navigate(['/editor', game.id]);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Saved',
-          detail: 'Game created',
-        });
-      },
-      (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'An error occured',
-        });
-        console.log(error);
-      },
-    );
-  }
-
-  checkLink(): void {
-    this.gameService.getGames().subscribe((games) => {
-      const filter = games.filter((game) => {
-        if (game.link != null) {
-          const existingLink = this.trim(game.link.trim(), '/');
-          const newLink = this.trim(this.game?.link.trim(), '/');
-          return existingLink === newLink;
-        } else {
-          return false;
-        }
-      });
-      if (filter.length > 0) {
-        this.linkExists = true;
-      } else {
-        this.linkExists = false;
-      }
+      error: (error) => this.showError('An error occured', error),
     });
   }
 
-  trim(s: any, c: any): string {
+  createGame(): void {
+    if (!this.game) {
+      return;
+    }
+    this.gameService.createGame(this.game).subscribe({
+      next: (game) => {
+        this.game = game;
+        this.router.navigate(['/editor', game.id]);
+        this.messageService.add({ severity: 'success', summary: 'Saved', detail: 'Game created' });
+      },
+      error: (error) => this.showError('An error occured', error),
+    });
+  }
+
+  checkLink(): void {
+    const newLink = this.trim(this.game?.link?.trim() ?? '', '/');
+    this.gameService.getGames().subscribe((games) => {
+      this.linkExists =
+        newLink !== '' &&
+        games.some(
+          (game) => game.id !== this.game?.id && game.link != null && this.trim(game.link.trim(), '/') === newLink,
+        );
+    });
+  }
+
+  trim(s: string, c: string): string {
     if (c === ']') {
       c = '\\]';
     }
@@ -164,5 +132,12 @@ export class EditorComponent implements OnInit {
       c = '\\\\';
     }
     return s.replace(new RegExp('^[' + c + ']+|[' + c + ']+$', 'g'), '');
+  }
+
+  private showError(detail: string, error?: unknown): void {
+    this.messageService.add({ severity: 'error', summary: 'Error', detail });
+    if (error) {
+      console.error(error);
+    }
   }
 }

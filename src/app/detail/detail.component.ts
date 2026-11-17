@@ -1,4 +1,6 @@
-import { AfterViewChecked, Component, OnInit, inject, signal } from '@angular/core';
+import { AfterViewChecked, Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { GameService } from '../game.service';
 import { Game } from '../game';
@@ -11,6 +13,7 @@ import { AsyncPipe } from '@angular/common';
 import { EditorModule } from 'primeng/editor';
 import { FormsModule } from '@angular/forms';
 import { GalleriaModule } from 'primeng/galleria';
+import { GalleriaResponsiveOptions } from 'primeng/types/galleria';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DividerModule } from 'primeng/divider';
 import { RatingComponent } from './rating/rating.component';
@@ -42,57 +45,41 @@ export class DetailComponent implements OnInit, AfterViewChecked {
   userService = inject(UserService);
   auth = inject(AuthService);
 
+  private destroyRef = inject(DestroyRef);
+
   game = signal<Game | undefined>(undefined);
   comments = signal<Comment[]>([]);
-  selectedComment: number;
   rootCommentBox: string;
 
   private newComment: number | null = null;
 
-  responsiveOptions: any[] = [
-    {
-      breakpoint: '1024px',
-      numVisible: 8,
-    },
-    {
-      breakpoint: '768px',
-      numVisible: 3,
-    },
-    {
-      breakpoint: '560px',
-      numVisible: 1,
-    },
+  responsiveOptions: GalleriaResponsiveOptions[] = [
+    { breakpoint: '1024px', numVisible: 8 },
+    { breakpoint: '768px', numVisible: 3 },
+    { breakpoint: '560px', numVisible: 1 },
   ];
 
   activeIndex = 0;
   displayCustom: boolean;
-  images: any[];
+  images: string[] = [];
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      if (params.has('id')) {
-        // @ts-ignore
-        this.gameService.getGame(+params.get('id')).subscribe(
-          (game) => {
-            this.game.set(game);
-            this.commentService.getCommentsByGame(game.id).subscribe((comments) => {
-              this.comments.set(comments);
-            });
-            if (game.images && game.images !== '') {
-              this.images = game.images.split('\n');
-            }
-          },
-          (error) => {
-            // stop Loading, show Error
-          },
-        );
-      }
-    });
-  }
-
-  saveComment(): void {
-    const comment = this.comments()[this.selectedComment];
-    console.log(comment);
+    this.route.paramMap
+      .pipe(
+        map((params) => Number(params.get('id'))),
+        filter((id) => !!id),
+        switchMap((id) => this.gameService.getGame(id)),
+        tap((game) => {
+          this.game.set(game);
+          this.images = game.images ? game.images.split('\n').filter((image) => image.trim() !== '') : [];
+        }),
+        switchMap((game) => this.commentService.getCommentsByGame(game.id)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe({
+        next: (comments) => this.comments.set(comments),
+        error: (error) => console.error('Could not load game', error),
+      });
   }
 
   saveRootComment(): void {
@@ -102,7 +89,7 @@ export class DetailComponent implements OnInit, AfterViewChecked {
     comment.gameId = game.id;
     comment.content = this.rootCommentBox;
     this.commentService.createComment(comment).subscribe((saved) => {
-      this.comments.update(prev => [...prev, saved]);
+      this.comments.update((prev) => [...prev, saved]);
       this.rootCommentBox = '';
 
       this.newComment = saved.id;

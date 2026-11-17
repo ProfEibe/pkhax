@@ -1,14 +1,4 @@
-import {
-  Component,
-  HostListener,
-  Input,
-  OnInit,
-  ViewChild,
-  inject,
-  signal,
-  viewChild,
-  effect,
-} from '@angular/core';
+import { Component, HostListener, OnInit, inject, signal, viewChild, effect } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { GameService } from '../game.service';
 import { Router } from '@angular/router';
@@ -32,10 +22,14 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { SkeletonModule } from 'primeng/skeleton';
 
+interface Column {
+  field: keyof Game & string;
+  header: string;
+}
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
   imports: [
     TableModule,
     MultiSelect,
@@ -55,7 +49,7 @@ import { SkeletonModule } from 'primeng/skeleton';
   ],
 })
 export class ListComponent implements OnInit {
-  cols: any[] = [];
+  cols: Column[] = [];
   games = signal<Game[]>([]);
   selectedGame: Game;
   baseroms = signal<Baserom[]>([]);
@@ -82,9 +76,9 @@ export class ListComponent implements OnInit {
     },
   ];
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any): void {
-    this.innerWidth = event.target.innerWidth;
+  @HostListener('window:resize')
+  onResize(): void {
+    this.innerWidth = window.innerWidth;
     this.setColumns();
   }
 
@@ -104,48 +98,40 @@ export class ListComponent implements OnInit {
     });
   }
 
-  selectedColumns = signal<any[]>([]);
+  selectedColumns = signal<Column[]>([]);
 
   ngOnInit(): void {
-    console.log('ListComponent: Initializing...');
     this.loading.set(true);
     this.gameService.getGames().subscribe({
       next: (games) => {
-        console.log('ListComponent: Successfully loaded', games.length, 'games');
         this.games.set(games);
         this.loading.set(false);
       },
       error: (err) => {
         console.error('ListComponent: Error loading games', err);
         this.loading.set(false);
-      }
+      },
     });
 
-    this.filterService.register(
-      'isInBaserom',
-      (value: Baserom[], filter: Baserom[]): boolean => {
-        if (filter === undefined || filter === null) {
-          return true;
-        }
-        if (value === undefined || value === null) {
-          return false;
-        }
-        return filter.some((f) => value.some((v) => v.id === f.id));
-      },
-    );
+    this.filterService.register('isInBaserom', (value: Baserom[], filter: Baserom[]): boolean => {
+      if (filter === undefined || filter === null) {
+        return true;
+      }
+      if (value === undefined || value === null) {
+        return false;
+      }
+      return filter.some((f) => value.some((v) => v.id === f.id));
+    });
 
-    this.filterService.register(
-      'isChoice',
-      (value: Choice, filter: Choice): boolean => {
-        if (filter === undefined || filter === null) {
-          return true;
-        }
-        if (value === undefined || value === null) {
-          return false;
-        }
-        return value.id === filter.id;
-      },
-    );
+    this.filterService.register('isChoice', (value: Choice, filter: Choice): boolean => {
+      if (filter === undefined || filter === null) {
+        return true;
+      }
+      if (value === undefined || value === null) {
+        return false;
+      }
+      return value.id === filter.id;
+    });
 
     this.cols = [
       { field: 'title', header: 'Name' },
@@ -167,31 +153,17 @@ export class ListComponent implements OnInit {
     this.innerWidth = window.innerWidth;
     this.setColumns();
 
-    this.http
-      .get<Baserom[]>(this.baseUrl + '/baseroms/')
-      .subscribe((baseroms) => (this.baseroms.set(baseroms)));
-    this.http
-      .get<Choice[]>(this.baseUrl + '/stories/')
-      .subscribe((stories) => (this.stories.set(stories)));
-    this.http
-      .get<Choice[]>(this.baseUrl + '/status/')
-      .subscribe((status) => (this.status.set(status)));
-    this.http
-      .get<Choice[]>(this.baseUrl + '/fakemon/')
-      .subscribe((fakemon) => (this.fakemon.set(fakemon)));
+    this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe((baseroms) => this.baseroms.set(baseroms));
+    this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe((stories) => this.stories.set(stories));
+    this.http.get<Choice[]>(this.baseUrl + '/status/').subscribe((status) => this.status.set(status));
+    this.http.get<Choice[]>(this.baseUrl + '/fakemon/').subscribe((fakemon) => this.fakemon.set(fakemon));
     this.http
       .get<Difficulty[]>(this.baseUrl + '/difficulties/')
-      .subscribe((difficulties) => (this.difficulties.set(difficulties)));
+      .subscribe((difficulties) => this.difficulties.set(difficulties));
   }
 
-  onRowSelect($event: any): void {
+  onRowSelect(): void {
     this.router.navigate(['/' + this.selectedGame.id]);
-  }
-
-  onAuxClick($event: any): void {
-    $event.preventDefault();
-    console.log($event);
-    window.open('/' + this.selectedGame.id, '_blank');
   }
 
   private setColumns(): void {
@@ -215,11 +187,7 @@ export class ListComponent implements OnInit {
   inputFilter($event: Event, field: string, matchMode: string): void {
     const table = this.dt();
     if (table) {
-      table.filter(
-        ($event.target as HTMLInputElement).value,
-        field,
-        matchMode,
-      );
+      table.filter(($event.target as HTMLInputElement).value, field, matchMode);
     }
   }
 
@@ -233,7 +201,7 @@ export class ListComponent implements OnInit {
       let avgs = 0;
       let count = 0;
 
-      for (let game of event.data as Game[]) {
+      for (const game of event.data as Game[]) {
         if (game.rating.length === 0) continue;
         avgs += game.avgRating;
         count++;
@@ -241,35 +209,32 @@ export class ListComponent implements OnInit {
 
       avgs /= count;
 
-      let m = 5;
+      const m = 5;
 
-      for (let game of event.data as Game[]) {
+      for (const game of event.data as Game[]) {
         if (game.rating.length === 0) continue;
-        game.ranking =
-          (game.avgRating * game.rating.length + avgs * m) /
-          (game.rating.length + m);
+        game.ranking = (game.avgRating * game.rating.length + avgs * m) / (game.rating.length + m);
       }
 
       event.field = 'ranking';
     }
     event.data.sort((data1, data2) => {
       if (!event.field || !event.order) return 0;
-      let value1 = data1[event.field];
-      let value2 = data2[event.field];
+      const value1 = data1[event.field];
+      const value2 = data2[event.field];
       let result = null;
 
       if (value1 == null && value2 != null) result = -1;
       else if (value1 != null && value2 == null) result = 1;
       else if (value1 == null && value2 == null) result = 0;
-      else if (typeof value1 === 'string' && typeof value2 === 'string')
-        result = value1.localeCompare(value2);
+      else if (typeof value1 === 'string' && typeof value2 === 'string') result = value1.localeCompare(value2);
       else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
 
       return event.order * result;
     });
   }
 
-  updateSelectedColumns(val: any[]) {
+  updateSelectedColumns(val: Column[]) {
     // restore original order
     const sorted = this.cols.filter((col) => val.includes(col));
     this.selectedColumns.set(sorted);

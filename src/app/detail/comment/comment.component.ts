@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, input, OnInit, inject } from '@angular/core';
+import { AfterViewChecked, Component, input, inject } from '@angular/core';
 import { Comment } from '../../comment';
 import { CommentService } from '../../comment.service';
 import { AuthService } from '@auth0/auth0-angular';
@@ -25,8 +25,6 @@ export class CommentComponent implements AfterViewChecked {
   showReply = false;
   reply: string;
   private newComment: number | null = null;
-
-
 
   diffCreateModified(): boolean {
     return (

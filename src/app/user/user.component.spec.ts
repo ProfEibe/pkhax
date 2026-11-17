@@ -13,18 +13,14 @@ describe('UserComponent', () => {
   const mockAuthService = {
     user$: of({ name: 'Test User' }),
     isAuthenticated$: of(true),
-    loginWithRedirect: jasmine.createSpy('loginWithRedirect'),
-    logout: jasmine.createSpy('logout')
+    loginWithRedirect: vi.fn(),
+    logout: vi.fn(),
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UserComponent],
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        { provide: AuthService, useValue: mockAuthService }
-      ],
+      providers: [provideHttpClient(), provideHttpClientTesting(), { provide: AuthService, useValue: mockAuthService }],
     }).compileComponents();
   });
 

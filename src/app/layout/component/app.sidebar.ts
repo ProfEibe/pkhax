@@ -1,4 +1,4 @@
-import { Component, input, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LayoutService } from '../service/layout.service';
 import { AppMenu } from './app.menu';
 
@@ -11,5 +11,5 @@ import { AppMenu } from './app.menu';
   </div>`,
 })
 export class AppSidebar {
-    layoutService = inject(LayoutService);
+  layoutService = inject(LayoutService);
 }

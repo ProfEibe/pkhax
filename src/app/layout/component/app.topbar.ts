@@ -19,7 +19,13 @@ import { AuthService } from '@auth0/auth0-angular';
         <i class="pi pi-bars"></i>
       </button>
       <a class="layout-topbar-logo" routerLink="/">
-        <img [src]="layoutService.isDarkTheme() ? 'assets/layout/images/logo-white.svg' : 'assets/layout/images/logo-dark.svg'" alt="PkHax Logo" style="height: 40px">
+        <img
+          [src]="
+            layoutService.isDarkTheme() ? 'assets/layout/images/logo-white.svg' : 'assets/layout/images/logo-dark.svg'
+          "
+          alt="PkHax Logo"
+          style="height: 40px"
+        />
         <span>PkHax</span>
       </a>
     </div>
@@ -53,7 +59,12 @@ import { AuthService } from '@auth0/auth0-angular';
           </button>
           <app-auth-button></app-auth-button>
           @if (auth.user$ | async; as user) {
-            <p-avatar [image]="imageSrc" styleClass="ml-2 cursor-pointer" shape="circle" [routerLink]="['user']"></p-avatar>
+            <p-avatar
+              [image]="imageSrc"
+              styleClass="ml-2 cursor-pointer"
+              shape="circle"
+              [routerLink]="['user']"
+            ></p-avatar>
           }
         </div>
       </div>

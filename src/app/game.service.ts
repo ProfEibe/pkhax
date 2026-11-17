@@ -15,30 +15,24 @@ export class GameService {
   baseUrl = environment.baseUrl;
 
   getGames(): Observable<Game[]> {
-    console.log('GameService: Fetching games from', this.baseUrl + '/games/');
     return this.http
       .get<Game[]>(this.baseUrl + '/games/')
-      .pipe(
-        map((list) => {
-          console.log('GameService: Received', list.length, 'games');
-          return list.map((game) => this.adapter.adapt(game));
-        })
-      );
+      .pipe(map((list) => list.map((game) => this.adapter.adapt(game))));
   }
 
   getGame(id: number): Observable<Game> {
-    return this.http.get<Game>(this.baseUrl + '/games/' + id).pipe(map((item: any) => this.adapter.adapt(item)));
+    return this.http.get<Game>(this.baseUrl + '/games/' + id).pipe(map((item) => this.adapter.adapt(item)));
   }
 
-  createGame(game: any): Observable<Game> {
+  createGame(game: Game): Observable<Game> {
     return this.http.post<Game>(this.baseUrl + '/games/', game);
   }
 
-  updateGame(game: any): Observable<Game> {
+  updateGame(game: Game): Observable<Game> {
     return this.http.put<Game>(this.baseUrl + '/games/' + game.id, game);
   }
 
-  deleteGame(id: number): Observable<any> {
-    return this.http.delete(this.baseUrl + '/games/' + id);
+  deleteGame(id: number): Observable<void> {
+    return this.http.delete<void>(this.baseUrl + '/games/' + id);
   }
 }

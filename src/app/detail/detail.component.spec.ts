@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Action } from 'rxjs/internal/scheduler/Action';
 import { provideRouter, ActivatedRoute, convertToParamMap } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { of } from 'rxjs';
@@ -15,8 +14,8 @@ describe('DetailComponent', () => {
   const authServiceMock = {
     isAuthenticated$: of(true),
     user$: of({ name: 'Test User' }),
-    loginWithRedirect: jasmine.createSpy('loginWithRedirect'),
-    logout: jasmine.createSpy('logout'),
+    loginWithRedirect: vi.fn(),
+    logout: vi.fn(),
   };
 
   beforeEach(async () => {

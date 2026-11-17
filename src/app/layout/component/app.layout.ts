@@ -1,4 +1,4 @@
-import { Component, Renderer2, ViewChild, OnDestroy, inject, viewChild } from '@angular/core';
+import { Component, Renderer2, OnDestroy, inject, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
@@ -31,7 +31,7 @@ export class AppLayout implements OnDestroy {
 
   overlayMenuOpenSubscription: Subscription;
 
-  menuOutsideClickListener: any;
+  menuOutsideClickListener: (() => void) | null = null;
 
   appSidebar = viewChild(AppSidebar);
 
@@ -52,12 +52,14 @@ export class AppLayout implements OnDestroy {
       }
     });
 
-    this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      takeUntilDestroyed()
-    ).subscribe(() => {
-      this.hideMenu();
-    });
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => {
+        this.hideMenu();
+      });
   }
 
   isOutsideClicked(event: MouseEvent) {

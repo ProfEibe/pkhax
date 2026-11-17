@@ -28,7 +28,7 @@ interface MenuChangeEvent {
 export class LayoutService {
   _config: layoutConfig = {
     preset: 'Aura',
-    primary: 'noir', /* Using noir or a neutral here as we override with CSS */
+    primary: 'noir' /* Using noir or a neutral here as we override with CSS */,
     surface: null,
     darkTheme: typeof localStorage !== 'undefined' ? localStorage.getItem('theme') === 'dark' : false,
     menuMode: 'overlay',
@@ -48,7 +48,7 @@ export class LayoutService {
 
   private configUpdate = new Subject<layoutConfig>();
 
-  private overlayOpen = new Subject<any>();
+  private overlayOpen = new Subject<void>();
 
   private menuSource = new Subject<MenuChangeEvent>();
 
@@ -104,7 +104,7 @@ export class LayoutService {
   }
 
   private handleDarkModeTransition(config: layoutConfig): void {
-    if ((document as any).startViewTransition) {
+    if (typeof document.startViewTransition === 'function') {
       this.startViewTransition(config);
     } else {
       this.toggleDarkMode(config);
@@ -113,7 +113,7 @@ export class LayoutService {
   }
 
   private startViewTransition(config: layoutConfig): void {
-    const transition = (document as any).startViewTransition(() => {
+    const transition = document.startViewTransition(() => {
       this.toggleDarkMode(config);
     });
 
@@ -121,7 +121,7 @@ export class LayoutService {
       .then(() => {
         this.onTransitionEnd();
       })
-      .catch(() => { });
+      .catch(() => undefined);
   }
 
   toggleDarkMode(config?: layoutConfig): void {
@@ -147,7 +147,7 @@ export class LayoutService {
       this.layoutState.update((prev) => ({ ...prev, overlayMenuActive: !this.layoutState().overlayMenuActive }));
 
       if (this.layoutState().overlayMenuActive) {
-        this.overlayOpen.next(null);
+        this.overlayOpen.next();
       }
     }
 
@@ -163,7 +163,7 @@ export class LayoutService {
       }));
 
       if (this.layoutState().staticMenuMobileActive) {
-        this.overlayOpen.next(null);
+        this.overlayOpen.next();
       }
     }
   }
