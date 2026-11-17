@@ -48,7 +48,7 @@ export class Game {
 
   public base: Baserom[];
   public console: Choice;
-  public status: Choice;
+  public status?: Choice;
   public story?: Choice;
   public rating: Rating[];
 

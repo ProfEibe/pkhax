@@ -13,7 +13,7 @@
       </div>
       <p-button
         icon="pi pi-arrow-left"
-        label="Back to Game"
+        [label]="game.id ? 'Back to Game' : 'Back to List'"
         [routerLink]="game.id ? '/' + game.id : '/'"
         styleClass="p-button-outlined p-button-secondary"
       ></p-button>
@@ -61,10 +61,10 @@
 
         <div class="flex flex-col gap-2">
           <label for="discord" class="font-bold text-surface-900">Discord Invite</label>
-          <div class="p-inputgroup">
-            <span class="p-inputgroup-addon"><i class="pi pi-discord"></i></span>
+          <p-inputgroup>
+            <p-inputgroup-addon><i class="pi pi-discord"></i></p-inputgroup-addon>
             <input id="discord" pInputText [(ngModel)]="game.discord" placeholder="Discord URL" class="w-full" />
-          </div>
+          </p-inputgroup>
         </div>
 
         <div class="flex flex-col gap-2">

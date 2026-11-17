@@ -4,11 +4,12 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration production",
+    "build": "ng build",
     "test": "ng test --watch=false",
     "lint": "ng lint",
     "format": "prettier --write \"src/**/*.{ts,html,scss,css}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,html,scss,css}\""
+    "format:check": "prettier --check \"src/**/*.{ts,html,scss,css}\"",
+    "start:mock": "ng serve --configuration mock"
   },
   "private": true,
   "dependencies": {

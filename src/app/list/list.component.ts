@@ -1,9 +1,8 @@
-import { Component, HostListener, OnInit, inject, signal, viewChild, effect } from '@angular/core';
+import { Component, HostListener, OnInit, inject, signal, viewChild } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { GameService } from '../game.service';
 import { Router } from '@angular/router';
 import { Table, TableModule } from 'primeng/table';
-import { GlobalFilterService } from '../global-filter.service';
 import { Baserom, Choice, Difficulty, Game } from '../game';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -84,19 +83,8 @@ export class ListComponent implements OnInit {
 
   private gameService = inject(GameService);
   private router = inject(Router);
-  private globalFilterService = inject(GlobalFilterService);
   private filterService = inject(FilterService);
   private http = inject(HttpClient);
-
-  constructor() {
-    effect(() => {
-      const filterValue = this.globalFilterService.filter();
-      const table = this.dt();
-      if (table) {
-        table.filterGlobal(filterValue, 'contains');
-      }
-    });
-  }
 
   selectedColumns = signal<Column[]>([]);
 

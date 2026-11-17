@@ -1,9 +1,6 @@
 import { Routes } from '@angular/router';
-import { ListComponent } from './list/list.component';
-import { DetailComponent } from './detail/detail.component';
-import { EditorComponent } from './editor/editor.component';
 import { AuthGuard } from '@auth0/auth0-angular';
-import { UserComponent } from './user/user.component';
+import { ListComponent } from './list/list.component';
 import { AppLayout } from './layout/component/app.layout';
 
 export const routes: Routes = [
@@ -13,12 +10,14 @@ export const routes: Routes = [
     children: [
       {
         path: 'user',
-        component: UserComponent,
+        loadComponent: () => import('./user/user.component').then((m) => m.UserComponent),
         canActivate: [AuthGuard],
       },
       {
+        // old/duplicate URL of the list
         path: 'list',
-        component: ListComponent,
+        redirectTo: '',
+        pathMatch: 'full',
       },
       {
         path: 'editor',
@@ -27,12 +26,12 @@ export const routes: Routes = [
       },
       {
         path: 'editor/:id',
-        component: EditorComponent,
+        loadComponent: () => import('./editor/editor.component').then((m) => m.EditorComponent),
         canActivate: [AuthGuard],
       },
       {
         path: ':id',
-        component: DetailComponent,
+        loadComponent: () => import('./detail/detail.component').then((m) => m.DetailComponent),
       },
       {
         path: '',

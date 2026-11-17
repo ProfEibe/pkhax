@@ -1,43 +1,32 @@
 <p-toast></p-toast>
-<div class="grid wrapper">
+<div class="max-w-2xl mx-auto">
   @if (auth.isLoading$ | async) {
-    <div class="col-12 text-center p-6">
+    <div class="text-center p-6">
       <i class="pi pi-spin pi-spinner text-4xl text-primary-500"></i>
       <p class="mt-2 text-surface-500">Checking authentication...</p>
     </div>
   } @else {
     @if (auth.isAuthenticated$ | async) {
       @if (isLoading) {
-        <div class="col-12 text-center p-6">
+        <div class="text-center p-6">
           <i class="pi pi-spin pi-spinner text-4xl text-primary-500"></i>
           <p class="mt-2 text-surface-500">Loading profile...</p>
         </div>
       } @else if (error) {
-        <div class="col-12 md:col-6 md:col-offset-3">
-          <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <strong class="font-bold">Error! </strong>
-            <span class="block sm:inline">{{ error }}</span>
-            <p class="text-sm mt-2">Server responded with empty data.</p>
-          </div>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
+          <strong class="font-bold">Error! </strong>
+          <span>{{ error }}</span>
         </div>
       } @else if (user) {
-        <p-card [header]="user.displayName || 'Set Display Name'" class="col-12 md:col-6 md:col-offset-3">
-          Choose a unique displayname with minlength 3 characters. You can change it later.
-          <div class="field grid mt-4">
-            <label class="col-12 mb-2 md:col-3 md:mb-0 flex items-center" for="dn">Displayname</label>
-            <div class="col-12 md:col-9">
-              <input
-                #id
-                id="dn"
-                pInputText
-                [(ngModel)]="user.displayName"
-                minlength="3"
-                maxlength="30"
-                class="w-full"
-              />
-            </div>
+        <p-card [header]="user.displayName || 'Set Display Name'">
+          <p class="m-0 text-surface-700">
+            Choose a unique display name with at least 3 characters. You can change it later.
+          </p>
+          <div class="flex flex-col gap-2 mt-6">
+            <label class="font-bold text-surface-900" for="dn">Display name</label>
+            <input id="dn" pInputText [(ngModel)]="user.displayName" minlength="3" maxlength="30" class="w-full" />
           </div>
-          <ng-template pTemplate="footer">
+          <ng-template #footer>
             <div class="flex justify-end">
               <p-button
                 (onClick)="updateUser()"
@@ -50,12 +39,10 @@
         </p-card>
       }
     } @else {
-      <div class="col-12 md:col-6 md:col-offset-3 text-center">
-        <p-card header="Login Required">
-          <p class="m-0 mb-4">You must be logged in to view and edit your profile.</p>
-          <p-button label="Log In" icon="pi pi-sign-in" (onClick)="auth.loginWithRedirect()"></p-button>
-        </p-card>
-      </div>
+      <p-card header="Login Required" class="text-center">
+        <p class="m-0 mb-4">You must be logged in to view and edit your profile.</p>
+        <p-button label="Log In" icon="pi pi-sign-in" (onClick)="auth.loginWithRedirect()"></p-button>
+      </p-card>
     }
   }
 </div>

@@ -8,6 +8,7 @@
           <input
             pInputText
             type="text"
+            [value]="$any(dt.filters)['global']?.value ?? ''"
             (input)="dt.filterGlobal($any($event.target).value, 'contains')"
             placeholder="Global Search..."
             class="w-full md:w-64"
@@ -60,11 +61,17 @@
     [globalFilterFields]="['title', 'creator', 'base.name', 'status.name', 'story.name']"
     styleClass="p-datatable-striped"
   >
-    <ng-template pTemplate="header" let-columns>
+    <ng-template #header let-columns>
       <tr>
         @for (col of columns; track col) {
           <th
-            style="min-width: 180px"
+            [style.min-width]="
+              col.field === 'title'
+                ? '14rem'
+                : ['base', 'story', 'status', 'difficulty', 'fakemon'].includes(col.field)
+                  ? '9rem'
+                  : null
+            "
             [pSortableColumn]="['catchable', 'rating', 'title'].includes(col.field) ? col.field : null"
             class="whitespace-nowrap"
           >
@@ -78,6 +85,7 @@
               @if (col.field === 'base') {
                 <p-multiSelect
                   [options]="baseroms()"
+                  [ngModel]="$any(dt.filters)['base']?.value"
                   optionLabel="name"
                   (onChange)="dt.filter($event.value, col.field, 'isInBaserom')"
                   appendTo="body"
@@ -88,7 +96,7 @@
               }
               @if (['story', 'status', 'difficulty', 'fakemon'].includes(col.field)) {
                 <p-columnFilter [field]="col.field" matchMode="isChoice" [showMenu]="false">
-                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <ng-template #filter let-value let-applyFilter="filterCallback">
                     <p-select
                       [ngModel]="value"
                       [options]="
@@ -102,7 +110,7 @@
                       "
                       optionLabel="name"
                       appendTo="body"
-                      (onChange)="filter($event.value)"
+                      (onChange)="applyFilter($event.value)"
                       [placeholder]="col.header"
                       [showClear]="true"
                       styleClass="w-full"
@@ -120,7 +128,7 @@
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <ng-template #body let-rowData let-columns="columns">
       <tr
         [pSelectableRow]="rowData"
         [pContextMenuRow]="rowData"
@@ -200,7 +208,7 @@
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="loadingbody" let-columns="columns">
+    <ng-template #loadingbody let-columns="columns">
       <tr style="height: 34px">
         @for (col of columns; track col) {
           <td>
@@ -210,7 +218,7 @@
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="summary">
+    <ng-template #summary>
       <div class="flex items-center justify-between text-xs text-gray-500">
         <div>
           @if (games()) {

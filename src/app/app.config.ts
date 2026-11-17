@@ -8,6 +8,7 @@ import { authHttpInterceptorFn, HttpInterceptorRouteConfig, HttpMethod, provideA
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
 import { MyPreset } from './my-preset';
+import { devInterceptors, devProviders } from './dev/dev-providers';
 
 const AUTH_AUDIENCE = 'https://pkhax.eu.auth0.com/api/v2/';
 const AUTH_SCOPE = 'read:current_user';
@@ -32,12 +33,21 @@ const authenticatedRoutes: HttpInterceptorRouteConfig[] = [
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withFetch(), withInterceptors([authHttpInterceptorFn])),
+    provideHttpClient(withFetch(), withInterceptors([...devInterceptors, authHttpInterceptorFn])),
     provideAnimationsAsync(),
     providePrimeNG({
-      theme: { preset: MyPreset, options: { darkModeSelector: '.app-dark' } },
+      theme: {
+        preset: MyPreset,
+        // PrimeNG styles go into a CSS layer below Tailwind utilities, so classes like
+        // `md:hidden` or `fixed` on PrimeNG components are not overridden by the theme.
+        options: { darkModeSelector: '.app-dark', cssLayer: { name: 'primeng', order: 'theme, base, primeng' } },
+      },
     }),
-    provideMatomo({ trackerUrl: 'https://jakos.uber.space/matomo', siteId: '4' }, withRouter()),
+    provideMatomo(
+      // only count real visits, not local development
+      { trackerUrl: 'https://jakos.uber.space/matomo', siteId: '4', disabled: !environment.production },
+      withRouter(),
+    ),
     // Cookieless tracking: must be queued before the first page view (sent on first NavigationEnd).
     provideAppInitializer(() => inject(MatomoTracker).disableCookies()),
     provideAuth0({
@@ -53,5 +63,6 @@ export const appConfig: ApplicationConfig = {
       cacheLocation: 'localstorage',
       httpInterceptor: { allowedList: authenticatedRoutes },
     }),
+    ...devProviders,
   ],
 };
