@@ -1,0 +1,29 @@
+# PkHax – Apache config, deployed with the app (source: src/.htaccess)
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Existing files and directories are served directly
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Missing files with an extension (e.g. JS chunks of an older deployment) get a real 404
+  # instead of index.html – otherwise the browser receives HTML as JavaScript.
+  RewriteRule \.[a-zA-Z0-9]{1,5}$ - [R=404,L]
+
+  # Every other path is an Angular route
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Always revalidate the entry page, so new deployments are picked up immediately
+  <FilesMatch "^index\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+
+  # Build files carry a content hash in their name (main-2QM3GGQW.js) and never change
+  <FilesMatch "-[A-Z0-9]{8}\.(js|css|woff2?|ttf|eot|svg)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>

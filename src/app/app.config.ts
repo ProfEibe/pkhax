@@ -1,7 +1,7 @@
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, inject, provideAppInitializer } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter } from '@angular/router';
+import { NavigationError, provideRouter, withNavigationErrorHandler } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import { MatomoTracker, provideMatomo, withRouter } from 'ngx-matomo-client';
 import { authHttpInterceptorFn, HttpInterceptorRouteConfig, HttpMethod, provideAuth0 } from '@auth0/auth0-angular';
@@ -12,6 +12,30 @@ import { devInterceptors, devProviders } from './dev/dev-providers';
 
 const AUTH_AUDIENCE = 'https://pkhax.eu.auth0.com/api/v2/';
 const AUTH_SCOPE = 'read:current_user';
+
+/**
+ * After a new deployment, an open tab may try to lazy-load a chunk that no longer exists.
+ * Instead of a dead navigation, load the target URL fresh (this also fetches the new index.html).
+ * Only once per minute, so a really broken deployment cannot cause a reload loop.
+ */
+function reloadOnMissingChunk(event: NavigationError): void {
+  const message = String(event.error?.message ?? event.error);
+  if (!/dynamically imported module|Importing a module script failed|error loading dynamically/i.test(message)) {
+    return;
+  }
+  const key = 'pkhax-chunk-reload';
+  try {
+    const last = Number(sessionStorage.getItem(key));
+    if (last && Date.now() - last < 60_000) {
+      console.error('Lazy chunk still missing after reload', event.error);
+      return;
+    }
+    sessionStorage.setItem(key, String(Date.now()));
+  } catch {
+    // sessionStorage unavailable – reload anyway
+  }
+  window.location.assign(event.url);
+}
 
 /**
  * Requests that need an access token. Matched against the full request URL, so the
@@ -32,7 +56,7 @@ const authenticatedRoutes: HttpInterceptorRouteConfig[] = [
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes, withNavigationErrorHandler(reloadOnMissingChunk)),
     provideHttpClient(withFetch(), withInterceptors([...devInterceptors, authHttpInterceptorFn])),
     provideAnimationsAsync(),
     providePrimeNG({
