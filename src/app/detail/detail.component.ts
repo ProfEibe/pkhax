@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { AfterViewChecked, Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -65,8 +65,13 @@ export class DetailComponent implements OnInit, AfterViewChecked {
   ];
 
   activeIndex = 0;
-  displayCustom: boolean;
-  images: string[] = [];
+  displayCustom = false;
+  images = computed(() =>
+    (this.game()?.images ?? '')
+      .split('\n')
+      .map((image) => image.trim())
+      .filter((image) => image !== ''),
+  );
 
   ngOnInit(): void {
     this.route.paramMap
@@ -74,10 +79,7 @@ export class DetailComponent implements OnInit, AfterViewChecked {
         map((params) => Number(params.get('id'))),
         filter((id) => !!id),
         switchMap((id) => this.gameService.getGame(id)),
-        tap((game) => {
-          this.game.set(game);
-          this.images = game.images ? game.images.split('\n').filter((image) => image.trim() !== '') : [];
-        }),
+        tap((game) => this.game.set(game)),
         switchMap((game) => this.commentService.getCommentsByGame(game.id)),
         takeUntilDestroyed(this.destroyRef),
       )

@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-@if (game) {
+@if (game(); as game) {
   <div class="mx-auto max-w-3xl">
     <a
       [routerLink]="game.id ? '/' + game.id : '/'"
@@ -41,9 +41,9 @@
               [(ngModel)]="game.link"
               (blur)="checkLink()"
               placeholder="https://"
-              [attr.aria-invalid]="linkExists"
+              [attr.aria-invalid]="linkExists()"
             />
-            @if (linkExists) {
+            @if (linkExists()) {
               <small class="text-sm text-red-600 dark:text-red-400">This link is already listed.</small>
             }
           </div>
@@ -77,7 +77,7 @@
             <p-multiSelect
               inputId="baserom"
               name="base"
-              [options]="baseroms"
+              [options]="baseroms()"
               [(ngModel)]="game.base"
               optionLabel="name"
               placeholder="Select baseroms"
@@ -90,7 +90,7 @@
             <p-select
               inputId="console"
               name="console"
-              [options]="consoles"
+              [options]="consoles()"
               [showClear]="true"
               [(ngModel)]="game.console"
               optionLabel="name"
@@ -103,7 +103,7 @@
             <p-select
               inputId="status"
               name="status"
-              [options]="status"
+              [options]="status()"
               [showClear]="true"
               [(ngModel)]="game.status"
               optionLabel="name"
@@ -116,7 +116,7 @@
             <p-select
               inputId="difficulty"
               name="difficulty"
-              [options]="difficulties"
+              [options]="difficulties()"
               [showClear]="true"
               [(ngModel)]="game.difficulty"
               optionLabel="name"
@@ -129,7 +129,7 @@
             <p-select
               inputId="story"
               name="story"
-              [options]="stories"
+              [options]="stories()"
               [showClear]="true"
               [(ngModel)]="game.story"
               optionLabel="name"
@@ -142,7 +142,7 @@
             <p-select
               inputId="fakemon"
               name="fakemon"
-              [options]="fakemon"
+              [options]="fakemon()"
               [showClear]="true"
               [(ngModel)]="game.fakemon"
               optionLabel="name"

@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, input, inject } from '@angular/core';
+import { AfterViewChecked, Component, input, inject, linkedSignal, signal } from '@angular/core';
 import { Comment } from '../../comment';
 import { CommentService } from '../../comment.service';
 import { AuthService } from '@auth0/auth0-angular';
@@ -20,18 +20,20 @@ export class CommentComponent implements AfterViewChecked {
   userService = inject(UserService);
 
   comment = input.required<Comment>();
-  showReply = false;
+  /** Replies, including the ones posted in this session */
+  children = linkedSignal(() => this.comment().children);
+  showReply = signal(false);
   reply: string;
   private newComment: number | null = null;
 
+  /** Edited noticeably after creation (ignores the few ms between both timestamps on insert) */
   diffCreateModified(): boolean {
-    return (
-      new Date(this.comment().created_at).getMilliseconds() !== new Date(this.comment().modified_at).getMilliseconds()
-    );
+    const { created_at, modified_at } = this.comment();
+    return !!created_at && !!modified_at && modified_at.getTime() - created_at.getTime() > 60_000;
   }
 
   toggleReplyEditor(): void {
-    this.showReply = !this.showReply;
+    this.showReply.update((show) => !show);
   }
 
   createReply(): void {
@@ -39,12 +41,12 @@ export class CommentComponent implements AfterViewChecked {
     child.content = this.reply;
     child.gameId = this.comment().gameId;
     this.service.createChildComment(child, this.comment().id).subscribe((saved) => {
-      this.comment().children.push(saved);
+      this.children.update((children) => [...children, saved]);
       this.reply = '';
 
       this.newComment = saved.id;
     });
-    this.showReply = false;
+    this.showReply.set(false);
   }
 
   ngAfterViewChecked(): void {

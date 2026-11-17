@@ -44,10 +44,10 @@
 
   <div class="grid grid-cols-1 gap-10 lg:grid-cols-3">
     <div class="flex min-w-0 flex-col gap-10 lg:col-span-2">
-      @if (images.length > 0) {
+      @if (images().length > 0) {
         <section aria-label="Screenshots">
           <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            @for (image of images; track image; let index = $index) {
+            @for (image of images(); track image; let index = $index) {
               <button
                 type="button"
                 class="aspect-video overflow-hidden rounded-md bg-emphasis outline-offset-2 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-primary"
@@ -59,7 +59,7 @@
             }
           </div>
           <p-galleria
-            [value]="images"
+            [value]="images()"
             [(visible)]="displayCustom"
             [(activeIndex)]="activeIndex"
             [responsiveOptions]="responsiveOptions"
@@ -70,7 +70,11 @@
             [showThumbnails]="false"
           >
             <ng-template #item let-item>
-              <img [src]="item" [alt]="game.title + ' screenshot'" class="max-h-[85vh] w-auto" />
+              <img
+                [src]="item"
+                [alt]="game.title + ' screenshot'"
+                class="h-auto max-h-[85vh] w-[min(90vw,64rem)] object-contain [image-rendering:pixelated]"
+              />
             </ng-template>
           </p-galleria>
         </section>

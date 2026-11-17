@@ -15,10 +15,10 @@
       class="mt-1 text-sm font-medium text-muted-color hover:text-color"
       (click)="toggleReplyEditor()"
     >
-      {{ showReply ? 'Cancel' : 'Reply' }}
+      {{ showReply() ? 'Cancel' : 'Reply' }}
     </button>
 
-    @if (showReply) {
+    @if (showReply()) {
       <div class="mt-3">
         @if ((auth.isAuthenticated$ | async) && userService.currentUser()?.displayName) {
           <p-editor [(ngModel)]="reply" [style]="{ height: '5rem' }">
@@ -46,9 +46,9 @@
       </div>
     }
 
-    @if (comment().children.length) {
+    @if (children().length) {
       <div class="mt-4 flex flex-col gap-4 border-l border-surface pl-4">
-        @for (child of comment().children; track child.id) {
+        @for (child of children(); track child.id) {
           <app-comment [comment]="child"></app-comment>
         }
       </div>

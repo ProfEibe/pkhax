@@ -2,11 +2,11 @@
 <div class="mx-auto max-w-md">
   <h1 class="text-2xl font-semibold tracking-tight">Profile</h1>
 
-  @if (isLoading || (auth.isLoading$ | async)) {
+  @if (isLoading() || (auth.isLoading$ | async)) {
     <p class="mt-6 text-muted-color">Loading…</p>
-  } @else if (error) {
+  } @else if (error(); as error) {
     <p-message class="mt-6 block" severity="error">{{ error }}</p-message>
-  } @else if (user) {
+  } @else if (user(); as user) {
     <form class="mt-6 flex flex-col gap-1.5" (ngSubmit)="updateUser()">
       <label class="text-sm font-medium" for="dn">Display name</label>
       <input

@@ -1,5 +1,5 @@
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, inject, provideAppInitializer } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer, provideZonelessChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NavigationError, provideRouter, withNavigationErrorHandler } from '@angular/router';
 import { provideOptimus } from '@openng/optimus-ui/config';
@@ -56,6 +56,7 @@ const authenticatedRoutes: HttpInterceptorRouteConfig[] = [
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideZonelessChangeDetection(),
     provideRouter(routes, withNavigationErrorHandler(reloadOnMissingChunk)),
     provideHttpClient(withFetch(), withInterceptors([...devInterceptors, authHttpInterceptorFn])),
     provideAnimationsAsync(),

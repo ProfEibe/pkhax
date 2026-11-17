@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { UserService } from '../user.service';
 import { User } from '../user';
 import { MessageService } from '@openng/optimus-ui/api';
@@ -22,31 +22,32 @@ export class UserComponent implements OnInit {
   private messageService = inject(MessageService);
   auth = inject(AuthService);
 
-  user: User | undefined;
-  isLoading = true;
-  error: string | null = null;
+  user = signal<User | undefined>(undefined);
+  isLoading = signal(true);
+  error = signal<string | null>(null);
 
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe({
       next: (user) => {
-        this.user = user;
-        this.isLoading = false;
+        this.user.set(user);
+        this.isLoading.set(false);
       },
       error: (err) => {
-        this.error = 'Failed to load user data';
-        this.isLoading = false;
+        this.error.set('Failed to load user data');
+        this.isLoading.set(false);
         console.error('User load error:', err);
       },
     });
   }
 
   updateUser(): void {
-    if (!this.user) {
+    const current = this.user();
+    if (!current) {
       return;
     }
-    this.userService.updateUserName(this.user).subscribe({
+    this.userService.updateUserName(current).subscribe({
       next: (user) => {
-        this.user = user;
+        this.user.set(user);
         this.messageService.add({ severity: 'success', summary: 'Saved', detail: 'User updated' });
       },
       error: (error) => {

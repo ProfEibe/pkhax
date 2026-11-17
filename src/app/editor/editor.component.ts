@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GameService } from '../game.service';
@@ -36,16 +36,16 @@ import { CheckboxModule } from '@openng/optimus-ui/checkbox';
   ],
 })
 export class EditorComponent implements OnInit {
-  game: Game | undefined;
-  baseroms: Baserom[] = [];
-  consoles: Choice[] = [];
-  status: Choice[] = [];
-  fakemon: Choice[] = [];
-  stories: Choice[] = [];
-  difficulties: Difficulty[] = [];
+  game = signal<Game | undefined>(undefined);
+  baseroms = signal<Baserom[]>([]);
+  consoles = signal<Choice[]>([]);
+  status = signal<Choice[]>([]);
+  fakemon = signal<Choice[]>([]);
+  stories = signal<Choice[]>([]);
+  difficulties = signal<Difficulty[]>([]);
 
   baseUrl = environment.baseUrl;
-  linkExists = false;
+  linkExists = signal(false);
 
   private route = inject(ActivatedRoute);
   private gameService = inject(GameService);
@@ -55,35 +55,34 @@ export class EditorComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe((baseroms) => (this.baseroms = baseroms));
-    this.http.get<Choice[]>(this.baseUrl + '/consoles/').subscribe((consoles) => (this.consoles = consoles));
-    this.http.get<Choice[]>(this.baseUrl + '/status/').subscribe((status) => (this.status = status));
-    this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe((stories) => (this.stories = stories));
-    this.http.get<Choice[]>(this.baseUrl + '/fakemon/').subscribe((fakemon) => (this.fakemon = fakemon));
-    this.http
-      .get<Difficulty[]>(this.baseUrl + '/difficulties/')
-      .subscribe((difficulties) => (this.difficulties = difficulties));
+    this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe((list) => this.baseroms.set(list));
+    this.http.get<Choice[]>(this.baseUrl + '/consoles/').subscribe((list) => this.consoles.set(list));
+    this.http.get<Choice[]>(this.baseUrl + '/status/').subscribe((list) => this.status.set(list));
+    this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe((list) => this.stories.set(list));
+    this.http.get<Choice[]>(this.baseUrl + '/fakemon/').subscribe((list) => this.fakemon.set(list));
+    this.http.get<Difficulty[]>(this.baseUrl + '/difficulties/').subscribe((list) => this.difficulties.set(list));
 
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       const id = Number(params.get('id'));
       if (id) {
         this.gameService.getGame(id).subscribe({
-          next: (game) => (this.game = game),
+          next: (game) => this.game.set(game),
           error: () => this.showError('Game could not be loaded'),
         });
       } else {
-        this.game = new Game();
+        this.game.set(new Game());
       }
     });
   }
 
   updateGame(): void {
-    if (!this.game) {
+    const current = this.game();
+    if (!current) {
       return;
     }
-    this.gameService.updateGame(this.game).subscribe({
+    this.gameService.updateGame(current).subscribe({
       next: (game) => {
-        this.game = game;
+        this.game.set(game);
         this.messageService.add({ severity: 'success', summary: 'Saved', detail: 'Game updated' });
       },
       error: (error) => this.showError('An error occured', error),
@@ -91,12 +90,13 @@ export class EditorComponent implements OnInit {
   }
 
   createGame(): void {
-    if (!this.game) {
+    const current = this.game();
+    if (!current) {
       return;
     }
-    this.gameService.createGame(this.game).subscribe({
+    this.gameService.createGame(current).subscribe({
       next: (game) => {
-        this.game = game;
+        this.game.set(game);
         this.router.navigate(['/editor', game.id]);
         this.messageService.add({ severity: 'success', summary: 'Saved', detail: 'Game created' });
       },
@@ -105,13 +105,15 @@ export class EditorComponent implements OnInit {
   }
 
   checkLink(): void {
-    const newLink = this.trim(this.game?.link?.trim() ?? '', '/');
+    const current = this.game();
+    const newLink = this.trim(current?.link?.trim() ?? '', '/');
     this.gameService.getGames().subscribe((games) => {
-      this.linkExists =
+      this.linkExists.set(
         newLink !== '' &&
-        games.some(
-          (game) => game.id !== this.game?.id && game.link != null && this.trim(game.link.trim(), '/') === newLink,
-        );
+          games.some(
+            (game) => game.id !== current?.id && game.link != null && this.trim(game.link.trim(), '/') === newLink,
+          ),
+      );
     });
   }
 
