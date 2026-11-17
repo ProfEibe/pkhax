@@ -18,7 +18,8 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": {
-              "base": "dist/pkhax"
+              "base": "dist/pkhax",
+              "browser": ""
             },
             "index": "src/index.html",
             "polyfills": [
@@ -30,13 +31,11 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/cookieconsent/build/cookieconsent.min.css",
               "node_modules/quill/dist/quill.core.css",
               "node_modules/quill/dist/quill.snow.css",
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/cookieconsent/build/cookieconsent.min.js",
               "node_modules/quill/dist/quill.js"
             ],
             "extractLicenses": false,
