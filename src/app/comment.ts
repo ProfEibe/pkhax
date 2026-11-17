@@ -19,6 +19,7 @@ export class Comment {
 export class CommentAdapter implements Adapter<Comment> {
   adapt(item: Partial<Comment>): Comment {
     const comment = Object.assign(new Comment(), item);
+    comment.children = (item.children ?? []).map((child) => this.adapt(child));
     if (item.created_at) {
       comment.created_at = new Date(item.created_at);
     }

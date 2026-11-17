@@ -1,8 +1,8 @@
-import { Component, HostListener, OnInit, inject, signal, viewChild } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { DecimalPipe, NgTemplateOutlet } from '@angular/common';
 import { GameService } from '../game.service';
-import { Router } from '@angular/router';
-import { Table, TableModule } from '@openng/optimus-ui/table';
+import { Router, RouterLink } from '@angular/router';
+import { TableModule } from '@openng/optimus-ui/table';
 import { Baserom, Choice, Difficulty, Game } from '../game';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -11,12 +11,8 @@ import { MultiSelect } from '@openng/optimus-ui/multiselect';
 import { Select } from '@openng/optimus-ui/select';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from '@openng/optimus-ui/button';
-import { RippleModule } from '@openng/optimus-ui/ripple';
-import { RatingModule } from '@openng/optimus-ui/rating';
 import { ContextMenuModule } from '@openng/optimus-ui/contextmenu';
 import { InputTextModule } from '@openng/optimus-ui/inputtext';
-import { TagModule } from '@openng/optimus-ui/tag';
-import { ToolbarModule } from '@openng/optimus-ui/toolbar';
 import { IconFieldModule } from '@openng/optimus-ui/iconfield';
 import { InputIconModule } from '@openng/optimus-ui/inputicon';
 import { SkeletonModule } from '@openng/optimus-ui/skeleton';
@@ -35,16 +31,14 @@ interface Column {
     Select,
     FormsModule,
     ButtonModule,
-    RippleModule,
-    RatingModule,
     ContextMenuModule,
     InputTextModule,
-    TagModule,
-    ToolbarModule,
     IconFieldModule,
     InputIconModule,
     SkeletonModule,
     DecimalPipe,
+    NgTemplateOutlet,
+    RouterLink,
   ],
 })
 export class ListComponent implements OnInit {
@@ -57,29 +51,24 @@ export class ListComponent implements OnInit {
   status = signal<Choice[]>([]);
   difficulties = signal<Difficulty[]>([]);
   baseUrl = environment.baseUrl;
-  innerWidth = 0;
-  dt = viewChild<Table>('dt');
-  mobileFilter = false;
   loading = signal<boolean>(false);
+
+  readonly sortable: string[] = ['title', 'catchable', 'rating'];
+  readonly filterable: string[] = ['base', 'story', 'status', 'difficulty', 'fakemon'];
+  readonly booleanFields: string[] = ['newGraphics', 'physicalSpecialSplit', 'builtInRandomizer', 'builtInNuzlocke'];
 
   contextMenuItems = [
     {
       label: 'Open in new tab',
-      icon: 'pi pi-fw pi-clone',
+      icon: 'pi pi-external-link',
       command: () => window.open('/' + this.selectedGame.id, '_blank'),
     },
     {
-      label: 'Editor',
-      icon: 'pi pi-fw pi-pencil',
+      label: 'Edit',
+      icon: 'pi pi-pencil',
       command: () => this.router.navigate(['/editor/' + this.selectedGame.id]),
     },
   ];
-
-  @HostListener('window:resize')
-  onResize(): void {
-    this.innerWidth = window.innerWidth;
-    this.setColumns();
-  }
 
   private gameService = inject(GameService);
   private router = inject(Router);
@@ -127,19 +116,22 @@ export class ListComponent implements OnInit {
       { field: 'creator', header: 'Creator' },
       { field: 'version', header: 'Version' },
       { field: 'story', header: 'Story' },
-      { field: 'newGraphics', header: 'new Graphics' },
+      { field: 'newGraphics', header: 'New graphics' },
       { field: 'catchable', header: 'Catchable' },
       { field: 'fakemon', header: 'Fakemon' },
-      { field: 'physicalSpecialSplit', header: 'p/s-Split' },
-      { field: 'builtInRandomizer', header: 'built-in Randomizer' },
-      { field: 'builtInNuzlocke', header: 'built-in Nuzlocke' },
+      { field: 'physicalSpecialSplit', header: 'Phys/Spec split' },
+      { field: 'builtInRandomizer', header: 'Randomizer' },
+      { field: 'builtInNuzlocke', header: 'Nuzlocke mode' },
       { field: 'status', header: 'Status' },
       { field: 'difficulty', header: 'Difficulty' },
       { field: 'rating', header: 'Rating' },
     ];
 
-    this.innerWidth = window.innerWidth;
-    this.setColumns();
+    this.selectedColumns.set(
+      ['title', 'base', 'story', 'catchable', 'physicalSpecialSplit', 'status', 'rating'].map(
+        (field) => this.cols.find((col) => col.field === field)!,
+      ),
+    );
 
     this.http.get<Baserom[]>(this.baseUrl + '/baseroms/').subscribe((baseroms) => this.baseroms.set(baseroms));
     this.http.get<Choice[]>(this.baseUrl + '/stories/').subscribe((stories) => this.stories.set(stories));
@@ -150,37 +142,21 @@ export class ListComponent implements OnInit {
       .subscribe((difficulties) => this.difficulties.set(difficulties));
   }
 
+  choiceOptions(field: string): Choice[] {
+    switch (field) {
+      case 'story':
+        return this.stories();
+      case 'status':
+        return this.status();
+      case 'difficulty':
+        return this.difficulties();
+      default:
+        return this.fakemon();
+    }
+  }
+
   onRowSelect(): void {
     this.router.navigate(['/' + this.selectedGame.id]);
-  }
-
-  private setColumns(): void {
-    if (this.innerWidth > 640) {
-      this.selectedColumns.set([
-        this.cols[0],
-        this.cols[1],
-        this.cols[4],
-        this.cols[6],
-        this.cols[7],
-        this.cols[8],
-        this.cols[11],
-        this.cols[12],
-        this.cols[13],
-      ]);
-    } else {
-      this.selectedColumns.set([this.cols[0], this.cols[1], this.cols[11]]);
-    }
-  }
-
-  inputFilter($event: Event, field: string, matchMode: string): void {
-    const table = this.dt();
-    if (table) {
-      table.filter(($event.target as HTMLInputElement).value, field, matchMode);
-    }
-  }
-
-  toggleFilter(): void {
-    this.mobileFilter = !this.mobileFilter;
   }
 
   customSort(event: SortEvent) {

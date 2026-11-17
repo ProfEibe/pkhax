@@ -3,7 +3,7 @@ import { UserService } from '../user.service';
 import { User } from '../user';
 import { MessageService } from '@openng/optimus-ui/api';
 import { ToastModule } from '@openng/optimus-ui/toast';
-import { CardModule } from '@openng/optimus-ui/card';
+import { MessageModule } from '@openng/optimus-ui/message';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { InputTextModule } from '@openng/optimus-ui/inputtext';
 import { FormsModule } from '@angular/forms';
@@ -14,9 +14,8 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css'],
   providers: [MessageService],
-  imports: [ToastModule, CardModule, ButtonModule, FormsModule, InputTextModule, CommonModule],
+  imports: [ToastModule, MessageModule, ButtonModule, FormsModule, InputTextModule, CommonModule],
 })
 export class UserComponent implements OnInit {
   private userService = inject(UserService);

@@ -1,25 +1,26 @@
-@import 'tailwindcss';
+/* Cascade order: Optimus component styles sit below our components and all Tailwind utilities.
+   Tailwind is imported in parts so this order is declared first. */
+@layer theme, base, optimus, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css' layer(utilities);
+/* primary-*, surface-*, text-color, text-muted-color, border-surface, bg-emphasis … from the theme tokens */
 @import '@openng/optimus-ui-tailwindcss';
 
 /* dark: utilities follow the app theme toggle (.app-dark on <html>), not the OS setting */
 @custom-variant dark (&:where(.app-dark, .app-dark *));
 
 @theme {
-  --color-primary-50: #fff1f1;
-  --color-primary-100: #ffdfdf;
-  --color-primary-200: #ffc5c5;
-  --color-primary-300: #ff9d9d;
-  --color-primary-400: #ff6464;
-  --color-primary-500: #ff5f5f; /* Brand Red */
-  --color-primary-600: #ed2121;
-  --color-primary-700: #c81010;
-  --color-primary-800: #a50f0f;
-  --color-primary-900: #881414;
-
-  --color-surface-900: #2d3436; /* Dark Slate Title */
-  --color-surface-ground: #f5f6fa; /* Light Grey BG */
-  --color-surface-card: #ffffff;
-
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-heading: 'Outfit', system-ui, sans-serif;
+}
+
+/* Page background (light: surface-50, dark: surface-950) */
+@utility bg-ground {
+  background-color: var(--surface-ground);
+}
+
+/* Card / panel background, same as Optimus components (light: surface-0, dark: surface-900) */
+@utility bg-card {
+  background-color: var(--p-content-background);
 }

@@ -1,0 +1,72 @@
+@import 'tailwindcss';
+/* primary-*, surface-*, text-color, text-muted-color, border-surface, bg-emphasis … from the Optimus theme tokens */
+@import '@openng/optimus-ui-tailwindcss';
+@import '@openng/icons/openng-icons.css';
+/* self-hosted, no request to Google */
+@import '@fontsource-variable/inter';
+/* Quill base styles below the Optimus editor theme */
+@import 'quill/dist/quill.snow.css' layer(base);
+
+/* dark: follows the app theme toggle (.app-dark on <html>) */
+@custom-variant dark (&:where(.app-dark, .app-dark *));
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  html.app-dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-surface-50 font-sans text-color antialiased dark:bg-surface-950;
+  }
+}
+
+@layer components {
+  /* User-written HTML (hack descriptions, comments) */
+  .rich-text {
+    @apply leading-relaxed text-color;
+  }
+
+  .rich-text :where(p, ul, ol, pre, blockquote) {
+    @apply mb-3 last:mb-0;
+  }
+
+  .rich-text :where(h1, h2, h3, h4) {
+    @apply mt-6 mb-2 font-semibold first:mt-0;
+  }
+
+  .rich-text h1 {
+    @apply text-xl;
+  }
+
+  .rich-text h2 {
+    @apply text-lg;
+  }
+
+  .rich-text ul {
+    @apply list-disc pl-5;
+  }
+
+  .rich-text ol {
+    @apply list-decimal pl-5;
+  }
+
+  .rich-text a {
+    @apply text-primary underline underline-offset-2;
+  }
+
+  .rich-text img {
+    @apply h-auto max-w-full rounded-md;
+  }
+
+  .rich-text blockquote {
+    @apply border-l-2 border-surface pl-4 text-muted-color;
+  }
+}

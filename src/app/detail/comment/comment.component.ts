@@ -5,7 +5,6 @@ import { AuthService } from '@auth0/auth0-angular';
 import { UserService } from '../../user.service';
 import { EditorModule } from '@openng/optimus-ui/editor';
 import { ButtonModule } from '@openng/optimus-ui/button';
-import { RippleModule } from '@openng/optimus-ui/ripple';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -13,8 +12,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.css'],
-  imports: [EditorModule, ButtonModule, RippleModule, AsyncPipe, FormsModule, DatePipe, RouterLink],
+  imports: [EditorModule, ButtonModule, AsyncPipe, FormsModule, DatePipe, RouterLink],
 })
 export class CommentComponent implements AfterViewChecked {
   private service = inject(CommentService);
@@ -53,11 +51,7 @@ export class CommentComponent implements AfterViewChecked {
     if (this.newComment !== null) {
       const itemToScrollTo = document.getElementById('comment-' + this.newComment);
       if (itemToScrollTo) {
-        itemToScrollTo.scrollIntoView({ block: 'center', behavior: 'auto' });
-        setTimeout(
-          () => itemToScrollTo.animate([{ backgroundColor: '#c1d4ff' }, { backgroundColor: '#FFFFFF' }], 500),
-          200,
-        );
+        itemToScrollTo.scrollIntoView({ block: 'center', behavior: 'smooth' });
       }
 
       this.newComment = null;

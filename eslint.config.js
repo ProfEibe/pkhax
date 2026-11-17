@@ -30,6 +30,11 @@ module.exports = tseslint.config(
     rules: {
       // Optimus UI (PrimeNG) buttons render their text from the `label` input
       '@angular-eslint/template/elements-content': ['error', { allowList: ['label', 'aria-label', 'title'] }],
+      // a <label> wrapping an Optimus form component labels its inner <input>
+      '@angular-eslint/template/label-has-associated-control': [
+        'error',
+        { controlComponents: ['p-checkbox', 'p-select', 'p-multiSelect', 'p-inputNumber'] },
+      ],
     },
   },
 );

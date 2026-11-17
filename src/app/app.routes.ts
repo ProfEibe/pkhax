@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { ListComponent } from './list/list.component';
-import { AppLayout } from './layout/component/app.layout';
+import { ShellComponent } from './shell/shell.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: AppLayout,
+    component: ShellComponent,
     children: [
       {
         path: 'user',

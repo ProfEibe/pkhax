@@ -7,13 +7,12 @@ import { AuthService } from '@auth0/auth0-angular';
 import { RatingModule } from '@openng/optimus-ui/rating';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from '@openng/optimus-ui/button';
-import { RippleModule } from '@openng/optimus-ui/ripple';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-rating',
   templateUrl: './rating.component.html',
-  styleUrls: ['./rating.component.css'],
-  imports: [RatingModule, FormsModule, ButtonModule, RippleModule],
+  imports: [RatingModule, FormsModule, ButtonModule, DecimalPipe],
 })
 export class RatingComponent {
   private http = inject(HttpClient);

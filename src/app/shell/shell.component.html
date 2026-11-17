@@ -1,0 +1,83 @@
+<div class="flex min-h-screen flex-col">
+  <header class="sticky top-0 z-40 border-b border-surface bg-surface-0 dark:bg-surface-900">
+    <div class="mx-auto flex h-14 max-w-6xl items-center gap-6 px-4 sm:px-6">
+      <a routerLink="/" class="flex shrink-0 items-center gap-2 text-color">
+        <img
+          [src]="theme.dark() ? 'assets/images/logo-white.svg' : 'assets/images/logo-dark.svg'"
+          alt=""
+          class="h-6 w-auto"
+        />
+        <span class="text-base font-semibold tracking-tight">PkHax</span>
+      </a>
+
+      <nav class="hidden items-center gap-1 text-sm sm:flex" aria-label="Main">
+        <a
+          routerLink="/"
+          routerLinkActive="bg-emphasis text-color"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="rounded-md px-3 py-1.5 font-medium text-muted-color hover:text-color"
+          >Romhacks</a
+        >
+        <a
+          routerLink="/editor"
+          routerLinkActive="bg-emphasis text-color"
+          class="rounded-md px-3 py-1.5 font-medium text-muted-color hover:text-color"
+          >Submit a hack</a
+        >
+      </nav>
+
+      <div class="ml-auto flex items-center gap-1">
+        <button
+          pButton
+          type="button"
+          [text]="true"
+          severity="secondary"
+          [rounded]="true"
+          [icon]="theme.dark() ? 'pi pi-sun' : 'pi pi-moon'"
+          [attr.aria-label]="theme.dark() ? 'Switch to light mode' : 'Switch to dark mode'"
+          (click)="theme.toggle()"
+        ></button>
+
+        @if (!loading()) {
+          @if (user(); as user) {
+            <button
+              type="button"
+              class="ml-1 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              aria-label="Account menu"
+              (click)="menu.toggle($event)"
+            >
+              @if (user.picture) {
+                <img [src]="user.picture" alt="" class="size-8 rounded-full" referrerpolicy="no-referrer" />
+              } @else {
+                <span class="flex size-8 items-center justify-center rounded-full bg-emphasis">
+                  <i class="pi pi-user text-sm"></i>
+                </span>
+              }
+            </button>
+            <p-menu #menu [model]="accountMenu" [popup]="true" appendTo="body"></p-menu>
+          } @else {
+            <p-button label="Log in" size="small" severity="secondary" [outlined]="true" (onClick)="login()"></p-button>
+          }
+        }
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="border-t border-surface">
+    <div
+      class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-6 text-sm text-muted-color sm:px-6"
+    >
+      <span>PkHax – the Pokémon romhack database</span>
+      <div class="flex gap-4">
+        <a href="https://github.com/ProfEibe/pkhax" target="_blank" rel="noopener" class="hover:text-color">GitHub</a>
+        <a href="https://www.buymeacoffee.com/jakobschade" target="_blank" rel="noopener" class="hover:text-color"
+          >Buy me a coffee</a
+        >
+      </div>
+    </div>
+  </footer>
+</div>

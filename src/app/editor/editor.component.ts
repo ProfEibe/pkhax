@@ -12,19 +12,14 @@ import { EditorModule } from '@openng/optimus-ui/editor';
 import { Select } from '@openng/optimus-ui/select';
 import { MultiSelectModule } from '@openng/optimus-ui/multiselect';
 import { InputNumberModule } from '@openng/optimus-ui/inputnumber';
-import { MessageModule } from '@openng/optimus-ui/message';
-import { CardModule } from '@openng/optimus-ui/card';
 import { ToastModule } from '@openng/optimus-ui/toast';
 import { InputTextModule } from '@openng/optimus-ui/inputtext';
 import { TextareaModule } from '@openng/optimus-ui/textarea';
 import { CheckboxModule } from '@openng/optimus-ui/checkbox';
-import { InputGroupModule } from '@openng/optimus-ui/inputgroup';
-import { InputGroupAddonModule } from '@openng/optimus-ui/inputgroupaddon';
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.css'],
   providers: [MessageService],
   imports: [
     ButtonModule,
@@ -33,15 +28,11 @@ import { InputGroupAddonModule } from '@openng/optimus-ui/inputgroupaddon';
     Select,
     MultiSelectModule,
     InputNumberModule,
-    MessageModule,
     RouterLink,
-    CardModule,
     ToastModule,
     InputTextModule,
     TextareaModule,
     CheckboxModule,
-    InputGroupModule,
-    InputGroupAddonModule,
   ],
 })
 export class EditorComponent implements OnInit {

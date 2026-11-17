@@ -9,21 +9,17 @@ import { CommentService } from '../comment.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { UserService } from '../user.service';
 import { CommentComponent } from './comment/comment.component';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { EditorModule } from '@openng/optimus-ui/editor';
 import { FormsModule } from '@angular/forms';
 import { GalleriaModule } from '@openng/optimus-ui/galleria';
 import { GalleriaResponsiveOptions } from '@openng/optimus-ui/types/galleria';
-import { FieldsetModule } from '@openng/optimus-ui/fieldset';
-import { DividerModule } from '@openng/optimus-ui/divider';
 import { RatingComponent } from './rating/rating.component';
 import { ButtonModule } from '@openng/optimus-ui/button';
-import { CardModule } from '@openng/optimus-ui/card';
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css'],
   imports: [
     CommentComponent,
     RouterLink,
@@ -31,11 +27,9 @@ import { CardModule } from '@openng/optimus-ui/card';
     EditorModule,
     FormsModule,
     GalleriaModule,
-    FieldsetModule,
-    DividerModule,
     RatingComponent,
     ButtonModule,
-    CardModule,
+    DatePipe,
   ],
 })
 export class DetailComponent implements OnInit, AfterViewChecked {
@@ -48,6 +42,7 @@ export class DetailComponent implements OnInit, AfterViewChecked {
   private destroyRef = inject(DestroyRef);
 
   game = signal<Game | undefined>(undefined);
+  notFound = signal(false);
   comments = signal<Comment[]>([]);
   rootCommentBox: string;
 
@@ -57,6 +52,16 @@ export class DetailComponent implements OnInit, AfterViewChecked {
     { breakpoint: '1024px', numVisible: 8 },
     { breakpoint: '768px', numVisible: 3 },
     { breakpoint: '560px', numVisible: 1 },
+  ];
+
+  readonly features: {
+    key: 'physicalSpecialSplit' | 'builtInNuzlocke' | 'builtInRandomizer' | 'newGraphics';
+    label: string;
+  }[] = [
+    { key: 'physicalSpecialSplit', label: 'Physical/special split' },
+    { key: 'newGraphics', label: 'New graphics' },
+    { key: 'builtInNuzlocke', label: 'Built-in Nuzlocke mode' },
+    { key: 'builtInRandomizer', label: 'Built-in randomizer' },
   ];
 
   activeIndex = 0;
@@ -78,7 +83,10 @@ export class DetailComponent implements OnInit, AfterViewChecked {
       )
       .subscribe({
         next: (comments) => this.comments.set(comments),
-        error: (error) => console.error('Could not load game', error),
+        error: (error) => {
+          this.notFound.set(true);
+          console.error('Could not load game', error);
+        },
       });
   }
 
@@ -100,11 +108,7 @@ export class DetailComponent implements OnInit, AfterViewChecked {
     if (this.newComment !== null) {
       const itemToScrollTo = document.getElementById('comment-' + this.newComment);
       if (itemToScrollTo) {
-        itemToScrollTo.scrollIntoView({ block: 'center', behavior: 'auto' });
-        setTimeout(
-          () => itemToScrollTo.animate([{ backgroundColor: '#c1d4ff' }, { backgroundColor: '#FFFFFF' }], 500),
-          200,
-        );
+        itemToScrollTo.scrollIntoView({ block: 'center', behavior: 'smooth' });
       }
 
       this.newComment = null;

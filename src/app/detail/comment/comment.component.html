@@ -1,67 +1,57 @@
 @if (comment().id) {
-  <div class="border-l-2 border-surface-200 dark:border-surface-700 pl-2 mb-4" [id]="'comment-' + comment().id">
-    <div class="text-xs text-surface-500 mb-1">
-      {{ comment().created_by.displayName }} ·
-      {{ comment().created_at | date: 'medium' }}
+  <article [id]="'comment-' + comment().id" class="scroll-mt-24">
+    <div class="flex flex-wrap items-baseline gap-x-2 text-sm">
+      <span class="font-medium">{{ comment().created_by.displayName }}</span>
+      <span class="text-muted-color">{{ comment().created_at | date: 'medium' }}</span>
+      @if (diffCreateModified()) {
+        <span class="text-muted-color">· edited {{ comment().modified_at | date }}</span>
+      }
     </div>
-    <div class="comment text-surface-900 mb-2" [innerHTML]="comment().content">
-      {{ comment().content }}
-    </div>
-    @if (diffCreateModified()) {
-      <div class="text-xs text-surface-500 italic mb-1">
-        Edited by {{ comment().modified_by.displayName }} at
-        {{ comment().modified_at | date }}
-      </div>
-    }
-    <div class="flex gap-2">
-      <button
-        pButton
-        pRipple
-        type="button"
-        label="Reply"
-        (click)="toggleReplyEditor()"
-        class="p-button-text p-button-plain p-button-sm !p-0 !text-primary-500 !text-xs"
-      ></button>
-      <!-- Disabled buttons hidden or styled subtly -->
-    </div>
+
+    <div class="rich-text mt-1" [innerHTML]="comment().content"></div>
+
+    <button
+      type="button"
+      class="mt-1 text-sm font-medium text-muted-color hover:text-color"
+      (click)="toggleReplyEditor()"
+    >
+      {{ showReply ? 'Cancel' : 'Reply' }}
+    </button>
+
     @if (showReply) {
-      <div class="p-2">
+      <div class="mt-3">
         @if ((auth.isAuthenticated$ | async) && userService.currentUser()?.displayName) {
-          <p-editor [(ngModel)]="reply">
-            <p-header class="flex justify-between">
+          <p-editor [(ngModel)]="reply" [style]="{ height: '5rem' }">
+            <ng-template #header>
               <span class="ql-formats">
                 <button type="button" class="ql-bold" aria-label="Bold"></button>
                 <button type="button" class="ql-italic" aria-label="Italic"></button>
                 <button type="button" class="ql-underline" aria-label="Underline"></button>
               </span>
-              <button
-                pButton
-                class="p-button-sm p-button-secondary p-button-rounded p-button-outlined"
-                style="width: auto"
-                type="button"
-                (click)="createReply()"
-                label="Reply"
-              ></button>
-            </p-header>
+            </ng-template>
           </p-editor>
+          <div class="mt-2 flex justify-end">
+            <p-button label="Reply" size="small" (onClick)="createReply()" [disabled]="!reply"></p-button>
+          </div>
+        } @else if (auth.isAuthenticated$ | async) {
+          <p class="text-sm text-muted-color">
+            Set a display name in your <a routerLink="/user" class="text-primary underline">profile</a> to reply.
+          </p>
         } @else {
-          @if (auth.isAuthenticated$ | async) {
-            <button pRipple pButton label="Choose a displayname" [routerLink]="'/user'"></button>
-          } @else {
-            <button pRipple pButton label="Login to comment" (click)="auth.loginWithRedirect()"></button>
-          }
-          <ng-template #displayName>
-            <button pRipple pButton label="Login to comment" (click)="auth.loginWithRedirect()"></button>
-          </ng-template>
+          <p class="text-sm text-muted-color">
+            <button type="button" class="text-primary underline" (click)="auth.loginWithRedirect()">Log in</button>
+            to reply.
+          </p>
         }
       </div>
     }
-    @if (comment().children && comment().children.length > 0) {
-      <div>
-        @for (child of comment().children; track child) {
+
+    @if (comment().children.length) {
+      <div class="mt-4 flex flex-col gap-4 border-l border-surface pl-4">
+        @for (child of comment().children; track child.id) {
           <app-comment [comment]="child"></app-comment>
         }
       </div>
     }
-  </div>
+  </article>
 }
