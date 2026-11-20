@@ -22,8 +22,8 @@
     Header set Cache-Control "no-cache"
   </FilesMatch>
 
-  # Build files carry a content hash in their name (main-2QM3GGQW.js) and never change
-  <FilesMatch "-[A-Z0-9]{8}\.(js|css|woff2?|ttf|eot|svg)$">
+  # Build files carry a content hash in their name (main-Q2IFF56G.js, chunk-Df_vg8Tu.js) and never change
+  <FilesMatch "-[A-Za-z0-9_-]{8}\.(js|css|woff2?|ttf|eot|svg)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 </IfModule>
